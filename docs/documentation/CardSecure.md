@@ -1,4 +1,10 @@
-> The following guides provide information on CardSecure, tokens, and the various tokenization methods available to fit your business needs.
+<!-- type: row -->
+
+<!-- type: card 
+description: The following guides provide information on CardSecure, tokens, and the various tokenization methods available to fit your business needs.
+-->
+
+<!-- type: row-end -->
 
 # Overview
 
