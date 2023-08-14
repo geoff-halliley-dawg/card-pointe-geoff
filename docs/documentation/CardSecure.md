@@ -90,7 +90,7 @@ Before you begin, check with your gift card printer to verify that your gift car
 The following example illustrates track data that meets these requirements:
 
 ```json
-  6765109987992410=122070225?
+6765109987992410=122070225?
 ```
 
 - Card numbers must pass Luhn algorithm verification.
