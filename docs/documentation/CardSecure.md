@@ -89,13 +89,9 @@ Before you begin, check with your gift card printer to verify that your gift car
 
 The following example illustrates track data that meets these requirements:
 
-<!-- type: row -->
-
-<!-- type: card 
-description: 6765109987992410=122070225?
--->
-
-<!-- type: row-end -->
+```json
+  6765109987992410=122070225?
+```
 
 - Card numbers must pass Luhn algorithm verification.
 - Card numbers must not start with 9.
