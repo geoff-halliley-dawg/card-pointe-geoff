@@ -82,11 +82,19 @@ CardSecure allows merchants the flexibility to accept their own proprietary, clo
 Before you begin, check with your gift card printer to verify that your gift cards meet the following requirements:
 - Cards must include a magnetic-stripe to provide track 2 data.
   - The track data must include a 3-digit service code. 
-    - The service code must not begin with 2 or 6.
+    - The service code must **not** begin with 2 or 6.
     - We recommend service code 702 (7: No interchange except under bilateral agreement (closed loop) | 0: Normal | 2: Goods and services only (no cash)).
 - The track data must include a 4-digit expiration date in the format MMYY.
 
 The following example illustrates track data that meets these requirements:
+
+<!-- type: row -->
+
+<!-- type: card 
+description: 6765109987992410=122070225?
+-->
+
+<!-- type: row-end -->
 
 - Card numbers must pass Luhn algorithm verification.
 - Card numbers must not start with 9.
