@@ -16,6 +16,7 @@ CardSecure's patented P2PE-validated tokenization solution offers numerous secur
 
 When you submit a tokenization request, CardSecure encrypts and stores the sensitive data in a secure vault, and generates a unique token that corresponds to and represents the stored data. For example, if you capture and tokenize payment card data, the payment card number and associated track and EMV data (for card-present transactions) is stored in the database. You then use the token to represent this payment card in a transaction.
 
+<!-- theme: info-->
 > CardSecure stores and purges sensitive data in accordance with Payment Card Industry (PCI) compliance standards. However, even after a token's sensitive data has been purged, CardSecure retains a hash of the clear card number, allowing the same token to be generated any time a given card is tokenized.
 
 Consider the following information when handling tokens:
