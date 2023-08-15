@@ -105,3 +105,27 @@ These sample scripts provide the following CardPointe Gateway API request method
 > See the CardPointe Gateway API for detailed, up-to-date information on using these request methods and handling response data.
 
 ## Python Toolkit
+
+![Python Server-Side Toolkit ZIP](../assets/images/CardConnect-SDK-Toolkit.zip)
+
+### Files in the CardConnectSDK Root Directory
+
+The CardConnectSDK root directory includes the following files:
+
+- setup.py – Generates the Python build products. Used for distribution to places like PyPI.
+- tox.ini – Configures the tests in the SDK for execution inside a container via Tox automation.
+
+### Files in the /cardconnect Subdirectory
+
+The /cardconnect subdirectory includes the following files:
+
+- api_requestor.py – Provides classes for making requests using the CardPointe Gateway API.
+- error.py – Provides classes for handling error responses from the SDK:
+ApiAuthenticationError
+ApiConnectionError
+ApiError
+ApiRequestError
+- http_client.py – Provides classes for HTTP communication required by the CardPointe Gateway API. 
+- init.py – Imports all components of the SDK.
+- service.py – Provides classes for Auth, Capture, Void, Refund, Funding, Profile, and SigCap requests, the core object types in the SDK.
+- util.py – Provides utility classes for logging, imports, and formatting.
