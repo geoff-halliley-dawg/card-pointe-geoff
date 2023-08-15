@@ -101,7 +101,6 @@ These sample scripts provide the following CardPointe Gateway API request method
 
 <!-- theme: warning -->
 > These sample scripts are intended to serve as example implementations, and do not represent the current and full capabilities of the CardPointe Gateway API. 
-<!-- theme: warning -->
 > See the CardPointe Gateway API for detailed, up-to-date information on using these request methods and handling response data.
 
 ## Python Toolkit
