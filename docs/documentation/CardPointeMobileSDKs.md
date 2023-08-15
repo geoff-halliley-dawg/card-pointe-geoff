@@ -121,11 +121,26 @@ The /cardconnect subdirectory includes the following files:
 
 - api_requestor.py – Provides classes for making requests using the CardPointe Gateway API.
 - error.py – Provides classes for handling error responses from the SDK:
-ApiAuthenticationError
-ApiConnectionError
-ApiError
-ApiRequestError
+  - ApiAuthenticationError
+  - ApiConnectionError
+  - ApiError
+  - ApiRequestError
 - http_client.py – Provides classes for HTTP communication required by the CardPointe Gateway API. 
 - init.py – Imports all components of the SDK.
 - service.py – Provides classes for Auth, Capture, Void, Refund, Funding, Profile, and SigCap requests, the core object types in the SDK.
 - util.py – Provides utility classes for logging, imports, and formatting.
+
+### Files in the /cardconnect/test Subdirectory
+
+The /examples subdirectory includes the following working sample scripts:
+
+- auth.py
+- capture.py
+- funding.py
+- profile.py
+- refund.py
+- sigcap.py
+- void.py
+
+## Node.js Toolkit
+
