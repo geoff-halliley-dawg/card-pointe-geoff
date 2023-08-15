@@ -83,7 +83,7 @@ link:
 
 # Server-Side Host Scripts
 
-As described in the CardPointe Mobile SDK Overview, your server-side application must retrieve the token from your mobile application to then use in an authorization request to the CardPointe Gateway to complete a payment. The following topics provide sample server-side scripts that you can use to integrate the necessary CardPointe Gateway API requests with your application.
+As described in the [CardPointe Mobile SDK Overview](?path=../../../../docs/documentation/CardPointeMobileSDKs.md), your server-side application must retrieve the token from your mobile application to then use in an authorization request to the CardPointe Gateway to complete a payment. The following topics provide sample server-side scripts that you can use to integrate the necessary CardPointe Gateway API requests with your application.
 
 Sample scripts are currently available in the following languages:
 
