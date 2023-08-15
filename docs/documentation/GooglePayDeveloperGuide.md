@@ -71,9 +71,103 @@ To integrate Google Pay acceptance into your application, perform the steps prov
     - For **getAllowedAuthCardMethods**, specify both `PAN_ONLY` and `CRYPTOGRAM_3DS`.
 3) When you describe your allowed payment methods, do the following:
     - For **cardPaymentMethod**, specify the tokenizationSpecification as follows:
-    ```json
+  ```json
 const cardPaymentMethod = Object.assign(
   {tokenizationSpecification: tokenizationSpecification},
   baseCardPaymentMethod
 );
-    ```
+  ```
+4) Configure your app to handle the paymentData response object. See Tokenizing Google Pay Data for more information.
+### Sample Google Pay Tokenization Response
+```json
+HTTP/1.1 200 OK
+Content-Type: application/json
+
+{
+  "message" : "No Error",
+  "errorcode" : 0,
+  "token" : "9417119164771111"
+}
+```
+
+## Google Developer Resources
+
+Google Pay provides APIs for both Android and web applications, and comprehensive developer documentation for each version of the API. The specific Google Pay API integration details depend on the type of application you are developing. 
+
+See the following resources for detailed Google Pay API integration details:
+
+- Google Pay API for Android Overview
+- Google Pay API for Web Overview
+
+# Processing a Payment
+
+Once you receive a token from CardSecure, you can pass the token to the CardPointe Gateway in an authorization request.
+
+You use the CardPointe Gateway API to make a request to the `auth` endpoint. To simplify your integration, you can download and test our sample mobile applications and server side host scripts. See the CardPointe Mobile Mobile SDKs Developer Guide for more information and examples.
+
+See the CardPointe Gateway API Developer documentation for detailed information on the authorization request and response data.
+
+# Support
+
+For assistance with your CarPointe merchant account, or integrating CardSecure and the CardPointe Gateway, contact isvintegrations@fiserv.com.
+
+For assistance with integrating the Google Pay API, see the Google Pay API Troubleshooting page or complete the Google Pay API Integration Support Request Form.
+
+<!-- theme: warning -->
+> This guide includes integration examples using the Google Pay API for Android, as described in the Google Pay API for Android Integration Tutorial.
+
+> See Test with Sample Tokens in the Google Pay API documentation for more information.
+
+# Integrating the Google Pay API
+
+The following topics describes integrating Google Pay with either an Android application, or a website or web application.
+
+<!-- theme: warning -->
+> The following procedure uses examples from the Google Pay API for Android Integration Tutorial. If you are developing a web application, see the Google Pay API for Web Integration Tutorial.
+
+# Tokenizing Google Pay Data
+
+When your application receives the encrypted Google Pay payload, you pass the data to CardSecure, which decrypts and tokenizes the data.
+
+<!-- theme: danger -->
+> You must retrieve a new Google Pay payload for each tokenization attempt. Tokens generated for Google Pay payloads are valid for a single authorization.
+
+Your application passes the Google Pay wallet data to CardSecure in a request to the tokenize endpoint.
+
+## CardSecure Request URL
+
+https://<site>.cardconnect.com/cardsecure/api/v1/ccn/tokenize
+
+## CardSecure Request Method
+
+POST
+
+## CardSecure Request Parameters
+
+The following parameters are required in the tokenize request:
+
+| Field | Description |
+| ----- | ----------- |
+| device data | A string including the Google Pay payload data. |
+| encryptionhandler | The decryption method for CardSecure to use to handle the encrypted data. This **must** be `EC_GOOGLE_PAY`. |
+
+<!-- theme: danger -->
+> Do not URL encode the `devicedata` string. See the following example to ensure that you format the string properly.
+
+### Sample Google Pay Tokenize Request
+
+```json
+POST /cardsecure/api/v1/ccn/tokenize HTTP/1.1
+Content-Type: application/json
+
+{
+"encryptionhandler" : "EC_GOOGLE_PAY",
+"devicedata" : "{\"signature\":\"MEYCIQCwmJRWgG8cT1et/SgjLXr8+dmZ2BZpiLEg/T474g2NZAIhAKVmDiozWuQoPED7qaGNDyoYslL2YzHSFM724Md89+33\",\"intermediateSigningKey\":{\"signedKey\":\"{\\\"keyValue\\\":\\\"MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEgY3czp0xq5QW3NTQgYvmDJ2i+Oj3YtFwfXHed6ZjtDIju/FkfPIT66AOAAEIe2UqS8dTL/AZkM98KAp4LdekAQ\\\\u003d\\\\u003d\\\",\\\"keyExpiration\\\":\\\"1585761306143\\\"}\",\"signatures\":[\"MEYCIQDb+LBzB21jEBRr0r/RqH6QDoYWqpcY5nJFdFKIpNmB5QIhAN3RdiHK0bl6kBigXnIe8qUEnrGqdC6q5NQWJHwEhF12\"]},\"protocolVersion\":\"ECv2\",\"signedMessage\":\"{\\\"encryptedMessage\\\":\\\"mJVt1VLA/CJMosu8s/C3ixVgNHW3ZuJSBx4mSU8HbQtB1Ll9jV0jgeSZ9CVnmCr9w9RiPKvdo1mJGz69aNky4oYMKt/2gUWsRDMKf0LOktjYQ9kLUpyJvkX5YGrwkeL12qUceIYcMX84L+tlV+FVVfhCcxsDNWKnKSxqzP5/KAN3is6YQ5YnTxfz7xEVXTFoAHv78XBowQq2GSioK7uV2MubHO+o5+G5+i/OJBNMsZevM27nE8gO5OQUOugkX7/cLbFHYlvJEpy7rWHj7yUV9r7eeji2uC0cKorOGdgoFjY6Hax8gtwiBJM56TlkChOA6JI8e3pO5a3r+ZkSMB95c/lAOSbesush02KNvIAKan5A6435mQ7VnQK3FJcX3s7cGO0yP2FHnbki+Oewzfoix1tNg1WuNiPXk2Cn1IM4cvk+GErEqDG1Uqh1KGb/P4F/bBDtwiqKR8FP/1dIVtgj8gi/sRG55Nm+SfRIprXv3g\\\\u003d\\\\u003d\\\",\\\"ephemeralPublicKey\\\":\\\"BK9KRSzyuwWyy9LUh2S2ue7M02xheyVtn42plZb6bp0EhZUyu0iL0QsvDsczs2fPGtJ3h0GsC9NE1Oa0BbMoIHs\\\\u003d\\\",\\\"tag\\\":\\\"KVHidXy9urg15Sjw/DeibMgxuqw73VajbEN/NZ7YEik\\\\u003d\\\"}\"}"
+}
+```
+
+# Trademark Information
+
+AndroidTM and Google PayTM are trademarks of Google LLC.
+
+Google PlayTM and the Google Play logo are trademarks of Google LLC.
