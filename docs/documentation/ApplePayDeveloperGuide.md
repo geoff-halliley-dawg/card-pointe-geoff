@@ -65,7 +65,7 @@ Perform the following procedures to create and configure an Apple Pay merchant a
 9) Click **Download** to download the signed public key file (apple_pay.cer) and click **Done**.
 10) Send the apple_pay.cer file that you downloaded in the previous step to your Integration Delivery representative.
 
-> To test your solution using test (non-production) Apple Pay data, you must use the Apple Pay Sandbox environment. Attempting to tokenize test data generated in the Xcode simulator will fail. See the Apple Pay Sandbox Testing documentation for more information.
+> To test your solution using test (non-production) Apple Pay data, you must use the Apple Pay Sandbox environment. Attempting to tokenize test data generated in the Xcode simulator will fail. See the [Apple Pay Sandbox Testing](https://developer.apple.com/apple-pay/sandbox-testing/) documentation for more information.
  
 # Integrating Apple Pay using the CardPointe Mobile iOS SDK
 
@@ -81,7 +81,7 @@ Do the following to add the Apple Pay capability to your merchant ID and provisi
 
 ## Creating a Custom Flow
 
-The CardPointe Mobile iOS SDK includes a function called `generateTokenForApplePay:completion:`. This function takes the Apple Pay PKPayment object and generates a CardSecure token. For information on creating a custom workflow, see Apple's Apple Pay Programming Guide.
+The CardPointe Mobile iOS SDK includes a function called `generateTokenForApplePay:completion:`. This function takes the Apple Pay PKPayment object and generates a CardSecure token. For information on creating a custom workflow, see [Apple's Apple Pay Programming Guide](https://developer.apple.com/library/archive/ApplePay_Guide/).
 
 ## Creating an Integrated Flow
 
@@ -89,7 +89,7 @@ The CardPointe Mobile iOS SDK's integrated UI supports a basic Apple Pay workflo
 
 The following procedure provides general guidance for creating an integrated Apple Pay workflow.
 
-1) Follow the initial setup described in the Apple Pay Programming Guide to enable Apple Pay in your application.
+1) Follow the initial setup described in the [Apple Pay Programming Guide](https://developer.apple.com/library/archive/ApplePay_Guide/) to enable Apple Pay in your application.
 2) Create a `BMSPaymentRequest` object and set your merchant ID and amount to applePayMerchantID and Total respectively. An `additionalData` parameter is provided that can be used to store a reference, typically a transaction or order number.
 3) Before displaying your `BMSPaymentController`, set your `BMSPaymentRequest` to its `paymentRequest` parameter.
 4) In your class that conforms to the `BMSAPIBridgeProtocol`, include `BMS_authApplePayTransactionWithToken:`completion to use the token provided to make your authentication request and return the result in the completion block:
@@ -110,7 +110,7 @@ Some related log messages include:
 
 This topic provides information for adding Apple Pay to your website or application using the CardSecure API. Apple Pay tokenization makes use of CardSecure's RSA encryption capabilities. A similar decryption process handles the encrypted data returned from Apple.
 
-Before you begin, review the Apple Pay Payment Token Format Reference.
+Before you begin, review the Apple Pay [Payment Token Format Reference](https://developer.apple.com/documentation/passkit/apple_pay/payment_token_format_reference).
 
 <!-- theme: danger -->
 > A unique Apple Pay Device Personal Account Number (DPAN) is generated for each transaction. Tokens generated for the unique DPAN must not be stored for reuse or saved to customer profiles.
