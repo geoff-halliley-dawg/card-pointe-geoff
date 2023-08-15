@@ -124,7 +124,7 @@ If you are using a CardPointe Integrated Terminal to process payments, you can u
 
 ### Using CardSecure
 
-If your software directly integrates CardSecure, using the CardSecure API, Hosted iFrame Tokenizer, or CardPointe Mobile SDKs, your software passes the gift card number to CardSecure, which matches the BIN with the whitelisted BIN range and returns the unencrypted card number, which your software uses to complete the transaction.
+If your software directly integrates CardSecure, using the CardSecure API, Hosted iFrame Tokenizer, or [CardPointe Mobile SDKs](?path=../../../../docs/documentation/CardPointeMobileSDKs.md), your software passes the gift card number to CardSecure, which matches the BIN with the whitelisted BIN range and returns the unencrypted card number, which your software uses to complete the transaction.
 
 > Notes:
 > - Unlike a credit or debit card transaction, CardSecure does not encrypt or tokenize the gift card account number.
