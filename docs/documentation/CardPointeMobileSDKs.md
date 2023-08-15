@@ -67,13 +67,13 @@ For detailed information on the CardPointe Mobile SDKs, see the Android and iOS 
 
 <!-- type: row -->
 
-<!-- type: card -->
+<!-- type: card 
 title: CardPointe Mobile iOS SDK Developer Guide
 description: Provides information for integrating the CardPointe Mobile SDK with your iOS app
 link:
 -->
 
-<!-- type: card -->
+<!-- type: card
 title: CardPointe Mobile Android SDK Developer Guide
 description: Provides information for integrating the CardPointe Mobile SDK with your Android app
 link:
@@ -108,7 +108,7 @@ These sample scripts provide the following CardPointe Gateway API request method
 
 <!-- type: row -->
 
-<!-- type: card -->
+<!-- type: card
 title: Python Server-Side Toolkit ZIP
 link: ?path=assets/images/CardConnect-SDK-Toolkit.zip
 -->
@@ -153,7 +153,7 @@ The /examples subdirectory includes the following working sample scripts:
 
 <!-- type: row -->
 
-<!-- type: card -->
+<!-- type: card
 title: Node Server-Side Toolkit ZIP
 link: ?path=assets/images/Node-Server-Side-Toolkit.zip
 -->
