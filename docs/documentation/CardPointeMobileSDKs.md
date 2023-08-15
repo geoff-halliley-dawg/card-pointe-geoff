@@ -35,7 +35,7 @@ See the CardPointe Gateway API documentation for more information on the feature
 
 The following diagram illustrates the tokenization and payment flow using the Mobile SDK and server-side REST client.
 
-![Tokenization and Payment Flow Diagram](../assets/images/SDK-Diagram-5_2022-09-14.png)
+![Tokenization and Payment Flow Diagram](../../assets/images/SDK-Diagram-5_2022-09-14.png)
 
 1) Your mobile app collects payment card data from a connected mobile payment reader or by manual entry in the app and sends the data to CardSecure via the CardPointe Mobile SDK.
 2) CardSecure returns a token to the mobile app.
@@ -106,7 +106,14 @@ These sample scripts provide the following CardPointe Gateway API request method
 
 ## Python Toolkit
 
-![Python Server-Side Toolkit ZIP](../assets/images/CardConnect-SDK-Toolkit.zip)
+<!-- type: row -->
+
+<!-- type: card -->
+title: Python Server-Side Toolkit ZIP
+link: ?path=assets/images/CardConnect-SDK-Toolkit.zip
+-->
+
+<!-- type: row-end -->
 
 ### Files in the CardConnectSDK Root Directory
 
@@ -144,7 +151,14 @@ The /examples subdirectory includes the following working sample scripts:
 
 ## Node.js Toolkit
 
-![Node Server-Side Toolkit ZIP](../assets/images/Node-Server-Side-Toolkit.zip)
+<!-- type: row -->
+
+<!-- type: card -->
+title: Node Server-Side Toolkit ZIP
+link: ?path=assets/images/Node-Server-Side-Toolkit.zip
+-->
+
+<!-- type: row-end -->
 
 ### Files in the CardConnectSDK Root Directory
 
