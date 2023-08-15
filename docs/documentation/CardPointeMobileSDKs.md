@@ -35,6 +35,7 @@ See the CardPointe Gateway API documentation for more information on the feature
 
 The following diagram illustrates the tokenization and payment flow using the Mobile SDK and server-side REST client.
 
+<!-- align: center -->
 ![Tokenization and Payment Flow Diagram](../../assets/images/SDK-Diagram-5_2022-09-14.png)
 
 1) Your mobile app collects payment card data from a connected mobile payment reader or by manual entry in the app and sends the data to CardSecure via the CardPointe Mobile SDK.
