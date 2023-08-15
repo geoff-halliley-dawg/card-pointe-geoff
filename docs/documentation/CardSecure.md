@@ -52,7 +52,7 @@ See the following guides for more information and integration details:
 <!-- type: card 
 title: CardPointe Mobile SDKs
 description: Provides an overview of the CardPointe Mobile SDKs solution for integrating secure payments in your mobile app
-link: 
+link: ?path=docs/documentation/CardPointeMobileSDKs.md
 -->
 
 <!-- type: row-end -->
