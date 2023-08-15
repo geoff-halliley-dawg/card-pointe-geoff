@@ -144,3 +144,42 @@ The /examples subdirectory includes the following working sample scripts:
 
 ## Node.js Toolkit
 
+![Node Server-Side Toolkit ZIP](../assets/images/Node-Server-Side-Toolkit.zip)
+
+### Files in the CardConnectSDK Root Directory
+
+The CardConnectSDK root directory includes the following files:
+
+- package.json – Sets the default test runner and dependencies that will be installed when you run NPM install.
+- gulpfile.js - Sets up the test functions and linters.
+
+### Files in the /cardconnect Subdirectory
+
+The /cardconnect subdirectory includes the following files:
+
+- cardconnect.js – Provides definitions for Auth, Capture, Void, Refund, Funding, Profile, and SigCap requests, the core object types in the SDK.
+- api_requestor.js – Provides an abstract class used by the SDK to send HTTP requests using the CardPointe Gateway API.
+
+### Files in the /cardconnect/test Subdirectory
+
+The /cardconnect/test subdirectory includes the following unit test files:
+
+- test_auth.js
+- test_capture.js
+- test_funding.js
+- test_profile.js
+- test_refund.js
+- test_sigcap.js
+- test_void.js
+
+### Files in the /examples Subdirectory
+
+The /examples subdirectory includes the following working sample scripts:
+
+- auth.js
+- capture.js
+- funding.js
+- profile.js
+- refund.js
+- sigcap.js
+- void.js
