@@ -36,6 +36,6 @@ See the CardPointe Gateway API documentation for more information on the feature
 The following diagram illustrates the tokenization and payment flow using the Mobile SDK and server-side REST client.
 
 <!-- align: center -->
-![Logo centered](../assets/images/SDK-Diagram-5-2022-09-14)
+![Mobile SDK Diagram](../assets/images/SDK-Diagram-5-2022-09-14)
 -
 
