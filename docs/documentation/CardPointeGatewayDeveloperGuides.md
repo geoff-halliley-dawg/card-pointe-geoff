@@ -37,3 +37,20 @@ To configure environment variables, do the following in Postman:
 
 1) Click the gear icon to open the Manage Environments menu.
 
+<!-- align: center -->
+![CCG Postman Sample](../../assets/images/CCG_Postman_Sample_2.png)
+
+2) On the Manage Environments menu, enter your merchant-specific values for each variable.
+
+<!-- align: center -->
+![Gateway PM Environment](../../assets/imgages/Gateway-PM-Environment.png)
+
+3) Click **Update**
+
+<!-- theme: warning -->
+> See the [Postman user documentation](https://learning.postman.com/docs/introduction/overview/) for detailed information on using Postman to test APIs.
+
+# Testing Your Integration
+
+This guide provides information to help you develop and test your integrated application. Whether you are developing a new application, or maintaining an existing one, you should incorporate continuous testing in your SDLC.
+
