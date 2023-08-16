@@ -42,3 +42,11 @@ Included with the collection is a Postman Environment containing variables where
 
 As an initial step in configuring your environment variables, enter your authentication credentials in the existing environment variables and send a request to the Token endpoint. The Bearer token returned is automatically stored to the `access-token` environment variable and used to authenticate your subsequent API requests.
 
+<!-- align: center -->
+![CoPilot API Environment Auth Fields](../../assets/images/CoPilot_API_Environment_Auth_Fields.png)
+
+<!-- theme: warning -->
+> See the [Postman user documentation](https://learning.postman.com/docs/introduction/overview/) for detailed information on using Postman to test APIs.
+
+## Using Application Templates
+
