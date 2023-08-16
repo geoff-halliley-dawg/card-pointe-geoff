@@ -43,7 +43,7 @@ To configure environment variables, do the following in Postman:
 2) On the Manage Environments menu, enter your merchant-specific values for each variable.
 
 <!-- align: center -->
-![Gateway PM Environment](../../assets/imgages/Gateway-PM-Environment.png)
+![Gateway PM Environment](../../assets/images/Gateway-PM-Environment.png)
 
 3) Click **Update**
 
