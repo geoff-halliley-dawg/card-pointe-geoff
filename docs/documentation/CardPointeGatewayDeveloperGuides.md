@@ -54,3 +54,60 @@ To configure environment variables, do the following in Postman:
 
 This guide provides information to help you develop and test your integrated application. Whether you are developing a new application, or maintaining an existing one, you should incorporate continuous testing in your SDLC.
 
+<!-- theme: warning -->
+> As we continue to update and improve the CardPointe Gateway, you should regularly schedule regression testing to ensure that your application utilizes and is compatible with applicable changes to the Gateway.
+
+## Understanding the UAT Environment
+
+You use the UAT (user acceptance testing) sandbox environment to test and validate your application. When you begin your application development and integration, you connect to the UAT instance of the CardPointe Gateway.
+
+To connect to the UAT environment, your application uses the following URL:
+
+`https://<site>-uat.cardconnect.com/cardconnect/rest/<endpoint>`
+
+where <site> is the site name provided to you, and <endpoint> is a CardPointe Gateway service endpoint.
+
+The UAT environment includes emulators that simulate the payment processing activities that occur in production. In this environment, you test with dummy data that is never sent to the payment processor. You should use test card numbers (for example, 4111 1111 1111 1111 or 4444 3333 2222 1111) and physical test cards. 
+
+## UAT Request Rate Limiting
+
+In the UAT environment, requests to the following endpoints are rate-limited: 
+
+- `funding`
+
+- `inquire`
+
+- `profile`
+
+- `settlestat`
+
+Requests to these UAT endpoints are limited to **20 transactions per minute** (TPM), by IP address.
+
+Responses from these endpoints in the UAT environment include the following rate-limit header fields:
+
+`X-Rate-Limit-Retry-After-Seconds:` - Returned for unsuccessful `HTTP 429 Too Many Requests` responses when the limit has been reached. Specifies the seconds remaining before the limit resets.
+`X-Rate-Limit-Remaining:` - Returned for successful `HTTP 200 OK` responses. Specifies the number of requests available before the limit is reached.
+
+## Understanding UAT Responses
+
+Data that you transmit to the UAT environment is never sent to the payment processing networks; instead, the CardPointe Gateway communicates with an emulator that simulates the payment processor that your merchant ID uses to process payments. The emulator mimics the behavior of the given processing host, and returns a response similar to what you would receive for a live transaction in the production environment.
+
+CardPointe Gateway API responses returned in the UAT environment include fields and arrays in a randomized order. Additionally, UAT responses include dummy fields, arrays, and values. This is intended to help clients develop integrated software that dynamically parses the response data, rather than expecting fields to be present in static positions within the response object. 
+
+<!-- theme: warning -->
+> See Ensuring Backwards Compatibility in the API Basics and Best Practices Guide for more information.
+
+Some specific situations, such as a network timeout and specific decline scenarios, require specific input to initiate. See Test Cases, below, for more information on these specific scenarios.
+
+See Gateway Response Codes for a complete list of all possible response codes for the CardPointe Gateway and each processor.
+
+## Getting Started
+
+To get started, contact integrationdelivery@fiserv.com to request the following test account details:
+
+- **UAT Merchant ID (MID)** - A UAT test MID that you will use to authenticate requests and access the CardPointe dashboard for reporting.
+- **UAT API Credentials** - A set of API credentials provisioned for your UAT MID, which you will use to authenticate your API requests.
+- **UAT API URL** - A UAT CardPointe Gateway API URL that you will use to test your API requests.
+
+<!-- theme: warning -->
+> Once your integration has been validated for production use, you will receive unique credentials for use in the production environment. See the [Integration Process Overview](../../../../docs/documentation/IntegrationProcessOverview.md) for more information.
