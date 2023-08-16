@@ -110,4 +110,4 @@ To get started, contact integrationdelivery@fiserv.com to request the following 
 - **UAT API URL** - A UAT CardPointe Gateway API URL that you will use to test your API requests.
 
 <!-- theme: warning -->
-> Once your integration has been validated for production use, you will receive unique credentials for use in the production environment. See the [Integration Process Overview](../../../../docs/documentation/IntegrationProcessOverview.md) for more information.
+> Once your integration has been validated for production use, you will receive unique credentials for use in the production environment. See the [Integration Process Overview](path?=../../../../docs/documentation/IntegrationProcessOverview.md) for more information.
