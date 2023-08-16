@@ -111,3 +111,178 @@ To get started, contact integrationdelivery@fiserv.com to request the following 
 
 <!-- theme: warning -->
 > Once your integration has been validated for production use, you will receive unique credentials for use in the production environment. See the [Integration Process Overview](path?=../../../../docs/documentation/IntegrationProcessOverview.md) for more information.
+
+## Using Test Payment Accounts
+
+When testing in the UAT environment, you must use test cards (either physical cards or test card numbers).
+
+<!-- theme: danger -->
+> Never use actual cardholder data to test in the UAT environment.
+
+### UAT Test Card Data
+
+The UAT Merchant ID is boarded to the First Data North UAT environment. If you are testing with this MID, or your own MID that is boarded to the North or Rapid Connect platform, you can use the following test card data to test card-not-present transactions.
+
+The UAT Test Zip Codes section below contains information on testing AVS responses for First Data North, Rapid Connect, and additional platforms.
+
+<!--
+type: tab
+titles: UAT Test Card Numbers, UAT Test Card Numbers for Specific Responses, UAT Test Zip Codes, UAT Test CVV Numbers
+-->
+
+You can use the following test card data to test card-not-present payments on the First Data North or Rapid Connect emulator.
+
+Any card number that meets the following requirements and passes Luhn check validation will return an approval response:
+
+| Card Brand | PAN Prefix | PAN Length |
+| ---------- | ---------- | ---------- |
+| Visa | 4* | 16 |
+| Mastercard | 51* through 55* | 16 |
+| Amex | 34* or 37* | 15 |
+| Discover | 6011*, 622*, 644* through 65* | 16 |
+| Diners | 36* | 14 |
+| JCB | 35* | 16 |
+
+<!--
+type: tab
+-->
+
+#### RPCT Responses
+
+The following test cards return specific responses on the Rapid Connect UAT emulator:
+
+| Test PAN | resptext Returned | respstat Returned | respproc Returned | respcode Returned | authcode Returned | 
+| --- | --- | --- | --- | --- | --- |
+| **VISA** | 
+| 4788250000121443 | Approval | A | RPCT | 000 | PPS009 |
+| 4387751111111020 | Call for authorization | C | RPCT | 107 | - |
+| 4387751111111038 | Do not honor | C | RPCT | 100 | - |
+| 4387751111111046 | Expired card | C | RPCT | 101 | - |
+| 4387751111111053 | Decline | C | RPCT | 500 | - |
+| **Mastercard** | 
+| 5454545454545454 | Approval | A | RPCT | 000 | PPS010 |
+| 5442981111111023 | Call for authorization | C | RPCT | 107 | - |
+| 5442981111111031 | Do not honor | C | RPCT | 100 | - |
+| 5442981111111049 | Expired card | C | RPCT | 101 | - |
+| 5442981111111056 | Decline | C | RPCT | 500 | - |
+| **AMEX** | 
+| 371449635398431 | Approval | A | RPCT | 000 | PPS013 | 
+| **Discover** | 
+| 6011000995500000 | Approval | A | RPCT | 000 | PPS015 |
+| 6011000995511122 | Call for authorization | C | RPCT | 107 | - |
+| 6011000995511130 | Do not honor | C | RPCT | 100 | - |
+| 6011000995511148 | Expired card | C | RPCT | 101 | - |
+| 6011000995511155 | Decline | C | RPCT | 500 | - |
+| **Diners** | 
+| 36438999960016 | Approval | A | RPCT | 000 | PPS012 |
+| **JCB** |
+| 3528000000000007 | Approval | A | RPCT | 000 | PPS007 |
+
+#### FNOR Responses
+
+The following test cards return specific responses on the First Data North UAT emulator:
+
+| Test PAN | resptext Returned | respstat Returned | respproc Returned | respcode Returned | authcode Returned | 
+| --- | --- | --- | --- | --- | --- |
+| **VISA** | 
+| 4788250000121443 | Approval | A | FNOR | 00 | PPS009 |
+| 4387751111111020 | Refer to issuer | C | FNOR | 01 | - |
+| 4387751111111038 | Do not honor	| C | FNOR | 05 | - |
+| 4387751111111046 | Wrong expiration	| C | FNOR | 54 | - |
+| 4387751111111053 | Insufficient funds	| C | FNOR | NU | - |
+| **Mastercard** |
+| 5454545454545454 | Approval | A | FNOR | 00 | PPS010 |
+| 5442981111111023 | Refer to issuer | C | FNOR | 01 | - |
+| 5442981111111031 | Do not honor	| C | FNOR | 05 | - |
+| 5442981111111049 | Wrong expiration	| C | FNOR | 54 | - |
+| 5442981111111056 | Insufficient funds	| C | FNOR | NU | - |
+| **AMEX** |
+| 371449635398431 | Approval | A | FNOR | 00 | PPS013 |
+| **Discover** |
+| 6011000995500000 | Approval | A | FNOR | 00 | PPS015 |
+| 6011000995511122 | Refer to issuer | C | FNOR | 01 | - |
+| 6011000995511130 | Do not honor	| C | FNOR | 05 | - |
+| 6011000995511148 | Wrong expiration	| C | FNOR | 54 | - |
+| 6011000995511155 | Insufficient funds	| C | FNOR | NU | - |
+| **Diners** |
+| 36438999960016 | Approval | A | FNOR | 00 | PPS012 |
+| **JCB** | 
+| 3528000000000007 | Approval | A | FNOR | 00 | PPS007 |
+
+<!--
+type: tab
+-->
+
+The UAT environment is configured to return a specific AVS response when the last 3 characters of the postal code match one of the values in the table below. This emulation is available only for the following processors:
+
+- First Data North (FNOR)
+- First Data Rapid Connect (RPCT)
+- First Data Nashville (NASH)
+- Chase Paymentech (PMT)
+- Paymentech Tampa (PTAM)
+- American Express (AMEX) - US Zip Codes Only
+- Vantiv (VANT) - US Zip Codes Only
+
+**Chase Paymentech (PMT)**
+
+| Last 3 of Postal Code | AVS Response | Description |
+| --- | --- | --- |
+| 1A1, 111 | I1 | Match |
+| 1A2, 112 | I2 | Match |
+| 1A3, 113 | I3 | Match |
+| 1A4, 114 | I4 | Match |
+| 1A5, 115 | I5 | No Match |
+| 1A6, 116 | I6 | No Match |
+| 1A7, 117 | I7 | No Match |
+| 1A8, 118 | I8 | No Match |
+
+**All Other Processors**
+
+| Last 3 of Postal Code | AVS Response | Description |
+| --- | --- | --- |
+| 1A1, 224 | X | Address + Zip Match |
+| 1A2, 225, 406	| Y | Address + Zip Match |
+| 1A3, 111, 201 | A | Address Matches, Zip Does Not Match |
+| 1A4, 223 | W | Zip Matches, Address Does Not Match |
+| 1A5, 113, 226 | Z |	Zip Matches, Address Does Not Match |
+| 1A6, 112, 214 |	N |	No Address or Zip Match |
+|1A7, 221 |	U |	Address Unavailable |
+| 1A8, 207 | G |	Issuer Does Not Participate | 
+| 1A9, 218 | R | Issuer System Unavailable |
+| 2B1, 205 | E | Error, AVS Check Not Performed |
+| 2B2, 219 | S | Service Not Supported |
+| 2B3, 228 | Q | Bill To Address Did Not Pass Edit Checks |
+| 2B4, 204, 227	| D	| International Address + Postal Code Match |
+| 2B5, 202 | B | International Address Matches, Postal Code Not Verified Due to Incompatible Format |
+| 2B6, 203 | C | International Address + Postal Code Not Verified Due to Incompatible Formats |
+| 2B7, 216 | P | International Postal Code Matches, Address Not Verified Due to Incompatible Format |
+| 2B8, 209 | I | International Address Not Verified by Issuer |
+| 2B9, 213 | M | International Address + Postal Code Match |
+
+Any zip code or postal code not ending in a value listed above returns the default AVS response for that processor.
+
+<!--
+type: tab
+-->
+
+You can use the following test CVV numbers on the First Data North or Rapid Connect UAT emulator to test CVV verification:
+
+| CVV Value |	CVV Response |
+| --- | --- |
+| 112 |	M (Match) |
+| 111	| N (No Match) |
+| 222	| P (Not Processed) |
+| 333	| U (Unknown) |
+
+<!-- type: tab-end -->
+
+### Physical Test Cards
+
+Physical test cards allow you to test card-present payments.
+
+You can obtain a complete set of EMV test cards from B2 Payment Solutions at the following URL:
+
+https://b2ps.com/product-category/b2-payment-testing-products/
+
+## Test Cases
+
