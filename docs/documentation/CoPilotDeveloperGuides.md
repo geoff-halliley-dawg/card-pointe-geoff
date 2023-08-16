@@ -50,3 +50,237 @@ As an initial step in configuring your environment variables, enter your authent
 
 ## Using Application Templates
 
+Before you can create a new merchant account using the CoPilot API, you must first create an Application Template using the CoPilot web interface. Once you have created at least one template in the CoPilot web interface, it is possible to use the CoPilot API exclusively for merchant creation and management in most cases.
+
+The Application Template is required when creating a new account in order to automatically assign pre-configured default values for new accounts. Almost all fields available in the merchant application can be preset using a template, and multiple templates can be created that use different Sales Codes, default pricing, fees, equipment, or other settings.
+
+When creating an account using the API, the Application Template you provide in the request determines what default values are applied to the new account. Remember to supplement the values automatically applied by the Application Template with any additional objects or fields that may also be required in order to request the link to the merchant-facing digital application. See the section on Adding Supplemental Data and Overriding Default Values for more information.
+
+<!-- theme: warning -->
+> Although only minimal data is required when creating an Application Template in the CoPilot web interface, you should strongly consider providing as many defaults as possible. This reduces the amount of fields that must be supplied in the API call, ensures standardized values are applied consistently, and can potentially reduce the amount of data the merchant must enter manually.
+
+## Creating an Application
+
+Depending on your needs, you can create applications with varying degrees of merchant data included.
+
+### Creating an Application with Minimal Data 
+
+You might want to provide merchants with an application that requires nearly all fields to be completed by the business owner using the digital application. In this case, you must start by creating an account using the Merchant endpoint with the required business information and contact details.
+
+You can then request the digital application link using the Signature endpoint and supply this URL to the owner to complete and sign the reminder of the digital application using their web browser. Using the digital application link, the owner can add additional owners, input their bank account details, processing volume, select the applicable Merchant Category Code (MCC), and other details needed to submit the application for underwriting and boarding.
+
+The example below illustrates the minimum amount of data needed to create an account and generate the link to the digital signature:
+
+<!--
+type: tab
+titles: Example: Merchant Create Request with Minimal Data
+-->
+
+```json
+{
+    "templateId": "{{template-id}}",
+    "merchant": {
+        "salesCode": "{{sales-code}}",
+        "dbaName": "The Card Shoppe",
+        "legalBusinessName": "The Card Shoppe",
+        "taxFilingName": "The Card Shoppe LLC",
+        "taxFilingMethod": "EIN",
+        "demographic": {
+            "businessAddress": {
+                "address1": "123 Fake Street",
+                "address2": "Suite 300",
+                "city": "Keystone",
+                "stateCd": "CO",
+                "zip": "80435",
+                "countryCd": "US"
+            },
+            "mailingAddress": {
+                "address1": "123 Fake Street",
+                "address2": "Suite 300",
+                "city": "Keystone",
+                "stateCd": "CO",
+                "zip": "80435",
+                "countryCd": "US"
+            }
+        },
+        "ownership": {
+            "owner": {
+                "ownerAddress": {
+                    "address1": "1 Imaginary Lane",
+                    "address2": "Apt 221B",
+                    "city": "Dillon",
+                    "stateCd": "CO",
+                    "zip": "80435",
+                    "countryCd": "US"
+                },
+                "ownerEmail": "name@email.com",
+                "ownerName": "Forename Surname",
+                "ownerPhone": "555-123-4567",
+                "ownerTitle": "CEO"
+            },
+            "driversLicenseNumber": "123456789",
+            "driversLicenseStateCd": "CO"
+        },
+        "bankDetail": {
+            "depositBank": {
+                "bankAcctNum": "123456789",
+                "bankRoutingNum": "987654321",
+                "bankAcctTypeCd": "BIZ",
+                "bankName": "Deposit Bank"
+            },
+            "withdrawalBank": {
+                "bankAcctNum": "123456789",
+                "bankRoutingNum": "987654321",
+                "bankAcctTypeCd": "BIZ",
+                "bankName": "Withdrawal Bank"
+            }
+        }
+    },
+    "ownerSiteUser": {
+        "firstName": "Forename",
+        "lastName": "Surname",
+        "email": "name@email.com"
+    }
+}
+```
+
+<!-- type: tab-end -->
+
+### Creating an Application with Data Gathered from the Merchant 
+
+When you have already gathered business information from the merchant before creating the account in CoPilot, you can supply additional data in the call to the Merchant endpoint to reduce the amount of fields the merchant must manually enter when completing the application. The merchant data you provide during account creation will populate in the digital application that the merchant receives, requiring them to complete only the remaining fields.
+
+The following example illustrates a merchant creation request with additional merchant data included:
+
+<!--
+type: tab
+titles: Example: Merchant Create Request Using a Template and Merchant Business Details
+-->
+
+```json
+{
+    "templateId":"{{template-id}}",
+    "merchant": {
+        "salesCode":"{{sales-code}}",
+        "dbaName": "The Card Shoppe",
+        "legalBusinessName": "The Card Shoppe",
+        "taxFilingName": "The Card Shoppe LLC",
+        "taxFilingMethod": "EIN",
+        "businessStartDate": "09/17/1949",
+        "demographic": {
+            "websiteAddress": "www.example.com",
+            "businessPhone": "555-123-4567",
+            "businessAddress": {
+                "address1": "123 Fake Street",
+                "address2": "Suite 300",
+                "city": "Keystone",
+                "stateCd": "CO",
+                "zip": "80435",
+                "countryCd": "US"
+            },
+            "mailingAddress": {
+                "address1": "123 Fake Street",
+                "address2": "Suite 300",
+                "city": "Keystone",
+                "stateCd": "CO",
+                "zip": "80435",
+                "countryCd": "US",
+            }
+        },
+        "ownership": {
+            "owner": {
+                "ownerAddress": {
+                    "address1": "1 Imaginary Lane",
+                    "address2": "Apt 221B",
+                    "city": "Dillon",
+                    "stateCd": "CO",
+                    "zip": "80435",
+                    "countryCd": "US",
+                },
+                "ownerEmail": "name@email.com",
+                "ownerName": "Forename Surname",
+                "ownerDob": "09/04/1929",
+                "ownerPhone": "555-123-4567",
+                "ownerMobilePhone": "555-987-6543",
+                "ownerSSN": "111-22-3333",
+                "ownerTitle": "CEO"
+            },
+            "ownershipTypeCd": "PRIVCORP",
+            "driversLicenseNumber": "123456789",
+            "driversLicenseStateCd": "CO",
+            "ownerOwnershipPct": "100"
+        },
+        "merchantContactInfo": {
+            "contactName": "Forename Surname",
+            "contactEmail": "name@email.com",
+            "contactPhone": "555-123-4567"
+        },
+        "bankDetail": {
+            "depositBank": {
+                "bankAcctNum": "1234567890",
+                "bankRoutingNum": "987654321",
+                "bankAcctTypeCd": "BIZ",
+                "bankName": "Deposit Bank"
+            },
+            "withdrawalBank": {
+                "bankAcctNum": "1234567890",
+                "bankRoutingNum": "091215927",
+                "bankAcctTypeCd": "BIZ",
+                "bankName": "Withdrawal Bank"
+            }
+        },
+        "processing": {
+            "platformDetails": {
+                "amexProgramAssetCd": "OPTBLUE",
+                "discoverProgramCd": "MAP",
+                "acquiringFlg": true,
+                "taxId": "123456789",
+                "currencyCode": "USD",
+                "mccId": "3076",
+                "businessDescription": "Business Description"
+            },
+            "businessDetails": {
+                "customerBillPriorToShipFlg": false,
+                "depositReqForFulfillFlg": true,
+                "whenCustomerChargedCd": "INADVANCE",
+                "refundPolicyCd": "EXCHONLY",
+                "serviceProvidedInCd": "30LESS"
+            },
+            "volumeDetails": {
+                "averageMonthlyVolume": 9999.00,
+                "highTicketAmount": 99.99,
+                "averageTicketAmount": 9.99
+            },
+            "deliveryPercentages": {
+                "dlvry0To7DaysPct": 100,
+                "dlvry15To30DaysPct": 0,
+                "dlvry8To14DaysPct": 0,
+                "dlvryOver30DaysPct": 0
+            },
+            "modeOfTransaction": {
+                "eCommercePct": 100,
+                "keyedPct": 0,
+                "mailOrderPct": 0,
+                "swipedPct": 0
+            }
+        }
+    },
+    "ownerSiteUser": {
+        "firstName": "Forename",
+        "lastName": "Surname",
+        "email": "name@email.com"
+    }
+}
+```
+
+<!-- type: tab-end -->
+
+### Adding Supplemental Data and Overriding Default Values 
+
+You can set values for fields that are not pre-configured in the Application Template, or override any value set by the Application Template during merchant creation:
+
+- To set or override default values from the Application Template **during** merchant creation, include the values in your **POST** request to the Merchant endpoint.
+- To set or override default values from the Application Template **after** the merchant account is created, but prior to generating the digital application link, include the values in a **PUT** request to the Merchant endpoint. Remember to specify the applicable `merchantId` in the endpoint path as outlined in the API documentation.
+
+<!-- theme: danger -->
+> You must include all applicable and required fields of the parent object when supplementing or overriding data from the Application Template. For example, if adding or overriding the `earlyCancelFee` in your POST or PUT request, include values for all fields of the `fees` parent object. Any fields omitted under the `fees` parent object will be set to `null`, erasing any previous values set.
