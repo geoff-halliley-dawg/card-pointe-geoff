@@ -284,3 +284,128 @@ You can set values for fields that are not pre-configured in the Application Tem
 
 <!-- theme: danger -->
 > You must include all applicable and required fields of the parent object when supplementing or overriding data from the Application Template. For example, if adding or overriding the `earlyCancelFee` in your POST or PUT request, include values for all fields of the `fees` parent object. Any fields omitted under the `fees` parent object will be set to `null`, erasing any previous values set.
+
+## Attaching a Voided Check to an Application
+
+The digital application that the owner receives includes a section to enter and verify their banking information instantly. When a merchant uses the instant verification method to confirm their banking information, you are not required to provide a voided check from the merchant's deposit and withdrawal accounts.
+
+If the merchant bypasses the instant verification and manually enters their banking information, or if you have already obtained voided checks from the merchant, use the Attachment endpoint to upload a copy of the voided checks. Scan the document and convert the file to a Base64-encoded string required for the `document` field in the request.
+
+The following example illustrates a merchant attachment request used to attach a voided check to an application:
+
+<!--
+type: tab
+titles: Example: Merchant Attachment Request with Voided Check
+-->
+
+```json
+{
+    "attachment" : {
+        "fileName" : "VoidedCheck.pdf",
+        "mimeType" : "application/pdf",
+        "description" : "This is the voided check",
+        "attachmentTypeCd" : "VOIDBNKCHK1",
+        "document" : "JVBERi0xLjEKJcKlwrHDqwoKMSAwIG9iagogIDw8IC9UeXBlIC9DYXRhbG9nCiAgICAgL1BhZ2Vz
+IDIgMCBSCiAgPj4KZW5kb2JqCgoyIDAgb2JqCiAgPDwgL1R5cGUgL1BhZ2VzCiAgICAgL0tpZHMg
+WzMgMCBSXQogICAgIC9Db3VudCAxCiAgICAgL01lZGlhQm94IFswIDAgMzAwIDE0NF0KICA+Pgpl
+bmRvYmoKCjMgMCBvYmoKICA8PCAgL1R5cGUgL1BhZ2UKICAgICAgL1BhcmVudCAyIDAgUgogICAg
+ICAvUmVzb3VyY2VzCiAgICAgICA8PCAvRm9udAogICAgICAgICAgIDw8IC9GMQogICAgICAgICAg
+ICAgICA8PCAvVHlwZSAvRm9udAogICAgICAgICAgICAgICAgICAvU3VidHlwZSAvVHlwZTEKICAg
+ICAgICAgICAgICAgICAgL0Jhc2VGb250IC9UaW1lcy1Sb21hbgogICAgICAgICAgICAgICA+Pgog
+ICAgICAgICAgID4+CiAgICAgICA+PgogICAgICAvQ29udGVudHMgNCAwIFIKICA+PgplbmRvYmoK
+CjQgMCBvYmoKICA8PCAvTGVuZ3RoIDU1ID4+CnN0cmVhbQogIEJUCiAgICAvRjEgMTggVGYKICAg
+IDAgMCBUZAogICAgKEhlbGxvIFdvcmxkKSBUagogIEVUCmVuZHN0cmVhbQplbmRvYmoKCnhyZWYK
+MCA1CjAwMDAwMDAwMDAgNjU1MzUgZiAKMDAwMDAwMDAxOCAwMDAwMCBuIAowMDAwMDAwMDc3IDAw
+MDAwIG4gCjAwMDAwMDAxNzggMDAwMDAgbiAKMDAwMDAwMDQ1NyAwMDAwMCBuIAp0cmFpbGVyCiAg
+PDwgIC9Sb290IDEgMCBSCiAgICAgIC9TaXplIDUKICA+PgpzdGFydHhyZWYKNTY1CiUlRU9GCg=="
+    }
+}
+```
+
+<!-- type: tab-end -->
+
+## Generating the Digital Application Link
+
+Once you have created the new account and supplied all the required fields, use the Signature endpoint to generate the URL that will be used by the owner to complete and sign the digital application. A successful request returns the digital application URL that can be provided to the account owner.
+
+If the request is unsuccessful, you should refer to the Errors array returned in the response for additional details.
+
+<!-- theme: warning -->
+> Errors are most commonly encountered when you have not provided values for all of the required fields. See the Adding Supplemental Data and Overriding Default Values section for more information on supplementing existing merchant data with the missing values.
+
+## Tracking an Application
+
+Submit a **GET** request to the Merchant endpoint to view all merchant data, including the `merchantStatus` object where you can find information on the current state of new accounts.
+
+### Determining the Account Boarding Status
+
+The `boardingProcessStatusCd` field of the `merchantStatus` object provides you with the current state of the account. After you have generated the link for the digital application, the boarding state is updated to `OFS`, indicating that the application is "Out For Signature." Once the merchant has completed and submitted the application, the boarding status then continues to update as it progresses through the remaining underwriting and boarding procedures.
+
+#### GET Merchant Response Snippet - merchantStatus Object
+
+```json
+{
+    "merchant": {
+        "merchantStatus": {
+            "approvedDatetime": null,
+            "boardedDatetime": null,
+            "cancelledDatetime": null,
+            "declinedDatetime": null,
+            "liveDatetime": null,
+            "boardingProcessPendingFlg": false,
+            "boardingProcessStatusCd": "OFS",
+            "gatewayBoardingStatusCd": "NOT_BOARDED"
+        },
+        ...    
+    }
+}
+```
+
+### Determining the Gateway Boarding Status
+
+The `gatewayBoardingStatusCd` field of the `merchantStatus` object provides you details on the gateway boarding status of the account. You know the account is active and ready to process transactions when the gateway boarding status is `BOARDED`.
+
+#### GET Merchant Response Snippet - merchantStatus Object
+
+```json
+{
+    "merchant": {
+        "merchantStatus": {
+            "approvedDatetime": "07/11/2017 04:51:18 PM",
+            "boardedDatetime": "07/11/2017 06:39:41 PM",
+            "cancelledDatetime": null,
+            "declinedDatetime": null,
+            "liveDatetime": null,
+            "boardingProcessPendingFlg": false,
+            "boardingProcessStatusCd": "BOARDED",
+            "gatewayBoardingStatusCd": "BOARDED"
+        },
+        ...    
+    }
+}
+```
+
+> Dates and times are returned in local time, based on the timezone selected in the CoPilot web interface.
+
+### Determining the Account's Processing MID
+
+When the gateway boarding status returned is `BOARDED`, you can then obtain the account's processing MID by referencing the `frontEndMid` value within the `merchant.processing.platformDetails` object of the **GET** response.
+
+#### GET Merchant Response Snippet - platformDetails Object
+
+```json
+{
+    "merchant": {
+        "processing": {
+            "platformDetails": {
+                "backEndMid": "871555880014",
+                "frontEndMid": "871555880014",
+                ...
+            }
+        }                                    
+    }
+}
+```
+
+<!-- theme: warning -->
+> Note that the account's processing MID is different from the CoPilot MID returned when creating a new account. The CoPilot MID is the `merchantId` value within the `merchant` object. This merchant ID used to identify the account in CoPilot and used in the majority of API calls. The account's processing MID is the `frontEndMid` value within the `platformDetails` object. The front end MID is assigned only when the account has been successfully boarded to the Gateway.
