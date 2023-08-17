@@ -541,7 +541,7 @@ To process an ACH payment, you make an authorization request using the CardPoint
 
 The following example illustrates an ACH authorization request and response:
 
-### Example ACH Request and Successful Response
+#### Example ACH Request and Successful Response
 
 ```json
 PUT /cardconnect/rest/auth HTTP/1.1
@@ -740,7 +740,7 @@ Ensure that you review and comply with the card brand requirements for obtaining
 > - `"cof" : "M"` - to identify these authorizations as merchant-initiated stored credential transactions. <br> Note that this field is currently only supported for First Data Rapid Connect merchants.
 > - `"cofscheduled" : "Y"` - to identify these as recurring transactions using stored credentials. Note that this field is currently only supported for First Data Rapid Connect merchants.
 
-### Example Recurring Billing Payment Authorization Using a Stored Profile
+#### Example Recurring Billing Payment Authorization Using a Stored Profile
 
 ```json
 PUT /cardconnect/rest/auth HTTP/1.1
@@ -878,4 +878,82 @@ A successful authorization response includes a receipt object with the following
 To print a receipt from your custom integration, use the fields described in Understanding Receipt Data to build your receipt template.
 
 The following example illustrates a receipt template (left) and a receipt populated with data retrieved from the authorization response (right).
+
+<!-- align: center -->
+![Clover Mini Receipt Sample](../../assets/images/Clover_Mini_Receipt_Sample.png)
+
+# Handling Timed-out Transactions
+
+This guide provides best practices for handling CardPointe Gateway API timeout errors. The Gateway API supports synchronous communication; therefore, your application must make requests and expect responses in sync with the CardPointe Gateway services.
+
+If you are a developer integrating your point-of-sale software with the CardPointe Gateway API, it is important for you to understand how long the steps of the payment process can take, so your software can interact accordingly. The following information should guide you on how long to wait for a response, and actions to take if one is not returned.
+
+## CardPointe Gateway Authorization Timeout (32 Seconds)
+
+When you use the CardPointe Gateway API's auth endpoint, to make an authorization request, the Gateway sends the request to the payment processing network and allows 31 seconds for a response. If the Gateway does not receive a response, then the request times out at the 32 second mark and returns a "Timed Out" response.
+
+## Handling CardePointe Gateway Timeouts
+
+Whether your application is using the Terminal API authCard request, or the CardPointe Gateway API auth request, it should be designed to handle the following scenarios:
+
+1) A "Timed out" response returned successfully (HTTP 200) from the CardPointe Gateway auth endpoint or the Terminal API authCard endpoint.
+
+2) No response returned successfully from the CardPointe Gateway auth endpoint.
+
+#### Timed Out Response
+
+```json
+Status: 200 OK 
+   {    
+    "amount":"685.00",
+    "resptext":"Timed out",
+    "setlstat":"Declined",
+    "acctid":"1",    
+    "respcode":"62",    
+    "merchid":"123456789012",    
+    "token":"9441282699177251",    
+    "respproc":"PPS",    
+    "name":"Jane Doe",    
+    "currency":"USD",    
+    "retref":"343005123105",    
+    "respstat":"B",    
+    "account":"9419786452781111"
+   }
+```
+
+In this case, a response, including a `retref` for the transaction, is returned. The response includes `"respstat": "B"` which always means "Retry." The transaction attempt should be tried again.
+
+If you need to reference the details of any particular transaction attempt, supply valid `retref` and `merchid` values in an inquire request.
+
+In some cases, retry attempts will also fail. In the event of multiple retry failures, check status.cardconnect.com for reports of system-wide issues.
+
+### No Response Returned
+
+This scenario may include, but is not limited to, an HTTP Status 408 Request Timeout.
+
+In this case, your application can not determine whether or not the transaction was successful.
+
+As a safeguard against losing record of the transaction attempt from your system, it is strongly recommended that you supply a unique order ID for every authorization request made to the API.
+
+If you included an order ID in the original authorization request, then you can use the following Gateway API service endpoints to inquire on or void the transaction record:
+
+- **inquireByOrderid**
+  
+	The inquireByOrderid endpoint is used to look up a transaction record using the order ID supplied in the original authorization request. If the supplied order ID is found, then the same payload returned in the inquire response is provided.
+
+	If the original authorization request was successful, the response includes the transaction details, including the `retref`. You can then use the `retref` to make a subsequent void or capture call.
+
+	If the original authorization request was unsuccessful, the response includes PPS respcode 29, `Txn not found`. This response indicates that the authorization request timed out before being processed by the CardPointe Gateway, and you should retry the authorization request.
+
+- **voidByOrderId**
+
+	The voidByOrderId endpoint is used to look up **and** void a transaction record using the order ID supplied in the original authorization request. If the supplied order ID matches a transaction record, the authorization is voided and a void response is returned. See the voidByOrderId description for more information.
+
+	voidByOrderId should be used in the event that no response is returned by an inquireByOrderId request, or if no look up is required at all.
+
+	**Note**: You should attempt the voidByOrderid request three times (3x) to ensure that the transaction is voided, despite not receiving a response to indicate that the request was successful.
+  
+See the CardPointe Gateway API for information on the inquireByOrderid, voidByOrderId, and capture service endpoints.
+
+# Manually Managing Gateway Batches
 
