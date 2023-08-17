@@ -716,7 +716,7 @@ Ensure that you review and comply with the card brand requirements for obtaining
     For example, you can:
     - Use the customer’s clear PAN or ACH payment data to make a CardPointe Gateway API authorization request. The response returns a token for the account.
 
-       **Note**: You should only programmatically handle and tokenize clear payment account numbers (PANs) if your business is a registered PCI Level 1 or Level 2 certified merchant. If you are not already certified for compliance with the Payment Card Industry's standards and guidelines for handling sensitive account data, see https://www.pcisecuritystandards.org/ for more information.
+       **Note**: _You should only programmatically handle and tokenize clear payment account numbers (PANs) if your business is a registered PCI Level 1 or Level 2 certified merchant. If you are not already certified for compliance with the Payment Card Industry's standards and guidelines for handling sensitive account data, see https://www.pcisecuritystandards.org/ for more information._
 
        Optionally, do the following:  
        - Include ”capture” : “y” to accept an initial payment.
@@ -797,7 +797,7 @@ A successful authorization response includes the following fields. You should in
 | amount | Amount | 12 | Authorized amount. Same as the request amount for most approvals. <br> The amount remaining on the card for prepaid/gift cards if partial authorization is enabled. <br> Not relevant for declines. |
 | batchid | Batch ID | 12 | Automatically created and assigned unless otherwise specified. Returned for a successful authorization with capture. |
 | orderid | Order ID | 19 | Order ID copied from the authorization request. |
-| merchid | Merchant ID | 12 | Copied from the authorization request. <br> **Note**: If you include the merchant ID on a receipt, mask this value, except the last four digits. |
+| merchid | Merchant ID | 12 | Copied from the authorization request. <br> **Note**: _If you include the merchant ID on a receipt, mask this value, except the last four digits_. |
 | respcode | Response code | - | Alpha-numeric response code that represents the description of the response |
 | resptext | Response text | - | Text description of response |
 | respproc | Response processor | 4 | Abbreviation that represents the platform and the processor for the transaction |
@@ -951,9 +951,181 @@ If you included an order ID in the original authorization request, then you can 
 
 	voidByOrderId should be used in the event that no response is returned by an inquireByOrderId request, or if no look up is required at all.
 
-	**Note**: You should attempt the voidByOrderid request three times (3x) to ensure that the transaction is voided, despite not receiving a response to indicate that the request was successful.
+	**Note**: _You should attempt the voidByOrderid request three times (3x) to ensure that the transaction is voided, despite not receiving a response to indicate that the request was successful._
   
 See the CardPointe Gateway API for information on the inquireByOrderid, voidByOrderId, and capture service endpoints.
 
 # Manually Managing Gateway Batches
+
+This guide provides information for using the CardPointe Gateway API's openbatch and closebatch service endpoints to manually open and close Gateway batches, and the settlestatByBatchSource endpoint to retrieve settlement details for a batch. 
+
+> The CardPointe Gateway automatically manages transaction batches.
+
+<!-- theme: danger -->
+> Exercise caution when managing batches manually. It is possible to group unrelated batches by mistakenly using the same `batchsource`; therefore it is a best practice to use unique batch source values, and to develop a system for categorizing grouped transactions accurately.
+ 
+## Using the openbatch Endpoint
+
+A call to the openbatch service endpoint opens a new batch associated with the supplied `merchid`. The `batchsource` is used to supply a batch identifier to logically link multiple batches together across merchant IDs. A batch contains one `merchid`.
+
+Exercise caution when specifying a `batchsource` value. The CardPointe Gateway does not validate or use the value and it is possible for more batches to be grouped if the same `batchsource` is used by mistake; therefore it is a best practice to use unique batch source values, and to develop a system for categorizing grouped transactions accurately.
+
+Additionally, the `batchsource` value in an openbatch request **must** match the `batchsource` value in the authorization or capture request for the transaction that you want to include in the created batch.
+
+### openbatch URL
+
+| Method | Request Form | URL | Headers |
+| --- | --- | --- | --- |
+| GET | URL string | https://<site>.cardconnect.com/cardconnect/rest/openbatch/<merchid>/<batchsource> | _Authorization_: Basic |
+
+### openbatch Request
+
+Fields in **bold** are required.
+
+| Fields | Type | Comments |
+| --- | --- | --- |
+| **merchid** | AN | The merchant ID, required in every request. |
+| **batchsource** | AN | The batch ID of a third-party system. A batch contains one merchant ID. Use caution when attempting to use `batchsource` to link batches together. The CardPointe Gateway does not validate the value and it is possible for more batches to be grouped if the same `batchsource` is used accidentally. A `batchsource` sent in openbatch must match the `batchsource` value specified in the authorization or capture request for the transaction. |
+
+### openbatch Response
+
+| Field | Type | Comments |
+| --- | --- | --- |
+| batchid | AN | The batch ID for the new batch, if the request was successful. If the value `"null"` is returned, the request was not successfully processed. |
+| respcode | AN | Indicates whether the request succeeded or failed. If the batch is successfully opened, the value `"success"` is returned. If the request failed, the value `"noBatch"` is returned. |
+
+#### Sample openbatch Response
+
+```json
+{
+    "batchid": "2628",
+    "respcode": "success"
+}
+```
+
+## Using the closebatch Endpoint
+
+A call to the closebatch service endpoint attempts to close the batch identified by the `merchid` and `batchid`. Provide a `batchid` to attempt to close a specific batch. If no `batchid` is supplied, the open batch with the lowest `batchid` is closed.
+
+### closebatch URL
+
+| Method | Request Format | URL | Headers |
+| --- | --- | --- | --- |
+| GET | URL string | https://<site>.cardconnect.com/cardconnect/rest/closebatch/<merchid>/<batchid> | _Authorization_: Basic |
+
+### closebatch Request
+
+Fields in **bold** are required.
+
+| Field | Type | Comments |
+| --- | --- | --- |
+| **merchid** | AN | The CardPointe merchant ID associated with the batch that you want to close. |
+| batchid | AN | The batch ID for the batch that you want to close. If no batch ID is specified, the batch with the lowest batch ID number is closed. |
+
+### closebatch Response
+
+| Field | Type | Comments |
+| --- | --- | --- |
+| batchid | AN | The batch ID of the closed batch. If the value "null" is returned, the request was not successfully processed. |
+| respcode | AN | Indicates whether the request succeeded or failed. <br> <br> If the batch is successfully closed, the value "success" is returned. If the request failed, the value "noBatch" is returned. This may mean the request batch does not exist or is already closed. |
+
+#### Sample closebatch Request
+
+```json
+{
+    "batchid": "2568",  
+    "respcode": "success"
+}
+```
+
+## Using the settlestatByBatchSource Endpoint
+
+A call to the settlestatByBatchSource service endpoint returns the settlement status and details for all transactions in a given batch, identified by the `batchsource`.
+
+### settlestatByBatchSource URL
+
+| Method | Request Format | URL | Headers |
+| --- | --- | --- | --- |
+| POST | JSON object | https://<site>.cardconnect.com/cardconnect/rest/settlestatByBatchSource | _Authorization_: Basic |
+
+### settlestatByBatchSource Request
+
+Fields in **bold** are required.
+
+| Field | Type | Comments |
+| --- | --- | --- |
+| merchid | AN | The CardPointe merchant ID associated with the batch. |
+| batchsource | AN | The `batchsource` of the batch for which you want to retrieve settlement and transaction details. |
+
+#### Sample settlestatByBatchSource Request
+
+```json
+{
+    "merchid":"883000000002",
+    "batchsource":"103T662929-20210224"
+}
+```
+
+### settlestatByBatchSource Response
+
+| Field | Type | Comments |
+| --- | --- | --- |
+| respproc | AN | An abbreviation that represents the clearing house. |
+| hostbatch | N | The batch identifier assigned by the payment processor. |
+| chargecnt | N | The number of "charge" or positive amount transactions in the batch. |
+| batchsource | AN | The unique batchsource identifier for the batch. |
+| refundtotal | N | The total amount of all refund transactions in the batch, in dollars and cents. |
+| batchid | AN | The batch ID of the batch. |
+| chargetotal | N | The total amount of all "charge" or positive amount transactions in the batch, in dollars and cents. |
+| refundcnt| N | The number of "refund" or negative amount transactions in the batch. |
+| hoststat | AN | The batch settlement status. One of the following values: <br> <br> **Blank** – Queued for the processor <br> **BB** – The batch transmitted successfully; however all orders were rejected by the processor. <br> **EB** - The batch was empty (contained no valid transactions). <br> **GB** – The batch was accepted by the processor. <br> **MB** – Some transactions were accepted and some were rejected. <br> **RB** - The batch was rejected by the processor. <br> **SB** - The batch was sent to the processor, but not yet confirmed. <br> **ND** - The batch was sent to the processor, but no confirmation was received within the expected timeout window. This status can indicate a bad batch or a communication error or other delay in the processor sending the confirmation. |
+| merchid | AN | The CardPointe merchant ID associated with the batch. |
+| txns | - | An array of JSON objects for each transaction in the batch. Each object includes the following fields: <br> <br> **Note**:_ See the Settlement Status response description in the CardPointe Gateway API for detailed descriptions of each field._ <br> **setlamount** - The transaction amount settled for the authorization. <br> **setlstat** - The current settlement status. The settlement status changes throughout the transaction lifecycle, from authorization to settlement. <br> **salesdoc** - The order ID associated with the authorization, if present. <br> **retref** - The unique retrieval reference number, used to identify and manage the transaction. |
+
+#### Example settlestatByBatchSource Response
+
+```json
+[
+    {
+        "respproc": "RPCH",
+        "hostbatch": "0000000310",
+        "chargecnt": 4,
+        "batchsource": "103T662929-20210224",
+        "refundtotal": "0.00",
+        "batchid": "310",
+        "chargetotal": "23.00",
+        "refundcnt": 0,
+        "hoststat": "GB",
+        "merchid": "883000000002",
+        "txns": [
+            {
+                "setlamount": "1.00",
+                "setlstat": "Y",
+                "salesdoc": "101",
+                "retref": "055932136909"
+            },
+            {
+                "setlamount": "20.00",
+                "setlstat": "Y",
+                "salesdoc": "101",
+                "retref": "055100236918"
+            },
+            {
+                "setlamount": "1.00",
+                "setlstat": "Y",
+                "salesdoc": "101",
+                "retref": "055933136926"
+            },
+            {
+                "setlamount": "1.00",
+                "setlstat": "Y",
+                "salesdoc": "101",
+                "retref": "055101236934"
+            }
+        ]
+    }
+]
+```
+
+# Using the Batch Authorization Service to Process Batch Files
 
