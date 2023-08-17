@@ -286,3 +286,596 @@ https://b2ps.com/product-category/b2-payment-testing-products/
 
 ## Test Cases
 
+The following topics provide information for testing specific features to obtain responses that are otherwise not returned in the UAT environment.
+
+### Testing with Amount-Driven Response Codes 
+
+> This feature is available for the following emulators:
+>
+> - First Data North (FNOR) - Auth and Refund
+> - First Data Rapid Connect (RPCT) - Auth and Refund
+> - Chase Paymentech (PMT) - Auth and Refund
+> - Paymentech Tampa (PTAM) - Auth
+> - TSYS (VPS) - Auth
+> - Vantiv - Auth and Refund
+
+<!-- theme: warning -->
+> See Gateway Response Codes for a complete list of possible response codes for the CardPointe Gateway and each processor.
+
+When testing your CardPointe Gateway or CardPointe Integrated Terminal integration in the UAT environment, you can use amount-driven response codes to emulate processor-specific authorization responses that you might encounter in the production environment. This allows you to receive and handle response codes that you would not otherwise encounter in your test environment.
+
+All response codes returned in the production environment are received directly from the processor.
+
+To return a specific response code, you make an authorization request with an amount in the $1000-$1999 range. You specify the desired response code using the last three digits (with a leading 0 for 2-digit response codes) of the whole-dollar amount (the amount excluding cents). For example, if you want to return RPCT respcode 332, "Account locked," make an authorization request for $1332.
+
+The following example illustrates an authorization request for $1116.95. The amount value specified is 111695 (with the decimal implied), therefore, the whole-dollar amount is $1116.
+
+#### Sample Request
+
+```json
+{
+	"amount" : "111695",
+	"expiry" : "1220",
+	"account" : "4000065433421984",
+	"merchid" : "496160873888"
+}
+```
+
+The response includes the RPCT respcode 116, which indicates that the transaction was declined due to insufficient funds.
+
+#### Sample Response
+
+```json
+{
+	"amount" : "0.00",
+	"resptext" : "Not sufficient funds",
+	"cardproc" : "RPCT",
+	"respstat" : "C",
+	"respcode" : "116"
+}
+```
+
+### Testing Refund Authorizations
+
+You can simulate a refund authorization response on the following UAT emulators:
+
+- First Data North (FNOR)
+- First Data Rapid Connect (RPCT)
+- Chase Paymentech (PMT)
+Similarly to testing specific authorization response scenarios using amount-driven responses, you can test individual refund response codes, by sending a partial refund request using an amount value that includes the desired response code.
+
+> Like in Production, UAT transactions cannot be refunded until they have settled, unless the MID is enabled to refund unsettled transactions.
+
+To test a refund decline, do the following:
+
+1) Run an authorization request including `"capture":"y"` and `"amount":"2000.00"` or greater.
+2) Run a refund request including the `retref` from the authorization response and `"amount":"1nnn.00"`, where `nnn` is the 2 (including leading 0) or 3-digit decline response code you want to receive.
+
+    For example, to return a RPCT 500 "Decline" response, include `"amount":"1500.00"` in the refund request.
+
+### Testing Partial Authorizations
+
+You can simulate a partial authorization response on the following UAT emulators:
+
+- First Data North (FNOR)
+- First Data Rapid Connect (RPCT)
+- Paymentech (Paymentech)
+- Paymentech Tampa (PTAM)
+- Vantiv (VANT)
+- Worldpay (VPS)
+
+To simulate a partial authorization, submit an authorization request using `"account":"4387750101010101"` and `"amount":"6.00"` or greater.
+
+The following responses are returned:
+
+| respproc | respcode | respstat | resptext | amount |
+| --- | --- | --- | --- | --- |
+| FNOR | 10 | A | Partial Approval | 5.00 |
+| PMT | 100 | A | Approval | 5.00 |
+| PTAM | 10 | A | Partial Approval | 5.00 |
+| RPCT | 002 | A | Approve for Partial Amount | 5.00 |
+| VANT | 10 | A | Partial Approval | 5.00 |
+| VPS | 10 | A | Partial Approval | 5.00 |
+
+For example: 
+
+#### Sample Partial Authorization Request
+
+```json
+{
+	"amount" : "6.50",
+	"expiry" : "1220",
+	"account" : "4387750101010101",
+	"merchid" : "496160873888"
+}
+```
+
+#### Sample Partial Authorization Response
+
+```json
+{
+	"amount" : "5.00",
+	"resptext" : "Partial Approval",
+	"cardproc" : "FNOR",
+	"respstat" : "A",
+	"respcode" : "10"
+}
+```
+
+### Testing AVS Response Codes
+
+> This feature is available for the following emulators:
+>  
+> - First Data North (FNOR)
+> - First Data Rapid Connect (RPCT)
+> - First Data Nashville (NASH)
+> - Chase Paymentech (PMT)
+> - Paymentech Tampa (PTAM)
+> - American Express (AMEX)
+> - Vantiv (VANT)
+
+In order to test AVS response codes that you will encounter in the production environment, the UAT environment is configured to simulate various AVS responses when the **last three** characters of the `postal` code matches a specific value.
+
+To force a specific AVS response, review the **UAT Test Zip Codes** available in the UAT Test Card Data section of this guide. Then submit an authorization request using the last three characters of the postal code meant to generate that AVS response. To illustrate this, the example below uses a zip code ending in 112 to emulate `"avsresp": "N"` in the response.
+
+> Additionally, including any 3-digit AVS response code within the `address` field AVS response will also trigger that response. For example, an authorization request with `"address": "112 Main Street"` or `"address": "31125 Main Street"` will trigger the same AVS response as when using 112 as the last three characters of the postal code.
+>
+> To ensure that you receive the intended AVS response, only include a valid 3-digit response value in either the `address` or `postal` field, not both. For example, if using the `postal` field to test AVS responses, ensure that the `address` field does not also contain an AVS response code.
+
+#### Sample Request
+
+```json
+{
+  "merchid": "123456789012",
+  "account": "6011000995500000",
+  "expiry": "1218",
+  "amount": "11.11",
+  "address": "123 MAIN STREET",
+  "postal": "55112"
+}
+```
+
+#### Sample Response
+
+```json
+{
+  "respstat": "A",
+  "token": "9601616143390000",
+  "retref": "316336153961",
+  "amount": "11.11",
+  "expiry": "1218",  
+  "merchid": "123456789012",
+  "respcode": "00",
+  "resptext": "Approved",
+  "respproc": "FNOR",
+  "avsresp": "N"
+}
+```
+
+<!-- theme: warning -->
+> The UAT environment also accepts and simulates AVS response codes for alphanumeric postal codes. Be sure to include the country field in your request when providing an alphanumeric postal code, as omitting this field will cause the country to default to US and potentially produce unexpected results.
+>
+> Note that the following processors do not support AVS for international addresses:
+>
+> - American Express (AMEX)
+> - Vantiv (VANT)
+
+### Testing CardPointe Gateway Timeouts
+
+> This feature is only available for the First Data Rapid Connect (RPCT) and First Data North (FNOR) emulators.
+
+Because the UAT environment does not communicate with the processing hosts, your application can not encounter a time out scenario. In production, when the CardPointe Gateway communication with the processor times out, the Gateway returns an auth response object that includes `"respcode":"62"` and `"resptext":"Timed out"`
+
+If you want to test your application's ability to handle a time out response, you can send an auth request using one of the following test card numbers:
+
+- **Visa**: 4999006200620062
+- **MC**: 5111006200620062
+- **Discover**: 6465006200620062
+ 
+<!-- theme: warning -->
+> You can also tokenize the card number and use the token in the auth request.
+
+#### Example Request
+
+```json
+{
+    "merchid" : "496160873888",
+    "account" : "4999006200620062",
+    "expiry" : "1223",
+    "amount" : "5.00",
+    "capture" : "y"
+}
+```
+
+The response includes the PPS respcode 62, which indicates that the transaction was declined due to a communication timeout between the CardPointe Gateway and processor host.
+
+#### Example Response
+
+```json
+Status: 200 OK
+ 
+{
+    "amount" : "5.00",
+    "resptext" : "Timed out",
+    "setlstat" : "Declined",
+    "respcode" : "62",
+    "merchid" : "496160873888",
+    "token" : "9497267302710062",
+    "respproc" : "PPS",
+    "retref" : "343005123105",
+    "respstat" : "B",
+    "account" : "9497267302710062"
+}
+```
+
+# Processing ACH Payments
+
+This guide provides guidance for accepting Automated Clearing House (ACH) payments using the CardPointe Gateway API. ACH payments, also called e-check payments, are a common payment method for recurring payments as well as telephone and mail orders.
+
+Unlike credit card payments, when a customer authorizes an ACH payment, the funds are withdrawn directly from his or her bank account. This process can take several days, so you should include a monitoring process in your integration to verify the status of the transaction.
+
+To accept ACH payments, you must capture and handle the customer's bank account and routing number. While you can capture this information and pass it directly to the CardPointe Gateway in an authorization request, it is a best practice to instead capture this information and tokenize it using a CardSecure-integrated web form.
+
+## Using a Web Form to Gather and Tokenize ACH Payment Data 
+
+To ensure the security of your customers' data, as well as your PCI compliance, it is recommended that you use a customer-facing web form, integrated with CardSecure, to capture and tokenize bank account and routing information.
+
+When using a web form to capture and tokenize customer bank account information, include separate fields for the routing number and account number. Send these fields in a CardSecure tokenization request in the format
+`"account" : "<routing number>/<account number>"`
+
+For example:
+
+`"account" : "123456789/1234123412341234"`
+
+CardSecure returns a token representing the ACH account information, which you can then use to make an authorization request to the CardPointe Gateway.
+
+## Making an ACH Authorization Request
+
+To process an ACH payment, you make an authorization request using the CardPointe Gateway API. In addition to the fields required for all authorization requests, you must include the following information:
+
+| Payment Information | Authorization Request Parameter | Description |
+| --- | --- | --- |
+| Account and Routing Numbers | `account` and `bankaba` | If you gathered and tokenized the customer's bank account and routing information using a CardSecure-integrated web form, then you can pass the token in the `account` field. <br> <br> If you are handling the clear account number and routing number, then include them in the `account` and `bankaba` fields, respectively. |
+| Payment Origin | `ecomind` | For ProfitStars ACH transactions, specifies the Standard Entry Class (SEC) code for the transaction. <br> <br> Optionally, include one of the following values (defaults to `E` if not specified): <br> <br> `"ecomind" : "T"` - SEC code TEL (Telephone) for a single or recurring payment with recorded verbal consent. <br> `"ecomind" : "B"` - SEC code PPD (prearranged) for a single or recurring payment with written consent.  <br> `"ecomind" : "E"` - SEC code WEB for an Internet or mobile payment. |
+| Account Type | `accttype` | Include one of the following values: <br> <br> `"accttype" : "ECHK"` for a checking account <br> `"accttype" : "ESAV"` for a savings account |
+
+The following example illustrates an ACH authorization request and response:
+
+### Example ACH Request and Successful Response
+
+```json
+PUT /cardconnect/rest/auth HTTP/1.1
+Host: <site>
+Authorization: Basic {base64-encoded credentials}
+Content-Type: application/json
+
+{
+  "merchid":"496160873888",
+  "account": "9036412947515678",
+  "accttype": "ECHK",
+  "amount" : "1000",
+  "ecomind": "E",  
+  "capture" : "y"
+}
+
+HTTP/1.1 200 OK
+Content-Type: application/json
+
+{
+   "amount": "10.00",
+   "resptext": "Success",
+   "cvvresp": "U",
+   "respcode": "00",
+   "batchid": "1900940972",
+   "avsresp": "U",
+   "merchid": "542041",
+   "token": "9036412947515678",
+   "authcode": "VPJSP5",
+   "respproc": "PSTR",
+   "retref": "353318135488",
+   "respstat": "A",
+   "account": "9036412947515678"
+}
+```
+
+## Verifying ACH Transactions
+
+ACH transactions typically take several business days to process and settle, therefore, it is a best practice to periodically check the status of the transaction to ensure that it is successfully processed and that you are credited for the authorized amount.
+
+You can use the CardSecure Gateway API to programmatically verify the transaction status using the inquire and funding service endpoints.
+
+### Using the Inquire Endpoint
+
+The inquire endpoint provides information on completed authorizations.
+
+You can use the inquire endpoint if you have the retrieval reference number (`retref`) from the authorization response. If you don't have the `retref`, but you included a unique order ID in the authorization request, then you can use the inquireByOrderId endpoint instead.
+
+The inquire response includes a settlement status (`setlstat`) field that displays the settlement status of the transaction. Note that the settlement status initially displays "Queued for Capture" for ACH transactions, and the value is updated once the batch is transmitted. If `"setlstat" : "rejected"` you can use the funding endpoint to gather more detailed information.
+
+### Using the Funding Endpoint
+
+The funding endpoint provides additional useful information for ACH transactions. Specifically, you can use the funding endpoint to retrieve an ACH return code (`achreturncode`), which provides additional information for rejected ACH transactions.
+
+To use the funding endpoint, you make a request using the merchant ID and the date of the funding event that included the transaction. The funding endpoint returns an array of transaction details for that date.
+
+Use the `retref` for the ACH transaction to locate it in the txns node of the response data. For ACH transactions, the response includes an `achreturncode` field that includes a specific code that explains the reason for the rejection.
+
+The following table describes the possible ACH return code values.
+
+<!--
+type: tab
+titles: ACH Return Codes
+-->
+
+The following codes are returned when an ACH transaction is rejected. 
+
+| Code | Description|
+| --- | --- |
+| R01 | Insufficient funds |
+| R02 | Bank account closed |
+| R03 | No bank account/unable to locate account |
+| R04 | Invalid bank account number |
+| R06 | Returned per ODFI request |
+| R07 | Authorization revoked by customer |
+| R08 | Payment stopped |
+| R09 | Uncollected funds |
+| R10 | Customer advises not authorized |
+| R11 | Check truncation entry return |
+| R12 | Branch sold to another RDFI |
+| R13 | RDFI not qualified to participate |
+| R14 | Representative payee deceased or unable to continue in that capacity |
+| R15 | Beneficiary or bank account holder |
+| R16 | Bank account frozen |
+| R17 | File record edit criteria |
+| R18 | Improper effective entry date |
+| R19 | Amount field error | 
+| R20 | Non-payment bank account |
+| R21 | Invalid company ID number |
+| R22 | Invalid individual ID number |
+| R23 | Credit entry refused by receiver |
+| R24 | Duplicate entry |
+| R25 | Addenda error |
+| R26 | Mandatory field error |
+| R27 | Trace number error |
+| R28 | Transit routing number check digit error |
+| R29 | Corporate customer advises not authorized |
+| R30 | RDFI not participant in check truncation program |
+| R31 | Permissible return entry (CCD and CTX only) |
+| R32 | RDFI non-settlement |
+| R33 | Return of XCK entry |
+| R34 | Limited participation RDFI |
+| R35 | Return of improper debit entry |
+| R36 |	Return of Improper Credit Entry |
+| R39 |	Improper Source Document |
+| R40 |	Non-Participant in ENR program |
+| R41 |	Invalid transaction code |
+| R42 |	Transit/Routing check digit error |
+| R43 |	Invalid DFI account number |
+| R44 |	Invalid individual ID number |
+| R45 |	Invalid individual name |
+| R46 |	Invalid representative payee indicator |
+| R47 |	Duplicate enrollment |
+| R50 |	State Law affecting RCK Acceptance |
+| R51 |	Item is Ineligible, Notice Not Provided, Signature Not Genuine, or Item Altered (adjustment entries) |
+| R52 |	Stop Payment on Item (adjustment entries) |
+| R61 |	Misrouted return |
+| R62 |	Incorrect trace number |
+| R63	| Incorrect dollar amount |
+| R64 |	Incorrect individual identification |
+| R65 |	Incorrect transaction code |
+| R66 |	Incorrect company identification |
+| R67 |	Duplicate return |
+| R68 |	Untimely return |
+| R69 |	Multiple errors |
+| R70 |	Permissible return entry not accepted |
+| R71 |	Misrouted dishonored return |
+| R72	| Untimely dishonored return |
+| R73 |	Timely original return |
+| R74 |	Corrected return |
+| R80 |	Cross Border Payment Coding Error |
+| R81 |	Non-Participant in Cross-Border Program |
+| R82 |	Invalid Foreign Receiving DFI identification |
+| R83	| Foreign Receiving DFI Unable to Settle |
+
+<!-- type: tab-end -->
+
+## Testing ACH Authorizations
+
+To test ACH authorizations, you can use the test Merchant ID (MID) 496160873888 in the CardPointe Gateway's UAT environment. This MID uses a routing rule to detect when `"accttype" : "ECHK"` and then routes ACH transactions through a separate, linked MID, 542041.
+
+This configuration allows you to dedicate separate merchant accounts to processing credit/debit and ACH transactions, which can be helpful for testing and reporting purposes. Contact Support if you want to configure a dedicated MID for processing ACH transactions.
+
+<!-- theme: warning -->
+> To test ACH transactions, you must use a valid ABA routing number (for example, 036001808 or 011401533); however any account number is accepted. 
+>
+> If you test with an invalid routing number, the response returns a `resptext` of "The RoutingNumber (<bankaba>) is not a valid routing number."
+
+# Scheduling Recurring Payments
+
+This guide provides information for extending your existing CardPointe Gateway API integration to add recurring billing to your payment methods.
+
+To do this, you can use an application scheduler, like Cron, to create a schedule to run recurring transactions. The scheduled job can initiate an authorization request to the CardPointe Gateway using tokenized payment data or a stored profile.
+
+This method gives you complete control over your recurring payment schedule with a simple API integration.
+
+<!--theme: danger -->
+> - It is a violation of PCI DSS standards to store Card Verification Value (CVV) data. Neither The CardPointe Gateway nor the merchant can store this data for the purpose of recurring billing.
+>
+> - When establishing recurring billing payments or storing and using cardholder payment information for future payments, you must ensure that you obtain the cardholder's consent, and that you comply with the requirements documented in the Visa and Mastercard Stored Credential Transaction Framework guide. Note that this feature is currently only available for merchants processing on the First Data Rapid Connect platform. See the Visa and Mastercard Stored Credential Transaction Framework guide for updates on support for additional processors, and detailed information for integrating and testing these changes.
+
+## How it Works
+
+The following process provides a general overview of the steps required to set up a recurring payment schedule using the CardPointe Gateway. depending on your integration and business needs, your procedure may vary.
+
+Ensure that you review and comply with the card brand requirements for obtaining consent to store and reuse cardholder data. See the Visa and Mastercard Stored Credential Framework Mandate guide for detailed information.
+
+1) Tokenize the customer's payment data.
+
+    Depending on your existing integration, there are several ways to tokenize payment data.
+
+    For example, you can:
+    - Use the customer’s clear PAN or ACH payment data to make a CardPointe Gateway API authorization request. The response returns a token for the account.
+
+       **Note**: You should only programmatically handle and tokenize clear payment account numbers (PANs) if your business is a registered PCI Level 1 or Level 2 certified merchant. If you are not already certified for compliance with the Payment Card Industry's standards and guidelines for handling sensitive account data, see https://www.pcisecuritystandards.org/ for more information.
+
+       Optionally, do the following:  
+       - Include ”capture” : “y” to accept an initial payment.
+       - include ”profile” : “y” to store the customer’s data in a profile to use in future requests.
+    - Gather and tokenize the payment card data using the Hosted iFrame Tokenizer.
+    - Use a CardPointe Integrated Terminal and the Terminal API readCard or readManual service endpoint.
+
+2) Store the token for reuse.
+
+    You can either store tokens and customer data in your own database, or you can use the CardPointe Gateway API’s profile service endpoint to create and store customer profiles in the CardPointe Gateway's secure vault. You can skip this step if you created a profile in step 1.
+   
+3) Gather your billing requirements.
+
+    Determine the start date and length of the billing plan, the payment amount and frequency, and any additional information that you'll need to include in your requests.
+
+4) Build your Cron job to schedule authorization requests to the CardPointe Gateway API.
+
+> Authorization requests for recurring billing payments **must** include the following values:
+>
+> - `"ecomind" : "R"` - to flag these authorizations as recurring billing. If this parameter is not set, recurring payments will be declined.
+> - `"cof" : "M"` - to identify these authorizations as merchant-initiated stored credential transactions. <br> Note that this field is currently only supported for First Data Rapid Connect merchants.
+> - `"cofscheduled" : "Y"` - to identify these as recurring transactions using stored credentials. Note that this field is currently only supported for First Data Rapid Connect merchants.
+
+### Example Recurring Billing Payment Authorization Using a Stored Profile
+
+```json
+PUT /cardconnect/rest/auth HTTP/1.1
+Host: <site>
+Authorization: Basic {base64-encoded credentials}
+Content-Type: application/json
+
+{
+  "merchid" : "MID",
+  "ecomind" : "R",
+  "cof" : "M",
+  "cofscheduled" : "Y"
+  "profile" : "18854390708079407191/1",
+  "expiry" : "1218",
+  "amount" : "500",
+  "capture" : "Y"
+}
+```
+
+# Printing Receipts Using Authorization Data
+
+This guide provides information for integrators who want to use authorization response data to print receipts from an integrated POS printer.
+
+## Receipt Rules and Requirements
+
+This topic provides general best practices and integration details for printing receipts and capturing cardholder signature data; however, each card brand provides specific rules and requirements. You should understand and follow the receipt guidelines for the card brands that you accept.
+
+Consult the following card brand guidelines for detailed information:
+
+- **MasterCard**: https://www.mastercard.us/content/dam/mccom/global/documents/transaction-processing-rules.pdf
+- **Visa**: https://usa.visa.com/dam/VCOM/download/about-visa/visa-rules-public.pdf
+Additionally, receipt requirements vary depending on the card type. For example, receipts generated for EMV (chip and contactless) card transactions must include specific EMV tag data returned in the authorization response. Ensure that you understand the requirements for accepting both EMV and MSR (magnetic-stripe) cards as determined by the card brands.
+
+## Understanding Receipt Data
+
+When an authorization is successfully approved and processed by the CardPointe Gateway, the authorization response payload includes important transaction details that you can capture and print on a receipt.
+
+In general, a receipt must include:
+
+- transaction details from the authorization response
+- merchant account information and additional transaction details returned in the receipt object
+- EMV tag data returned in the EMV tag object, if the card used was an EMV (chip or contactless) card.
+
+## Authorization Response Data
+
+A successful authorization response includes the following fields. You should include the highlighted fields on your receipts.
+
+| Field | Content | Max Length | Comments |
+| --- | --- | --- | --- |
+| respstat | Status | 1 | Indicates the status of the authorization request. Can be one of the following values: <br> <br> A - Approved <br> B - Retry <br> C - Declined |
+| retref | Retrieval reference number | 12 | CardPointe retrieval reference number from authorization response |
+| account | Account number | 19 | Copied from the authorization request, masked except for the last four digits. |
+| token (if requested) | Token | 19 | A token that replaces the card number in capture and settlement requests if requested |
+| amount | Amount | 12 | Authorized amount. Same as the request amount for most approvals. <br> The amount remaining on the card for prepaid/gift cards if partial authorization is enabled. <br> Not relevant for declines. |
+| batchid | Batch ID | 12 | Automatically created and assigned unless otherwise specified. Returned for a successful authorization with capture. |
+| orderid | Order ID | 19 | Order ID copied from the authorization request. |
+| merchid | Merchant ID | 12 | Copied from the authorization request. <br> **Note**: If you include the merchant ID on a receipt, mask this value, except the last four digits. |
+| respcode | Response code | - | Alpha-numeric response code that represents the description of the response |
+| resptext | Response text | - | Text description of response |
+| respproc | Response processor | 4 | Abbreviation that represents the platform and the processor for the transaction |
+| bintype | Type of BIN | 16 | **Possible Values**: <br> <br> Corp <br> FSA+Prepaid <br> GSA+Purchase <br> Prepaid <br> Prepaid+Corp <br> Prepaid+Purchase <br> Purchase |
+| entrymode | POS Entry Mode | 25 | Only returned for merchants using the First Data North and RapidConnect front end platforms. <br> **Possible Values**: <br> <br> Keyed <br> Moto <br> ECommerce <br> Recurring <br> Swipe(Non EMV) <br> DigitalWallet <br> EMVContact <br> Contactless <br> Fallback to Swipe <br> Fallback to Keyed |
+| avsresp | AVS response code | 2 | Alpha-numeric AVS response. |
+| cvvresp | CVV response code | 1 | Alpha-numeric CVV response. |
+| authcode | Authorization code | 6 | Authorization Code from the Issuer |
+| signature | Signature Bitmap | 6144 | JSON escaped, Base64 encoded, Gzipped, BMP file representing the cardholder's signature. Returned if the authorization used a token that had associated signature data or track data with embedded signature data. <br> <br> If you are integrating a custom receipt solution, you can convert this image file and print it to the receipt, if required. |
+| commcard | Commercial card flag | 1 | **Y** if a Corporate or Purchase Card |
+| emv | Cryptogram | - | Authorization Response Cryptogram (ARPC). This is returned only when EMV data is present within the Track Parameter. |
+| emvTagData | EMV tag data | 2000 | A string of receipt and EMV tag data (when applicable) returned from the processor. <br> <br> This data returned should be presented on a receipt if applicable, and recorded with the transaction details for future reference. <br> <br> Refer to EMV Tag Data below for a list of the possible fields returned. |
+| receipt | receipt data | - | An object that includes additional fields to be printed on a receipt. <br> <br> Refer to Receipt Data below for a list of the fields returned. |
+
+## EMV Tag Data
+
+If the card used in the authorization request was an EMV (chip or contactless) card, then the response data includes an **emvTagData** object with the following fields:
+
+| Name | Tag | Details | Source | Format | Max Length |
+| --- | --- | --- | --- | --- | --- |
+| TVR (Terminal Verification Results) | 95 | Status of the different functions as seen from the terminal | Terminal | Binary | 5 |
+| ARC (Authorization Response Code) | 8A | Indicates the transaction disposition of the transaction received from the issuer for online authorizations.	| Issuer/Terminal | String | 2 |
+| PIN (CVM Results) | 9F34 | Indicates the results of the last CVM performed. If PIN was entered, returns "Verified by PIN"	| Terminal | String | 15 |
+| Signature (CVM Results) | 9F34 | Indicates the results of the last CVM performed. If "true" then CVM supports signature and signature line may be applicable. However, card brands have moved away from requiring signature for EMV transactions. | Terminal | Boolean | 5 |
+| Mode | - | Identifies the mode used to authorize (or decline) the transaction. Always "Issuer" | CardPointe Gateway | String | 6 | 
+| TSI (Transaction Status Information) | 9B | Indicates the functions performed in a transaction | Terminal | Binary | 2 |
+| Application Preferred Name | 9F12 | Preferred mnemonic associated with the AID. If unavailable, use Application Label. | Card | String | 16 |
+| AID (Application Identifier, Terminal) | 9F06 | Identifies the application as described in ISO/IEC 7816-5	| Terminal | Binary | 16 |
+| IAD (Issuer Application Data) | 9F10 | Contains proprietary application data for transmission to the issuer in an online transaction.	| Card | Binary | 32 |
+| Entry method | - | Indicator identifying how the card information was obtained.	| Terminal | String | 26 |
+| Application Label | 50 | Mnemonic associated with the AID according to ISO/IEC 7816-5. If unavailable, use the Application Preferred Name. | Card | String (with the special character limited to space) | 16 | 
+
+## Receipt Data
+
+The `receipt` object is an optional set of fields that provides additional merchant and order details in the authorization response. 
+
+<!-- theme: warning -->
+> To include the `receipt` object in the authorization response, you must specify `"receipt":"Y"` in the authorization request. 
+
+The merchant account information is populated using the merchant properties configured for the MID.
+
+Additionally, this object includes additional transaction details from the authorization response. You can optionally include a custom order note (orderNote) and item details (items), by including a userFields object in the authorization request.
+
+You can specify the following fields in a userFields object to include an order note or item details, or to override the merchant properties:
+
+| Field | Description |
+| --- | --- |
+| receiptOrderNote	| Use this field to provide a custom note to include on the receipt. |
+| receiptItems	| Use this field to provide custom item descriptors to include on the receipt. |
+| receiptHeader	| Use this field to override the header configured for your MID. |
+| receiptFooter	| Use this field to override the footer configured for your MID. |
+| receiptDba	| Use this field to override the DBA name configured for your MID. |
+| receiptPhone	| Use this field to override the phone number configured for your MID. |
+| receiptAddress1 |	Use this field to override the address (line 1) configured for your MID. |
+| receiptAddress2	| Use this field to override the address (line 1) configured for your MID. |
+
+Each value can be any string and the total length of user defined fields (URL/JSON-encoded) is limited to 4000 bytes. See the description of userFields in the CardPointe Gateway API documentation for more information.
+
+> Contact isvhelpdesk@cardconnect.com for assistance configuring the receipt printing properties for your merchant account.
+
+A successful authorization response includes a receipt object with the following fields:
+
+| Field | Format | Description |
+| --- | --- | --- |
+| header | AN |	A customizable field to display an alphanumeric message. For example, a specific terms, disclosure, or cardholder agreement statement. |
+| footer | AN | A customizable field to display an alphanumeric message. For example, a specific terms, disclosure, or cardholder agreement statement. |
+| dba |	AN | The merchant's Doing Business As (DBA) name. |
+| address1 | AN |	Line 1 of the merchant's address. |
+| address2 | AN |	Line 2 of the merchant's address. |
+| phone |	N	| The merchant's phone number. |
+| dateTime | N | The date and time of the transaction (YYYYMMDDHHMMSS). |
+| nameOnCard | A | The Cardholder's name, if included in the authorization request. |
+| orderNote |	AN | A custom order note, if included in the userFields in the authorization request. |
+| items |	AN | A custom item descriptor, if included in the userFields in the authorization request. |
+
+### Printing a Receipt
+
+To print a receipt from your custom integration, use the fields described in Understanding Receipt Data to build your receipt template.
+
+The following example illustrates a receipt template (left) and a receipt populated with data retrieved from the authorization response (right).
+
