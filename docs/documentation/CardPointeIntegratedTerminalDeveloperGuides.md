@@ -800,3 +800,24 @@ Each value can be any string and the total length of user defined fields (URL/JS
 
 A successful authorization response includes a receipt object with the following fields:
 
+| Field | Format | Description |
+| --- | --- | --- |
+| header | AN |	A customizable field to display an alphanumeric message. For example, a specific terms, disclosure, or cardholder agreement statement. |
+| footer | AN | A customizable field to display an alphanumeric message. For example, a specific terms, disclosure, or cardholder agreement statement. |
+| dba |	AN | The merchant's Doing Business As (DBA) name. |
+| address1 | AN |	Line 1 of the merchant's address. |
+| address2 | AN |	Line 2 of the merchant's address. |
+| phone |	N	| The merchant's phone number. |
+| dateTime | N | The date and time of the transaction (YYYYMMDDHHMMSS). |
+| nameOnCard | A | The Cardholder's name, if included in the authorization request. |
+| orderNote |	AN | A custom order note, if included in the userFields in the authorization request. |
+| items |	AN | A custom item descriptor, if included in the userFields in the authorization request. |
+
+### Printing a Receipt
+
+To print a receipt from your custom integration, use the fields described in Understanding Receipt Data to build your receipt template.
+
+The following example illustrates a receipt template (left) and a receipt populated with data retrieved from the authorization response (right).
+
+<!-- align: center -->
+![Clover Mini Receipt Sample](../../assets/images/Clover_Mini_Receipt_Sample.png)
