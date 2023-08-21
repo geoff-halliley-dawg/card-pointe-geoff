@@ -302,3 +302,239 @@ description: This feature is for testing purposes only. To permanently change yo
 
 # Sharing a Terminal Between POS Systems
 
+This guide provides information for sharing a terminal among two or more integrated point-of-sale (POS) systems using more than one merchant ID (MID).
+
+## Overview
+
+CardPointe Integrated Terminal devices are identified by a unique hardware serial number (HSN), which can be found on a label on the terminal, or on the terminal's display. When a terminal is provisioned, the HSN is assigned to a parent merchant ID (MID), which is used to fulfill the order and maintain a chain of custody for the terminal.
+
+All Terminal API requests require a MID. Typically, the integrated POS software uses the MID assigned to the terminal to tokenize credit card numbers and send authorization requests.
+
+Tokens are site-specific; however, a token can be used by any MID on the same site. Therefore, you can use the MID assigned to the terminal to tokenize a credit card using a readCard or readManual request, and then use another MID on your site to use that token to make an authorization request to the CardPointe Gateway.
+
+The following topics describe this workflow in greater detail, including required parameters and best practices.
+
+## Connecting to the Terminal
+
+First, one of the integrated POS systems must connect to the terminal, as described in Connecting a Terminal. 
+
+<!-- theme: danger -->
+> When sharing a terminal, do **not** include `"force" : "true"` in the request. Doing so will terminate active (or in-flight) transactions.
+
+#### Example Connect Request
+
+```json
+Content-Type: application/json
+Authorization: ZCb8rPkZcZDVO2CIngLsFrBJgA/BYyUzIHT2zaj3NPg=
+
+{
+  "merchantId" : "1234",
+  "hsn" : "99999",
+  "force" : "false"
+}
+```
+
+A successful response header includes a session key in the format <key value>;<expiration>. This session key value must be provided as a session key/value pair in the header of every subsequent request in the format `X-CardConnect-SessionKey: <key value>`.
+
+#### Example Connect Response
+
+```json
+HTTP/1.1 200 OK
+Content-Type: application/json
+X-Application-Context →bolt:10200
+X-CardConnect-SessionKey →e3072040eb08454dac18ff67cd6c311c;expires=2019-04-22T23:49:55.684Z
+```
+
+When multiple POS systems are sharing a terminal, and `"force" : "false"`, a POS system will receive the following error response if it attempts to send a command to a terminal that is already in use:
+
+#### Example Terminal In Use Error
+
+```json
+{
+  "errorCode": 7,
+  "errorMessage": "Terminal <HSN> is already in use"
+}
+```
+
+<!-- theme: warning -->
+> You can handle this error by displaying a message on your POS system such as "Terminal in use. Please retry in a few seconds."
+
+## Getting a Token
+
+Once your POS system is connected and has a valid session key, it can begin to make tokenization requests by calling the readCard endpoint for card present transactions, or readManual endpoint for card not present transactions.
+
+These requests prompt the terminal's user to swipe/insert/tap or manually enter the payment card information.
+
+#### Example readCard Request
+
+```json
+Content-Type: application/json
+Authorization: ZCb8rPkZcZDVO2CIngLsFrBJgA/BYyUzIHT2zaj3NPg=
+X-CardConnect-SessionKey: e3072040eb08454dac18ff67cd6c311c
+{
+  "merchantId" : "1234",
+  "hsn" : "99999",
+  "amount" : "25.00",  
+  "includeSignature" : "false",  
+  "includeAmountDisplay" : "true",
+  "confirmAmount" : "true",
+  "aid" : "credit"
+}
+```
+
+The customer inserts the payment card at the terminal, and the Terminal API returns a token in a successful response to your POS system.
+
+#### Example readCard Response
+
+```json
+HTTP/1.1 200 OK
+Content-Type: application/json
+
+{
+  "token" : "9445123546981111",
+  "expiry" : "1220",
+  "name" : "John Doe",
+  "singleUseToken" : "false"
+}
+```
+
+> This token is **not** directly associated with the MID used in the readCard request; therefore another MID on the same site can use this token in an authorization request to the CardPointe Gateway.
+
+## Authorizing the Payment Using a Different MID
+
+Once your POS system has retrieved the token, you can use the token in a request to the CardPointe Gateway API's auth endpoint.
+
+The authorization request requires a MID; however, this MID can be any MID that shares a site with the MID that obtained the token. In this case an integrated POS system associated with another MID on the same site creates an authorization request.
+
+#### Example auth Request using a Token
+
+```json
+PUT /cardconnect/rest/auth HTTP/1.1
+Authorization: Basic aFZvgDulPzp2YXM0aK6nMAIq
+Content-Type: application/json
+
+{
+  "merchid": "5678",  
+  "account": "9445123546981111",
+  "expiry": "1220",
+  "amount": "25.00",
+  "currency": "USD",
+  "name": "John Doe",
+  "capture": "Y"
+}
+```
+
+> This transaction flow included two MIDs: one to obtain a token from the terminal, and one to submit an authorization request to the CardPointe Gateway. For reporting purposes, the MID that made the authorization request is the MID that is associated with the transaction.
+
+# Accepting PIN Debit Cards
+
+This guide provides information for accepting PIN debit payments.
+
+## Merchant Requirements
+
+To accept PIN debit transactions, your merchant account must be boarded to the **First Data Rapid Connect** processing platform.
+
+Merchants already accepting PIN debit on the First Data North platform continue to be supported; however new or existing merchants who want to include support for PIN debit must be boarded to the Rapid Connect platform.
+
+Contact integrationdelivery@fiserv.com to confirm your merchants' compatibility.
+
+## Integration Requirements
+
+- Your integration must include Ingenico terminals provisioned with the required key for processing PIN debit transactions. PIN debit is currently **not** supported for Clover terminals.
+- Your application must be updated to include the following fields in the `authCard` and `readCard` requests for PIN debit transactions:
+    - `"aid" : "debit"` - This allows the terminal to accept the debit application identifier (AID), when available on the customer's card.
+    - `"includePIN" : "true"` - This prompts for PIN input on the terminal.
+ 
+## Understanding EMV (Chip) and MSR (Swipe) Debit Card Handling
+
+The parameters that your application must pass in the `readCard` or `authCard` request depend on the type of card presented in the transaction.
+
+EMV (chip) cards are programmed with an application identifier (AID) that determines the card type. To process an EMV card as PIN debit, the card must be programmed with a debit AID, and your application must include `"aid"` : `"debit"` in the `authCard` or `readCard` request. Additionally, EMV cards are programmed with a cardholder verification method (CVM) specification, which determines if the transaction requires the cardholder's signature or PIN.
+
+Cards that do not support debit transactions (credit-only cards) may also support PIN entry as a CVM. Including `"aid" : "debit"` in your request will ensure the cardholder is prompted for a PIN, whenever the credit or debit card supports it. However, the AID embedded in the EMV data of a credit-only card will ensure the transaction is ultimately processed as credit.
+
+<!-- theme: danger -->
+> If the card does not have a debit AID, or if you do not include the aid parameter in your request, the card is processed as credit.
+
+Non-EMV (magstripe or MSR) cards also fall into different categories, as specified in the card's track data. For MSR debit transactions, your application **must** specify `"includePin" : "true"` in the request to prompt the cardholder for their PIN.
+
+The following examples illustrate authCard and readCard requests including the PIN debit parameters: 
+
+#### authCard Request Example (PIN Debit)
+
+```json
+Content-Type: application/json
+X-CardConnect-SessionKey: e3072040eb049990aahgk39937cd6c311c
+
+{
+  "merchantId" : "1234",
+  "hsn" : "15117SC80536933",
+  "amount" : "100",
+  "includeSignature" : "false",
+  "includeAmountDisplay" : "false",
+  "printReceipt" : "true",  
+  "confirmAmount" : "true",    
+  "includeAVS" : "false",
+  "printReceipt" : "true",  
+  "beep" : "true",
+  "aid" : "debit",
+  "includePIN" : "true",
+  "capture" : "true",
+  "orderId" : "1233200400",
+}
+```
+
+#### readCard Request Example (PIN Debit)
+
+```json
+Content-Type: application/json
+X-CardConnect-SessionKey: e3072040eb049990aahgk39937cd6c311c
+
+{ 
+  "merchantId" : "1234",
+  "hsn" : "15117SC80536933",
+  "amount" : "100",
+  "aid" : "debit",
+  "includePIN : "true",
+  "includeSignature" : "false",  
+  "includeAmountDisplay" : "true",
+  "confirmAmount" : "true",
+  "beep" : "true"    
+}
+```
+
+## Handling PIN Prompts
+
+You can use the readConfirmation request to prompt the customer to specify whether they intend to pay with a credit or debit card prior to initiating the readCard or authCard sequence. This can be useful to create a conditional application sequence in which the user's credit or debit selection determines the values that your application passes in the `aid` and `includePIN` parameters in the subsequent `readCard` or `authCard` request.
+
+A call to the `readConfirmation` endpoint prompts the user to acknowledge or reply to a message on the terminal. 
+
+You can use the `prompt` parameter to ask the user a question (for example, "Is this debit?"). If the customer selects yes at the terminal, the `readConfirmation` response includes `"confirmed" : "true"`. Your application can then call the `authCard` endpoint with `"aid" : "debit"` and `"includePIN" : "true"`.
+
+The following examples illustrate the `readCard` request and response in this scenario:
+
+#### readConfirmation Request Example (Pin Debit Prompt)
+
+```json
+Content-Type: application/json
+X-CardConnect-SessionKey: e3072040eb049990aahgk39937cd6c311c
+
+{ 
+  "merchantId" : "1234", 
+  "hsn" : "99999", 
+  "prompt" : "Is this debit?",
+  "beep" : true
+}
+```
+
+#### readConfirmation Response Example
+
+```json
+HTTP/1.1 200 OK
+Content-Type: application/json
+
+{ "confirmed" : true }
+```
+
+# Accepting Closed Loop Gift Cards
+
