@@ -6,6 +6,7 @@ your existing software or app environment with all the
 developer tools you need.
 
 Looking to become a fully integrated payments partner?
+
 [Learn more about our ISV Partner Program](https://cardconnect.com/isv-payments)
 
 - [x] Access our developer guides
