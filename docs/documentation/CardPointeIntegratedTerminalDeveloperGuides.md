@@ -763,3 +763,25 @@ A successful authorization response includes the following fields. You should in
 
 If the card used in the authorization request was an EMV (chip or contactless) card, then the response data includes an **emvTagData** object with the following fields:
 
+| Name | Tag | Details | Source | Format | Max Length |
+| --- | --- | --- | --- | --- | --- |
+| TVR (Terminal Verification Results) | 95 | Status of the different functions as seen from the terminal | Terminal | Binary | 5 |
+| ARC (Authorization Response Code) | 8A | Indicates the transaction disposition of the transaction received from the issuer for online authorizations.	| Issuer/Terminal | String | 2 |
+| PIN (CVM Results) | 9F34 | Indicates the results of the last CVM performed. If PIN was entered, returns "Verified by PIN"	| Terminal | String | 15 |
+| Signature (CVM Results) | 9F34 | Indicates the results of the last CVM performed. If "true" then CVM supports signature and signature line may be applicable. However, card brands have moved away from requiring signature for EMV transactions. | Terminal | Boolean | 5 |
+| Mode | - | Identifies the mode used to authorize (or decline) the transaction. Always "Issuer" | CardPointe Gateway | String | 6 | 
+| TSI (Transaction Status Information) | 9B | Indicates the functions performed in a transaction | Terminal | Binary | 2 |
+| Application Preferred Name | 9F12 | Preferred mnemonic associated with the AID. If unavailable, use Application Label. | Card | String | 16 |
+| AID (Application Identifier, Terminal) | 9F06 | Identifies the application as described in ISO/IEC 7816-5	| Terminal | Binary | 16 |
+| IAD (Issuer Application Data) | 9F10 | Contains proprietary application data for transmission to the issuer in an online transaction.	| Card | Binary | 32 |
+| Entry method | - | Indicator identifying how the card information was obtained.	| Terminal | String | 26 |
+| Application Label | 50 | Mnemonic associated with the AID according to ISO/IEC 7816-5. If unavailable, use the Application Preferred Name. | Card | String (with the special character limited to space) | 16 | 
+
+## Receipt Data
+
+The receipt object, included in the authorization response, provides merchant account information. The merchant account information is populated using the merchant properties configured for the MID.
+
+Additionally, this object includes additional transaction details from the authorization response. You can optionally include a custom order note (orderNote) and item details (items), by including a userFields object in the authorization request.
+
+You can specify the following fields in a userFields object to include an order note or item details, or to override the merchant properties:
+
