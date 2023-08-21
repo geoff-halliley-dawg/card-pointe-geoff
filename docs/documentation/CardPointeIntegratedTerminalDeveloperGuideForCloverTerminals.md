@@ -238,3 +238,21 @@ Expand the following examples to see how the style properties correspond to the 
 
 > The examples illustrate the Clover Mini display; however, the elements are the same for both devices.
 
+<!--
+type: tab
+titles: Custom Color Properties, Custom Image Properties
+-->
+
+![Clover Mini Screen 1](../../assets/images/Clover-Mini_Screen-1.png)
+
+![Clover Mini Screen 2](../../assets/images/Clover-Mini_Screen-2.png)
+
+![Clover Mini Screen 3](../../assets/images/Clover-Mini_Screen-3.png)
+
+<!--
+type: tab
+-->
+
+content
+
+<!-- type: tab-end -->
