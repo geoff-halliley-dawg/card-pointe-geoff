@@ -263,3 +263,130 @@ type: tab
 
 This topic provides information for printing receipts, either from the Clover terminal's built-in printer, or using your own custom integration. 
 
+## Receipt Rules and Requirements
+
+Consult the following card brand guidelines for detailed information:
+
+- **MasterCard**: https://www.mastercard.us/content/dam/mccom/global/documents/transaction-processing-rules.pdf
+- **Visa**: https://usa.visa.com/dam/VCOM/download/about-visa/visa-rules-public.pdf
+
+Additionally, receipt requirements vary depending on the card type. For example, receipts generated for EMV (chip and contactless) card transactions must include specific EMV tag data returned in the authorization response. Ensure that you understand the requirements for accepting both EMV and MSR (magnetic-stripe) cards as determined by the card brands.
+
+## Understanding Receipt Data
+
+When an authorization is successfully approved and processed by the CardPointe Gateway, the authorization response payload includes important transaction details that you can capture and print on a receipt.
+
+In general, a receipt must include:
+
+- transaction details from the authorization response
+- merchant account information and additional transaction details returned in the receipt object
+- EMV tag data returned in the EMV tag object, if the card used was an EMV (chip or contactless) card.
+
+### Authorization Response Data
+
+A successful authorization response includes the following fields. If you are integrating the Clover terminal's built-in printer, the highlighted fields are included in on the receipt. Otherwise, it is recommended that you include these fields on a receipt generated from your custom integration.
+
+| Field | Content | Max Length | Comments |
+| --- | --- | --- | --- |
+| respstat | Status | 1 | Indicates the status of the authorization request. Can be one of the following values: <br> <br> A - Approved <br> B - Retry <br> C - Declined |
+| retref | Retrieval reference number | 12 | CardPointe retrieval reference number from authorization response |
+| account | Account number | 19 | Copied from the authorization request, masked except for the last four digits. |
+| token (if requested) | Token | 19 | A token that replaces the card number in capture and settlement requests if requested |
+| amount | Amount | 12 | Authorized amount. Same as the request amount for most approvals. <br> The amount remaining on the card for prepaid/gift cards if partial authorization is enabled. <br> Not relevant for declines. |
+| batchid | Batch ID | 12 | Automatically created and assigned unless otherwise specified. Returned for a successful authorization with capture. |
+| orderid | Order ID | 19 | Order ID copied from the authorization request. |
+| merchid | Merchant ID | 12 | Copied from the authorization request. <br> **Note**: _If you include the merchant ID on a receipt, mask this value, except the last four digits_. |
+| respcode | Response code | - | Alpha-numeric response code that represents the description of the response |
+| resptext | Response text | - | Text description of response |
+| respproc | Response processor | 4 | Abbreviation that represents the platform and the processor for the transaction |
+| bintype | Type of BIN | 16 | **Possible Values**: <br> <br> Corp <br> FSA+Prepaid <br> GSA+Purchase <br> Prepaid <br> Prepaid+Corp <br> Prepaid+Purchase <br> Purchase |
+| entrymode | POS Entry Mode | 25 | Only returned for merchants using the First Data North and RapidConnect front end platforms. <br> **Possible Values**: <br> <br> Keyed <br> Moto <br> ECommerce <br> Recurring <br> Swipe(Non EMV) <br> DigitalWallet <br> EMVContact <br> Contactless <br> Fallback to Swipe <br> Fallback to Keyed |
+| avsresp | AVS response code | 2 | Alpha-numeric AVS response. |
+| cvvresp | CVV response code | 1 | Alpha-numeric CVV response. |
+| authcode | Authorization code | 6 | Authorization Code from the Issuer |
+| signature | Signature Bitmap | 6144 | JSON escaped, Base64 encoded, Gzipped, BMP file representing the cardholder's signature. Returned if the authorization used a token that had associated signature data or track data with embedded signature data. <br> <br> If you are integrating a custom receipt solution, you can convert this image file and print it to the receipt, if required. |
+| commcard | Commercial card flag | 1 | **Y** if a Corporate or Purchase Card |
+| emv | Cryptogram | - | Authorization Response Cryptogram (ARPC). This is returned only when EMV data is present within the Track Parameter. |
+| emvTagData | EMV tag data | 2000 | A string of receipt and EMV tag data (when applicable) returned from the processor. <br> <br> This data returned should be presented on a receipt if applicable, and recorded with the transaction details for future reference. <br> <br> Refer to EMV Tag Data below for a list of the possible fields returned. |
+| receipt | receipt data | - | An object that includes additional fields to be printed on a receipt. <br> <br> Refer to Receipt Data below for a list of the fields returned. |
+
+### EMV Tag Data
+
+If the card used in the authorization request was an EMV (chip or contactless) card, then the response data includes an **emvTagData** object with the following fields:
+
+| Name | Tag | Details | Source | Format | Max Length |
+| --- | --- | --- | --- | --- | --- |
+| TVR (Terminal Verification Results) | 95 | Status of the different functions as seen from the terminal | Terminal | Binary | 5 |
+| ARC (Authorization Response Code) | 8A | Indicates the transaction disposition of the transaction received from the issuer for online authorizations.	| Issuer/Terminal | String | 2 |
+| PIN (CVM Results) | 9F34 | Indicates the results of the last CVM performed. If PIN was entered, returns "Verified by PIN"	| Terminal | String | 15 |
+| Signature (CVM Results) | 9F34 | Indicates the results of the last CVM performed. If "true" then CVM supports signature and signature line may be applicable. However, card brands have moved away from requiring signature for EMV transactions. | Terminal | Boolean | 5 |
+| Mode | - | Identifies the mode used to authorize (or decline) the transaction. Always "Issuer" | CardPointe Gateway | String | 6 | 
+| TSI (Transaction Status Information) | 9B | Indicates the functions performed in a transaction | Terminal | Binary | 2 |
+| Application Preferred Name | 9F12 | Preferred mnemonic associated with the AID. If unavailable, use Application Label. | Card | String | 16 |
+| AID (Application Identifier, Terminal) | 9F06 | Identifies the application as described in ISO/IEC 7816-5	| Terminal | Binary | 16 |
+| IAD (Issuer Application Data) | 9F10 | Contains proprietary application data for transmission to the issuer in an online transaction.	| Card | Binary | 32 |
+| Entry method | - | Indicator identifying how the card information was obtained.	| Terminal | String | 26 |
+| Application Label | 50 | Mnemonic associated with the AID according to ISO/IEC 7816-5. If unavailable, use the Application Preferred Name. | Card | String (with the special character limited to space) | 16 | 
+
+### Receipt Data
+
+The receipt object, included in the authorization response, provides merchant account information. The merchant account information is populated using the merchant properties configured for the MID.
+
+You can specify the following fields in a `userFields` object to include an order note or item details, or to override the merchant properties:
+
+| Field | Description |
+| --- | --- |
+| receiptHeader	| Use this field to override the header configured for your MID. |
+| receiptFooter	| Use this field to override the footer configured for your MID. |
+| receiptDba	| Use this field to override the DBA name configured for your MID. |
+| receiptPhone	| Use this field to override the phone number configured for your MID. |
+| receiptAddress1 |	Use this field to override the address (line 1) configured for your MID. |
+| receiptAddress2	| Use this field to override the address (line 1) configured for your MID. |
+
+Each value can be any string and the total length of user defined fields (URL/JSON-encoded) is limited to 4000 bytes. See the userFields description in the CardPointe Gateway API documentation for more information.
+
+A successful authorization response includes a receipt object with the following fields:
+
+| Field | Format | Description |
+| --- | --- | --- |
+| header | AN |	A customizable field to display an alphanumeric message. For example, a specific terms, disclosure, or cardholder agreement statement. |
+| footer | AN | A customizable field to display an alphanumeric message. For example, a specific terms, disclosure, or cardholder agreement statement. |
+| dba |	AN | The merchant's Doing Business As (DBA) name. |
+| address1 | AN |	Line 1 of the merchant's address. |
+| address2 | AN |	Line 2 of the merchant's address. |
+| phone |	N	| The merchant's phone number. |
+| dateTime | N | The date and time of the transaction (YYYYMMDDHHMMSS). |
+| nameOnCard | A | The Cardholder's name, if included in the authorization request. |
+
+## Printing a Receipt
+
+You can print a receipt in one of two ways:
+
+- Directly from the Clover terminal's built-in printer, using the Terminal API.
+- From your POS system's custom printer integration.
+
+<!-- theme: danger -->
+> For the Clover Mini, the built-in printer is disabled when the terminal is in low-power mode. The terminal must be connected to the hub, and the hub must be connected to a power source in order to print receipts.
+>
+> If your application sends a request to the printer while the terminal is in low-power mode, the response includes the following error fields:
+>
+> `"errorCode": 800,`
+> `"errorMessage": "Printing not supported"`
+
+### Printing a Receipt Using the authCard or authManual Request 
+
+To print a receipt at the time of the transaction, include the `"printReceipt" : "true"` parameter in your authCard or authManual request. 
+
+To print a second copy of the receipt at the time of the transaction, include `"printExtraReceipt":"true"` and specify a `printDelay` value between `0` and `60000` milliseconds (for example `"printDelay":"1000"`)
+
+### Reprinting a Receipt Using the printReceipt Request 
+
+To reprint a receipt for a past transaction, make a request to the printReceipt endpoint, including the `orderId` associated with the existing transaction. Note that if more than one transaction is associated with the order ID, the most recent transaction is selected.
+
+### Printing a Receipt from a Standalone Printer 
+
+To print a receipt from your custom integration, use the fields described in Understanding Receipt Data to build your receipt template.
+
+In the following example, the Clover terminal receipt template is illustrated on the left, including the fields that are populated from the authorization response data. A sample receipt is illustrated on the right.
+
+![Clover Mini Receipt Sample](../../assets/images/Clover_Mini_Receipt_Sample.png)
