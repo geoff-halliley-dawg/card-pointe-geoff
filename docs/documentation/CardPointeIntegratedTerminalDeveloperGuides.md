@@ -289,6 +289,7 @@ description: This feature is for testing purposes only. To permanently change yo
 2) Press **O** (green button) to select **Settings**.
 3) Press the **down arrow** to scroll down and press **O** (green button) to select **Beep**.
 4) Use the number pad to enter a value for **Frequency (Hz)** and press the **down arrow** to scroll down and enter values for **Volume**, **Time On (ms)**, and **Time Off (ms)**. Reference the table below for the default values and acceptable ranges.
+
 | Parameter Name | Default | Range | Description |
 | --- | --- | --- | --- |
 | Frequency (Hz) | 1,000 | 20-20,000 | The frequency of the beep in Hz or vibrations per second. Controls the pitch of the beep. |
@@ -298,4 +299,6 @@ description: This feature is for testing purposes only. To permanently change yo
 
 5) Press **O** (green button) when finished.
 6) The terminal displays **Beep parameters have been updated** and beeps several times to confirm the new settings.
+
+# Sharing a Terminal Between POS Systems
 
