@@ -243,16 +243,23 @@ type: tab
 titles: Custom Color Properties, Custom Image Properties
 -->
 
-![Clover Mini Screen 1](../../assets/images/Clover-Mini_Screen-1.png)
+![Clover Mini Screen 1](../../assets/images/Clover-Mini-Screen-1.png)
 
-![Clover Mini Screen 2](../../assets/images/Clover-Mini_Screen-2.png)
+![Clover Mini Screen 2](../../assets/images/Clover-Mini-Screen-2.png)
 
-![Clover Mini Screen 3](../../assets/images/Clover-Mini_Screen-3.png)
+![Clover Mini Screen 3](../../assets/images/Clover-Mini-Screen-3.png)
 
 <!--
 type: tab
 -->
 
-content
+![Clover Mini Idle Image](../../assets/images/Clover-Mini-Idle-Image.png)
+
+![Clover Mini Logo Image](../../assets/images/Clover-Mini-Logo-Image.png)
 
 <!-- type: tab-end -->
+
+# Printing Receipts
+
+This topic provides information for printing receipts, either from the Clover terminal's built-in printer, or using your own custom integration. 
+
