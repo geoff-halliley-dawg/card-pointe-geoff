@@ -9,9 +9,12 @@ Looking to become a fully integrated payments partner?
 
 [Learn more about our ISV Partner Program](https://cardconnect.com/isv-payments)
 
-- [x] Access our developer guides
-- [x] Explore our library of API documentation
-- [x] Seek help with integration support
+<!-- align: right -->
+&#10003; Access our developer guides
+<!-- align: right -->
+&#10003; Explore our library of API documentation
+<!-- align: right -->
+&#10003; Seek help with integration support
 
 <!-- type: row -->
 
