@@ -109,3 +109,13 @@ To configure environment variables, do the following in Postman:
 
 1) Select the **Terminal API UAT Environment**, then click the eye icon to open the environment.
 
+<!-- align: center -->
+![Bolt Terminal Postman](../../assets/images/Bolt_Terminal_Postman_Updated.png)
+
+2) Click **Edit** to open the Manage Environments menu.
+
+3) On the Manage Environments menu, enter your merchant-specific values for each variable, then click **Update**.
+
+<!-- align: center -->
+![Bolt Terminal Postman Environment](../../assets/images/Bolt_Terminal_Postman_Environment_Updated.png)
+
