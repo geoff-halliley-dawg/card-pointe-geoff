@@ -538,3 +538,210 @@ Content-Type: application/json
 
 # Accepting Closed Loop Gift Cards
 
+The CardPointe platform allows merchants the flexibility to accept their own proprietary, closed loop gift cards for customer purchases. If you want to include closed loop gift cards in your accepted payment methods, see Tokenizing Closed Loop Gift Cards in the CardSecure Developer Guides for more information.
+
+# Handling Timeouts
+
+The following topics provide information for understanding and handling transaction timeouts.
+
+## Understanding Timeouts
+
+The payment flow includes requests to and responses from both the Terminal API and the CardPointe Gateway API. Both of these APIs support synchronous communication; therefore, your application must make requests and expect responses in sync with the terminal service and CardPointe Gateway service.
+
+As a developer integrating these solutions with your point-of-sale software, it is important for you to understand how long the steps of the payment process can take so your software can interact accordingly. 
+
+The following topics provide information to help you understand the possible timeout scenarios and how the terminal service handles each situation.
+
+### Terminal Request Timeout (2 Minutes)
+
+Most interactions between the terminal and your application require user input of some kind. Users might be prompted to swipe or insert a card, manually enter payment card information, or provide a signature or phone number. Because these interactions can take time to complete, the terminal service waits 1 minute and 59 seconds for a response after a request is made.
+
+If the terminal service does not receive a response from the terminal within 2 minutes, the request times out and the Terminal API returns an HTTP 500 Error Code 1 "Terminal request timed out." Your application must resubmit the request.
+
+### Terminal API Authorization Request Timeout (2 Minutes + 32 Seconds)
+
+When you use the Terminal API authCard or authManual requests to authorize a payment, you must consider the individual timeout thresholds for both the Terminal API and the CardPointe Gateway API requests and responses. The Terminal API authorization requests combine the time needed for a terminal request (2 minutes) and the time it takes to handle the authorization request and response through the CardPointe Gateway (32 seconds).
+
+After the request is sent, the terminal collects payment data from the user and sends it to the terminal service. The terminal service then makes an authorization request to the CardPointe Gateway.
+
+The CardPointe Gateway sends the authorization request to the payment processing network and allows 31 seconds for a response. If the CardPointe Gateway does not receive a response within this limit, the request times out at 32 seconds and returns a "Timed Out" response to the Terminal API, which is included in the response. 
+
+In some cases (for example, a network error), the terminal service might not receive a response from the CardPointe Gateway. In these cases, the terminal service automatically initiates a timeout reversal sequence to ensure that the transaction is voided. 
+
+See Terminal API Timeout Handling, later in this guide, for more information.
+
+### CardPointe Gateway Authorization Timeout (32 Seconds)
+
+When you use the Terminal API readCard or readManual requests to tokenize card data for use in a CardPointe Gateway authorization request, you only need to consider the CardPoint Gateway timeout threshold. The CardPointe Gateway sends the request to the payment processing network and allows 31 seconds for a response. If the CardPointe Gateway does not receive a response within this limit, the request times out at 32 seconds and returns a "Timed Out" response. 
+
+See the Handling Timed-Out Transactions in the CardPointe Gateway Developer Guides for information on handling Gateway-only time outs.
+
+## Terminal API Timeout Handling
+
+If your application uses authCard or authManual requests to authorize payments, you should allow it to handle the following scenarios:
+
+- The application receives a "Timed out" response from the CardPointe Gateway or terminal service.
+- The application receives no response.
+
+### Gateway Timed Out Response Returned
+
+In this case, a response, including a retrieval reference number (`retref`) for the transaction, is returned. You can use the `retref` to make an inquire request to the CardPointe Gateway to retrieve details about the authorization attempt.
+
+#### Gateway "Timed Out" Response Example
+
+```json
+Status: 200 OK
+ 
+{
+    "amount":"685.00",
+    "resptext":"Timed out",
+    "setlstat":"Declined",
+    "acctid":"1",
+    "respcode":"62",
+    "merchid":"123456789012",
+    "token":"9441282699177251",
+    "respproc":"PPS",
+    "name":"Jane Doe",
+    "currency":"USD",
+    "retref":"343005123105",
+    "respstat":"B",
+    "account":"9419786452781111"
+}
+```
+
+The response includes a response status (`repstat`) of "B," which always means "Retry." Your application should resubmit the authorization request.
+
+<!-- theme: warning -->
+> In some cases, retrying the authorization will not succeed. In the event of multiple retry failures, visit status.cardconnect.com to see if there are system-wide issues.
+
+### No Response Returned
+
+In this case, your application cannot determine whether or not the transaction was successful.
+
+When the terminal service does not receive a response from the CardPointe Gateway, the terminal service uses the order ID included in the request to handle the timed out transaction. The terminal generates a unique order ID for every transaction in the format <HSN-timestamp>. Alternatively, you can specify a unique order ID in your authCard and authManual requests.
+
+<!-- theme: danger -->
+> If you include an order ID in your authCard or authManual requests you must ensure that you provide a unique value. Using duplicate order IDs can lead to the wrong transaction being voided in the event of a timeout.
+
+The terminal service makes an inquireByOrderid request to the CardPointe Gateway to check the status of the transaction. If the CardPointe Gateway returns a response, the terminal service forwards the response to your application.
+
+If the terminal service does not receive a response to the inquireByOrderid request, it makes three voidByOrderId requests to void the transaction and ensure that funds were not captured. If at least half of the CardPointe Gateway timeout threshold remains, the terminal service retries the authCard or authManual request. Otherwise, your application must resend the request. 
+
+# Capturing and Handling Cardholder Signatures
+
+Some terminals include the ability to capture a cardholder signature. This guide provides recommendations and integration details for capturing and handling signatures, if necessary for your business.
+
+## Signature Rules and Requirements
+
+This topic provides general best practices and integration details for capturing cardholder signature data; however, each card brand provides specific rules and requirements. You should understand and follow the signature guidelines for the card brands that you accept.
+
+Consult the following card brand guidelines for detailed information:
+
+- **MasterCard**: https://www.mastercard.us/content/dam/public/mastercardcom/na/global-site/documents/transaction-processing-rules.pdf
+- **Visa**: https://usa.visa.com/dam/VCOM/download/about-visa/visa-rules-public.pdf
+
+Additionally, signature requirements vary depending on the card type. For example, EMV (chip and contactless) cards do not require a signature. Ensure that you understand the requirements for accepting both EMV and MSR (magnetic-stripe) cards as determined by the card brands.
+
+> As of April 2018, the major card brands no longer require merchants to capture cardholder signatures. 
+
+## Cardholder Signature Guidelines
+
+As mentioned earlier in this guide, specific rules and requirements vary by card brand and by card type. Refer to each card brand's guidance for more information.
+
+While most transactions do not require you to capture a signature, there are some cases in which you might want to to protect your business.
+
+Consider the following best practices:
+
+- For EMV (chip and contactless) card transactions, no signature is required; however, you might want to capture signatures for large or high-risk transactions.
+- For MSR (magnetic-stripe) card transactions, you should capture a signature for amounts over $50.
+
+If you only want to capture signatures for MSR transactions, see Detecting MSR Transactions below for information on determining when a transaction has been processed as MSR.
+
+## Capturing Cardholder Signatures
+
+Capturing signatures requires a direct integration to the CardPointe Gateway API. While you can prompt for and capture a signature during the transaction, using the Terminal API, you must call the CardPointe Gateway API's signatureCapture endpoint to attach the signature to the authorization record.
+
+### Capturing a Signature During a Transaction
+
+To run an authorization and capture a signature at the same time, do the following:
+
+1) Call the Terminal API authCard or authManual endpoint and include the **includeSignature = true** parameter.
+
+   The signature prompt and capture are integrated into the command sequence that the Terminal API sends to the terminal, and the authorization response and signature data are returned to your software.
+   
+2) Call the CardPointe Gateway API's signatureCapture endpoint, including the `retref` and signature returned in the authorization response, to add the signature to the transaction record.
+
+### Capturing a Signature After a Transaction
+
+To run an authorization and capture a signature later, do the following
+
+1) Call the Terminal API authCard or authManual endpoint and include the **includeSignature = false** parameter.
+
+    The authorization response is returned to your software.
+   
+3) Call the Terminal API readSignature endpoint to prompt for and capture the cardholder's signature.
+
+    The signature data is returned to your software.
+   
+4) Call the CardPointe Gateway API signatureCapture endpoint, including the `retref` and signature returned in the authorization response, to add the signature to the transaction record.
+
+## Detecting MSR Transactions
+
+If you only want to capture a signature for transactions using MSR (magnetic-stripe) cards, you can use the data received in the authorization response to steer the behavior of your software.
+
+For example, do the following:
+
+1) Call the Terminal API authCard endpoint and include the **includeSignature = false** parameter.
+
+    The authorization response is returned to your software. If the authorization response does not include an EMV tag data array, or if **entrymode = swipe**, then the transaction was processed as MSR.
+   
+2) If you want to capture a signature for the transaction, do the following:
+
+    - Call the Terminal API readSignature endpoint to prompt for and capture the cardholder's signature.
+
+        The signature data is returned to your software.
+  
+    - Call the CardPointe Gateway API signatureCapture endpoint, including the retref returned in the authCard response and the signature returned in the readSignature response to add the signature to the transaction record.
+  
+# Printing Receipts Using Authorization Data
+
+This guide provides information for integrators who want to use authorization response data to print receipts from an integrated POS printer.
+
+<!-- theme: warning -->
+> For information on printing receipts from a Clover terminal, see the CardPointe Integrated Terminal Developer Guide for Clover Terminals.
+
+## Receipt Rules and Requirements
+
+This topic provides general best practices and integration details for printing receipts and capturing cardholder signature data; however, each card brand provides specific rules and requirements. You should understand and follow the receipt guidelines for the card brands that you accept.
+
+Consult the following card brand guidelines for detailed information:
+
+- **MasterCard**: https://www.mastercard.us/content/dam/public/mastercardcom/na/global-site/documents/transaction-processing-rules.pdf
+- **Visa**: https://usa.visa.com/dam/VCOM/download/about-visa/visa-rules-public.pdf
+
+Additionally, receipt requirements vary depending on the card type. For example, receipts generated for EMV (chip and contactless) card transactions must include specific EMV tag data returned in the authorization response. Ensure that you understand the requirements for accepting both EMV and MSR (magnetic-stripe) cards as determined by the card brands.
+
+## Understanding Receipt Data
+
+When an authorization is successfully approved and processed by the CardPointe Gateway, the authorization response payload includes important transaction details that you can capture and print on a receipt.
+
+In general, a receipt must include:
+
+- transaction details from the authorization response
+- merchant account information and additional transaction details returned in the receipt object
+- EMV tag data returned in the EMV tag object, if the card used was an EMV (chip or contactless) card.
+
+## Authorization Response Data
+
+A successful authorization response includes the following fields. You should include the highlighted fields on your receipts.
+
+| Field | Content | Max Length | Comments |
+| --- | --- | --- | --- |
+| respstat | Status | 1 | Indicates the status of the authorization request. Can be one of the following values: <br> <br> **A** - Approved <br> **B** - Retry <br> **C** - Declined |
+| retref | Retrieval reference number | 12 | CardPointe retrieval reference number from authorization response |
+| account | Account number | 19 | Copied from the authorization request, masked except for the last four digits. |
+| token (if requested) | Token | 19 | A token that replaces the card number in capture and settlement requests if requested |
+| amount | Amount | 12 | Authorized amount. Same as the request amount for most approvals. <br> The amount remaining on the card for prepaid/gift cards if partial authorization is enabled. <br> Not relevant for declines. |
+| batchid | Batch ID | 12 | Automatically created and assigned unless otherwise specified. Returned for a successful authorization with capture. |
+| orderid | Order ID | 19 | Order ID copied from the authorization request. |
+
