@@ -171,4 +171,70 @@ The following table illustrates which Terminal API endpoints are supported for u
 
 | Resource Name | Ingenico | Clover |
 | --- | --- | --- |
-| authCard | &#10003; | &#10003; |
+| authCard | &#10003; | &#10003; (with key differences) |
+| authManual | &#10003; | &#10003; (with key differences) |
+| printReceipt |  | &#10003; |
+| cancel | &#10003; | &#10003; |
+| clearDisplay | &#10003; | &#10003; |
+| connect | &#10003; | &#10003; |
+| dateTime | &#10003; | &#10003; |
+| disconnect | &#10003; | &#10003; |
+| display | &#10003; | &#10003; (with key differences) |
+| listTerminals | &#10003; | &#10003; |
+| ping | &#10003; | &#10003; |
+| preconnect | &#10003; |  | 
+| readConfirmation | &#10003; | &#10003; |
+| readInput | &#10003; | &#10003; |
+| readSignature | &#10003; | &#10003; |
+| readCard | &#10003; | &#10003; (with key differences) | 
+| readManual | &#10003; |  | 
+| tip | &#10003; | &#10003; |
+| terminalDetails | &#10003; | &#10003; |
+
+### Key Differences
+
+The following table explains the minor changes to the Terminal API, and how you should adjust your software integration to support the Clover terminals.
+
+| Terminal API Service Endpoint | Parameter | Comments | 
+| --- | --- | --- |
+| preconnect |  | Two-factor authentication is not currently supported for  Clover terminals; therefore, the `preconnect` service endpoint is not used to generate a token. If your application passes a value of `true` for this parameter, it will be ignored by the terminal. <br> <br> Call the `connect` service endpoint to establish a session. |
+| display |  | On a Clover terminal, sending either a single or multi-line message replaces the idle image with the message, along with the logo image (if one is configured for the device). <br> <br> On Ingenico terminals, sending a single-line message displays the message in the display footer, retaining the idle image; whereas, sending a multi-line string displays the text in the primary display area, replacing the idle image. |
+| readManual |  | The `readManual` service endpoint is not supported for Clover terminals. This means that you can not use the terminal to retrieve a token for use by your POS software. <br> <br> If you previously used the `readManual` service endpoint to capture and tokenize manually-entered card data to use in a subsequent authorization request from your POS software via the CardPointe Gateway API, you can instead use the `authManual` endpoint to streamline those individual requests into a single call. |
+| authCard | **The following parameters are not supported:** |
+|  | aid | Currently, the Clover terminal processes all transactions as credit; therefore, the `aid` parameter used to specify the transaction type is superseded. <br> <br> Support for debit transactions is planned for a future update. |
+|  | includeAmountDisplay | The `includeAmountDisplay` parameter is not supported. The device displays the payment amount to the user regardless of this parameter's value within the `authCard` request. |
+|  | **The following parameters are specific to Clover terminals:** |
+|  | printReceipt | The `printReceipt` parameter is used to specify whether or not to print a receipt from the Clover terminal. <br> <br> Set to `true` to enable receipt printing. Defaults to `false` if not specified. <br> <br> For the Clover Mini, the built-in printer is disabled when the terminal is in low-power mode. The terminal must be connected to the hub, and the hub must be connected to a power source in order to print receipts. <br> <br> If the `authCard` or `authManual` request includes `"printReceipt" : "true"` but the terminal is in low-power mode, the response includes the following error fields: <br> `"errorCode": 800,` <br> `"errorMessage": "Printing not supported"` <br> <br> See Printing Receipts for detailed information. |
+|  | printExtraReceipt | the `printExtraReceipt` parameter is used to specify whether or not to print a second copy of the receipt. Use the `printDelay` parameter to specify the amount of time (in milliseconds) to wait between printing each receipt. <br> <br> Defaults to **false** if not specified. <br> <br> **Note**: If true, the `printDelay` parameter is also **required** in the request, to specify the delay (in milliseconds) between printing the first and second receipts. |
+|  | printDelay | 	Required when `"printExtraReceipt":"true"`. The number of milliseconds to wait after printing the first receipt, to begin printing the second receipt. <br> <br> Valid values range from `0` to `60000`. |
+| authManual | **The following parameters are not supported:** | 
+|  | aid | Currently, the Clover terminal processes all transactions as credit; therefore, the `aid` parameter used to specify the transaction type is superseded. <br> <br> Support for debit transactions is planned for a future update. |
+|  | includeAmountDisplay | The `includeAmountDisplay` parameter is not supported. The device displays the payment amount to the user regardless of this parameter's value within the `authManual` request. |
+|  | includeAVS | The `includeAVS` parameter must be set to `false` or not included in the request. <br> <br> If a request includes `"includeAVS" : "true"` the `authManual` command sequence fails to complete, and an error is returned in the response data. |
+|  | includeCVV | The `includeCVV` parameter must be set to `false` or not included in the request. <br> <br> If a request includes `"includeCVV" : "true"` the `authManual` command sequence fails to complete, and an error is returned in the response data. |
+|  | **The following parameters are specific to Clover terminals:** |
+|  | printReceipt | The `printReceipt` parameter is used to specify whether or not to print a receipt from the Clover Mini. <br> <br> Set to `true` to enable receipt printing. Defaults to `false` if not specified. <br> <br> Note that the built-in printer is disabled when the device is in low-power mode. The device must be connected to the hub, and the hub must be connected to a power source in order to print receipts. <br> <br> If the `authCard` or `authManual` request includes `"printReceipt" : "true"` but the device is in low-power mode, the response includes the following error fields: <br> <br> `"errorCode": 800,` <br> `"errorMessage": "Printing not supported"` <br> <br> See Printing Receipts for detailed information. |
+|  | printExtraReceipt | the `printExtraReceipt` parameter is used to specify whether or not to print a second copy of the receipt. Use the `printDelay` parameter to specify the amount of time (in milliseconds) to wait between printing each receipt. <br> <br> Defaults to **false** if not specified. <br> <br> **Note**: If true, the `printDelay` parameter is also **required** in the request, to specify the delay (in milliseconds) between printing the first and second receipts. |
+|  | printDelay | Required when `"printExtraReceipt":"true"`. The number of milliseconds to wait after printing the first receipt, to begin printing the second receipt. <br> <br> Valid values range from `0` to `60000`. |
+| readCard | **The following parameters are not supported:** |
+|  | aid | Currently, the Clover terminal processes all transactions as credit; therefore, the `aid` parameter used to specify the transaction type is superseded. <br> <br> Support for debit transactions is planned for a future update. |
+
+# Customizing the Clover Terminal
+
+The Clover terminal app supports custom color and image settings to match your business' branding.
+
+| Property Name	| Value Type | Default Setting	| Description |
+| --- | --- | --- | --- |
+| firstColor | hex | `46597f` | Specifies the primary color displayed in the background. |
+| secondColor | hex	| `2b3855` | Specifies the secondary color used throughout the application. |
+| thirdColor | hex | `37476c` | Specifies the tertiary color used throughout the application.
+| fontColor	| hex | `ffffff` | Specifies the system-wide font color.
+| ackButtonColor | hex | `6ada99` | Specifies the color of the acknowledge button. <br> <br> This button is displayed when the merchant or customer is prompted to acknowledge a message on the terminal (for example, to confirm an amount).
+| ackButtonFontColor | hex | 000000	| Specifies the font color used on the acknowledge button.
+| idleimage | JPEG or PNG image file | CardPointe app wallpaper	| Specifies the image displayed when the device is idle. <br> <br> The image must meet the following requirements: <br> <br> The dimensions must be: <br> - **Mini** - 1280x800 <br> - **Flex** - 720x1280 <br> The file type must be PNG or JPEG. <br> The file size must not exceed 1MB <br> <br> By default, the CardPointe Integrated Terminal wallpaper is displayed.
+| logoimage | JPEG or PNG image file | CardPointe  logo	| Specifies the logo image that appears on the Welcome screen and other displays. <br> <br> The image **must** meet the following requirements: <br> - The dimensions must be 267x67. <br> - The file type must be PNG or JPEG. <br> - The file size must not exceed 1MB <br> <br> By default, the CardPointe Integrated Terminal logo is displayed. 
+
+Expand the following examples to see how the style properties correspond to the app UI elements:
+
+> The examples illustrate the Clover Mini display; however, the elements are the same for both devices.
+
