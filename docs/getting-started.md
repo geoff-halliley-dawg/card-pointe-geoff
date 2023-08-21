@@ -14,7 +14,7 @@ Looking to become a fully integrated payments partner?
 
 <!-- type: row -->
 
-<! -- type: card
+<!-- type: card
 title: CardPointe Gateway
 description: Simply integrate secure payment acceptance into software and commercial applications.
 link:
@@ -36,7 +36,7 @@ link:
 
 <!-- type: row -->
 
-<! -- type: card
+<!-- type: card
 title: CoPilot
 description: Allow your partners to seamlessly board clients and manage their own portfolios.
 link:
@@ -58,7 +58,7 @@ link:
 
 <!-- type: row -->
 
-<! -- type: card
+<!-- type: card
 title: eCommerce Plugins
 description: Process credit cards through the CardPointe Gateway using our Hosted Payment Page and Shopping Cart plugins.
 link:
@@ -74,7 +74,7 @@ link:
 
 <!-- type: row -->
 
-<! -- type: card
+<!-- type: card
 title: Magtek Devices
 description: A supported magstripe reader for credit card authorization or tokenization.
 link:
@@ -92,7 +92,7 @@ link:
 
 <!-- type: row -->
 
-<! -- type: card
+<!-- type: card
 title: Support Center
 link:
 -->
