@@ -785,3 +785,18 @@ Additionally, this object includes additional transaction details from the autho
 
 You can specify the following fields in a userFields object to include an order note or item details, or to override the merchant properties:
 
+| Field | Description |
+| --- | --- |
+| receiptOrderNote	| Use this field to provide a custom note to include on the receipt. |
+| receiptItems	| Use this field to provide custom item descriptors to include on the receipt. |
+| receiptHeader	| Use this field to override the header configured for your MID. |
+| receiptFooter	| Use this field to override the footer configured for your MID. |
+| receiptDba	| Use this field to override the DBA name configured for your MID. |
+| receiptPhone	| Use this field to override the phone number configured for your MID. |
+| receiptAddress1 |	Use this field to override the address (line 1) configured for your MID. |
+| receiptAddress2	| Use this field to override the address (line 1) configured for your MID. |
+
+Each value can be any string and the total length of user defined fields (URL/JSON-encoded) is limited to 4000 bytes. See the userFields description in the CardPointe Gateway API documentation for more information.
+
+A successful authorization response includes a receipt object with the following fields:
+
