@@ -38,10 +38,8 @@ benefits:
   - title: Seek help with integration support
 getStarted: /docs/getting-started.md
 featuredFeatures:
-  - title: REPLACE ME
-    description:  REPLACE ME
-    tags: ["REPLACEME", "REPLACEME", "REPLACEME"]
-    bullets: ["REPLACEME", "REPLACEME" ]  
+  - title: CardPointe Gateway
+    description:  Simply integrate secure payment acceptance into software and commercial applications.
     relatedDocs:
       - relatedDoc: 
         title: REPLACEME
