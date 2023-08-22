@@ -20,7 +20,7 @@
     "longDescription":"To onboard properly into the Developer Studi as a tenant each product must support these APIs so that we can retrieve product specific API specifications and documentation.",
     "apiSpecification": "/v1/apis/CardPointe",
     "layout": "/v1/layouts/CardPointe",
-    "getStartedFilePath": "/docs/getting-started/getting-started.md"
+    "getStartedFilePath": "/docs/getting-started/getting-started.md",
     "documentation": "/v1/docs/CardPointe",
     "documenttree": "/v1/docs/CardPointe",
     "documenttreeV2": "/v2/docs/CardPointe",
