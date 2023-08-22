@@ -332,7 +332,7 @@ If the card used in the authorization request was an EMV (chip or contactless) c
 
 The receipt object, included in the authorization response, provides merchant account information. The merchant account information is populated using the merchant properties configured for the MID.
 
-You can specify the following fields in a `userFields` object to include an order note or item details, or to override the merchant properties:
+You can specify the following fields in a `userFields` object to to override the merchant properties:
 
 | Field | Description |
 | --- | --- |
