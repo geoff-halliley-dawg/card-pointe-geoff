@@ -36,3 +36,7 @@
     sections:
     - title: March 2022
       link: docs/release-notes/2022/march.md
+- sections:
+  - title: CardSecure
+    link: docs/documentation/CardSecure.md
+  
