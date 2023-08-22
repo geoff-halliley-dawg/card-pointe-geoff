@@ -28,12 +28,14 @@
 # the delivery of this work
 ################################################################################
 header:
-  productName: REPLACEME
-  productionDescription: REPLACEME
-  whoIsItFor: REPLACEME
+  productionDescription: It's easy to connect to our integrated payments platform. Get started building our payment acceptance products into your existing software or app environment with all the developer tools you need.
+    description: [Learn more about our ISV Partner Program](https://cardconnect.com/isv-payments)
   image: 
     link: "/assets/images/Fiserv_Logo.jpg"
-    altText: REPLACEME™
+benefits:
+  - title: Access our developer guides
+  - title: Explore our library of API documentation
+  - title: Seek help with integration support
 getStarted: /docs/getting-started.md
 featuredFeatures:
   - title: REPLACE ME
