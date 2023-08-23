@@ -44,7 +44,7 @@ featuredFeatures:
       - relatedDoc: 
         title: CardSecure Developer Guide
         description: The CardSecure Developer Guide provides helpful information for integrating the CardSecure API.
-        link: ./docs/documentation/CardSecure.md
+        link: /docs/documentation/CardSecure.md
       - relatedDoc: 
         title: REPLACEME
         description: REPLACEME
