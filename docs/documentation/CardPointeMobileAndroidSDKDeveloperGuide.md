@@ -820,3 +820,39 @@ protected void onDestroy() {
 
 # Android SDK Migration Guide
 
+If you have an existing integration using a previous version of the Android SDK, do the following to upgrade to the latest version.
+
+## Integrating the New Framework
+
+1) Remove the existing SDK, **ccconsumersdk-consumerSwiper-release.aar**, file from your project's /app/libs folder.
+2) Copy the new SDK file, **boltsdk-release.aar**, to the /app/libs folder.
+3) Launch Android Studio and open your project.
+4) In the Project pane, select the **build.gradle** file for your app.
+5) In the build.gradle file, replace all existing **ccconsumersdk-consumerSwiper-release.aar** SDK references with references to the new **boltsdk-release.aar** SDK.
+6) Click **Build** and select **Clean** to clean the project.
+7) Click **Build** and select **Rebuild Project** to rebuild the project.
+8) Note all compile errors and rename old **com.cardconnect.consumersdk** import references with **com.bolt.consumersdk**. 
+9) Update abstract methods to implement updated event handlers.
+10) Click **Build** and select **Rebuild Project** to rebuild the updated project.
+
+# Troubleshooting
+
+## Troubleshooting Device Configuration Issues
+
+If you or your merchants integrated the VP3300 CardPointe Mobile device with a version of the Android SDK prior to version 3.0.40, and have upgraded to version 3.0.61, you may need to update your devices' firmware or configuration if you are experiencing connection or tokenization issues.
+
+<!-- theme: warning -->
+> As of SDK version 3.0.40, the VP3300 CardPointe Mobile device must be running firmware v1.01.129 or higher
+
+> New devices should not require firmware or configuration updates. Future configuration updates will be applied automatically.
+
+### Checking the Firmware Version
+
+To check the firmware version, using version 3.0.61 of the SDK, use a `SwiperControllerListener` to listen for `onDeviceConfigurationUpdate:` during the connection progress. This will return the firmware version of the device (for example, “Device firmware version: VP3300 Bluetooth NEO v1.01.129”). If your device is not running v1.01.129 or higher, contact isvintegrations@fiserv.com to update your device.
+
+### Forcing a Configuration Update
+
+If your device is running firmware 1.01.129 or higher, and you are still experiencing connection or tokenization issues, you can force a configuration update to attempt to resolve the issues. The SDK provides a force configuration flag, `ForceConfigUpdate`, when creating a `SwiperController` that you can use to reconfigure the device. 
+
+<!-- theme: danger -->
+> You should only enable `ForceConfigUpdate` for devices that were connected using a version of the SDK prior to 3.0.40, and are now experiencing issues when using a newer version of the SDK; new devices will automatically receive all configuration updates. Setting `ForceConfigUpdate` to true will result in longer connection times.
