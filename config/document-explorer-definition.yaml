@@ -32,11 +32,31 @@
   - title: Getting Started
     link: docs/getting-started.md
 - sections:
+  - title: CardPointe Gateway
+    link: docs/documentation/CardPointeGatewayDeveloperGuides.md
+- sections:
+  - title: Hosted iFrame Tokenizer
+    link: 
+- sections:
+  - title: CardPointe Integrated Terminal
+    link: docs/documentation/CardPointeIntegratedTerminalDeveloperGuides.md
+- sections:
+  - title: CoPilot
+    link: docs/documentation/CoPilotDeveloperGuides.md
+- sections:
+  - title: Mobile SDKs
+    link: docs/documentation/CardPointeMobileSDKs.md
+- sections:
+  - title: CardSecure
+    link: docs/documentation/CardSecure.md
+- sections:
+  - title: eCommerce Plugins
+    link: 
+- sections:
+  - title: BluePay Gateway
+    link: 
+- sections:
   - title: Release notes
     sections:
     - title: March 2022
       link: docs/release-notes/2022/march.md
-- sections:
-  - title: CardSecure
-    link: docs/documentation/CardSecure.md
-  
