@@ -17,4 +17,4 @@ link: ../../../../docs/documentation/IntegrationProcessOverview.md
 
 <!-- type: row-end -->
 
-[Process](../../../docs/documentation/IntegrationProcessOverview.md)
+[Process](../../docs/documentation/IntegrationProcessOverview.md)
