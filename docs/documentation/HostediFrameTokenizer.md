@@ -232,4 +232,288 @@ The following parameters are used to supply placeholder text displayed within th
 
 | Parameter Name | Default Value | Description | 
 | --- | --- | --- |
-| placeholder	| none	| A string value to be used as placeholder text for the input field of the tokenizer, specified using the HTML input field's placeholder attribute. This feature is not supported on versions of Internet Explorer older than IE 10. <br> <br> Note the following restrictions when including a placeholder string: <br> <br> The string must be URL-encoded. <br> <br> Only the following characters are supported: <br> letters <br> numbers <br> spaces <br> symbols — !, #, $, %, &, *, +, -, _, =, ?, @, ], [, }, {, ), (, /, |, \, ^, ~, :, single-quote ('), double-quote ("), backtick (`), period (.), semi-colon (;), and comma (,) <br> limited international characters — Á, É, Í, Ñ, Ó, Ú, Ü, á, é, í, ñ, ó, ú, ü, â, ç, è, ê, î, ô, û, ã, õ, à, ä, ö, ß, ā, ē, ī, ō, ū, ё, й, ъ, ы, э, щ <br> <br> The maximum string length is 60 characters. |
+| placeholder	| none	| A string value to be used as placeholder text for the input field of the tokenizer, specified using the HTML input field's placeholder attribute. This feature is not supported on versions of Internet Explorer older than IE 10. <br> <br> Note the following restrictions when including a placeholder string: <br> <br> The string must be URL-encoded. <br> <br> Only the following characters are supported: <br> letters <br> numbers <br> spaces <br> symbols — !, #, $, %, &, *, +, -, _, =, ?, @, ], [, }, {, ), (, /, \, ^, ~, :, single-quote ('), double-quote ("), backtick (`), period (.), semi-colon (;), and comma (,) <br> limited international characters — Á, É, Í, Ñ, Ó, Ú, Ü, á, é, í, ñ, ó, ú, ü, â, ç, è, ê, î, ô, û, ã, õ, à, ä, ö, ß, ā, ē, ī, ō, ū, ё, й, ъ, ы, э, щ <br> <br> The maximum string length is 60 characters. |
+| placeholdercvv | none	| A placeholder value to display in the CVV field. <br> <br> The placeholder value must be a 3 or 4-digit numeric value. |
+| placeholdermonth	| none	| A placeholder value to display in the Month field, in the format MM. |
+| placeholderyear | none | A placeholder value to display in the Year field, in the format YYYY. |
+
+### Input Fields
+
+The following parameters are used to enable additional input fields and options associated with those fields.
+
+| Parameter Name | Default Value | Description | 
+| --- | --- | --- |
+| monthnames | January-February-March-April-May-June-July-August-September-October-December	| A string value to be used as alternative labels for each month in the drop-down list. <br> <br> The alternative label for each month is separated by a hyphen, starting with the 1st month and ending with the 12th month. <br> <br> **Note**: _The alternative month labels are used only when_ `usemonthnames` _is_ **true**. |
+| usecvv | false | If **true**, includes a field to enter the Cardholder Verification Value (CVV). <br> <br> **Notes**: <br> _If_ `usecvv` _is_ **_true_**, _the CVV must be provided to initiate the tokenization request._ <br> _CVV is not masked. This value remains in clear text._ <br> _The CVV is retained for a maximum of 2 minutes or the first use of the token, after which it is discarded._ |
+| usemonthnames	| false	| If **true**, displays Month names instead of numbers. |
+| useexpiry | false	| If **true**, includes two drop-down selectors to specify the expiration month (MM) and Year (YYYY). <br> <br> **Notes**:  <br> _If_ `useexpiry` _is_ **_true_**, _the expiration must be provided to initiate the tokenization request_. <br> _The expiry value is retained for a maximum of 2 minutes or the first use of the token, after which it is discarded_.
+| useexpiryfield | false | If **true**, uses expiry entry fields instead of drop-down selectors. <br> <br> The Month field supports 2-digit month values from 1-12 (including support for leading zeros for single-digit months, for example "01"). <br> <br> The Year field supports a 4-digit year value within the next 20 years (including the current year). <br> <br> **Note**: _Requires_ `useexpiry=true`. |
+
+### Input Formatting
+
+The following fields are used to override the default formatting rules for text entered into the Card Number field.
+
+| Parameter Name | Default Value | Description | 
+| --- | --- | --- |
+| formatinput | false | Styles the card number to be separated every four numbers so the number is easily read as the user types into the field. |
+| maskfirsttwo	| false	| If **true**, the first 2 digits of the card number are masked. |
+
+### Input Labels
+
+The following parameters are used to override the default labels and titles used to describe various input fields.
+
+| Parameter Name | Default Value | Description | 
+| --- | --- | --- |
+| cardlabel	| Card Number | Controls the text inside the label for the card number field. <br> <br> This label is only present when either `useexpiry` or `usecvv` are true. |
+| cardtitle	| Credit Card Number | Controls the `title` and `aria-label` HTML attributes for the card number input field, for use by a screen reader application. |
+| cvvlabel | CVV | Controls the text inside the label for the CVV field. <br> <br> The label is only present when `usecvv` is **true**. |
+| cvvtitle | Card Verification Value | Controls the `title` and `aria-label` HTML attributes for the cvv input field, for use by a screen reader application. |
+| expirylabel | Expiration Date	| Controls the text inside the label for the expiration date selectors. <br> <br> The label is only present when `useexpiry` is **true**. |
+| expirymonthtitle | Expiration Month | Controls the `title` and `aria-label` HTML attributes for the expiry month field, for use by a screen reader application. |
+| expiryyeartitle | Expiration Year | Controls the `title` and `aria-label` HTML attributes for the expiry year field, for use by a screen reader application. |
+
+## iFrame Styling
+
+You can use the `css` parameter to include CSS declarations in the iFrame SRC attribute, to customize the look and feel of the iFrame. The CSS parameter can also accept media queries, allowing for responsive design based on screen or window size. See Allowed CSS Properties below for a list of available properties.
+
+For example, the following iFrame URL includes custom CSS properties to specify the error text color and input field width:
+
+```HTML
+<iframe id="tokenframe" name="tokenframe" src="https://fts-uat.cardconnect.com/itoke/ajax-tokenizer.html?css=.error{color:%20red;}input{width:500px;}" scrolling="no" width="200" height="30" frameborder="0"></iframe>
+```
+
+To prevent page rendering issues, you must URL encode the CSS property string, including curly braces ({}), to ensure that the characters and values in the string are handled correctly.
+
+The following example includes the same CSS parameters as the example above, properly URL-encoded:
+
+```HTML
+<iframe id="tokenframe" name="tokenframe" src="https://fts-uat.cardconnect.com/itoke/ajax-tokenizer.html?css=%2Eerror%7Bcolor%3A%20red%3B%7Dinput%7Bwidth%3A500px%3B%7D" scrolling="no" width="200" height="30" frameborder="0"></iframe>
+```
+
+<!-- theme: danger -->
+> Failure to properly URL encode all special characters within the iFrame URL can cause page rendering issues and other disruptions.
+
+### Allowed CCS Properties
+
+Any of the following CSS properties can be used when passing CSS declarations using the `css` parameter.
+
+When the `css` parameter contains CSS properties that are not included in the allowed list below, those properties are ignored.
+
+```CCS
+:-ms-input-placeholder
+::-ms-input-placeholder
+::placeholder
+-moz-appearance
+-moz-border-radius
+-moz-border-radius-bottomleft
+-moz-border-radius-bottomright
+-moz-border-radius-topleft
+-moz-border-radius-topright
+-moz-box-shadow
+-moz-outline
+-moz-outline-color
+-moz-outline-style
+-moz-outline-width
+-o-text-overflow
+-webkit-appearance
+-webkit-border-bottom-left-radius
+-webkit-border-bottom-right-radius
+-webkit-border-radius
+-webkit-border-radius-bottom-left
+-webkit-border-radius-bottom-right
+-webkit-border-radius-top-left
+-webkit-border-radius-top-right
+-webkit-border-top-left-radius
+-webkit-border-top-right-radius
+-webkit-box-shadow
+-webkit-font-smoothing
+appearance
+azimuth
+background
+background-attachment
+background-color
+background-image
+background-position
+background-repeat
+border
+border-bottom
+border-bottom-color
+border-bottom-left-radius
+border-bottom-right-radius
+border-bottom-style
+border-bottom-width
+border-box
+border-collapse
+border-color
+border-left
+border-left-color
+border-left-style
+border-left-width
+border-radius
+border-right
+border-right-color
+border-right-style
+border-right-width
+border-spacing
+border-style
+border-top
+border-top-color
+border-top-left-radius
+border-top-right-radius
+border-top-style
+border-top-width
+border-width
+box-shadow
+box-sizing
+caption-side
+color
+cue
+cue-after
+cue-before
+direction
+display
+elevation
+empty-cells
+font
+font-family
+font-size
+font-stretch
+font-style
+font-variant
+font-weight
+height
+letter-spacing
+line-height
+list-style
+list-style-image
+list-style-position
+list-style-type
+margin
+margin-bottom
+margin-left
+margin-right
+margin-top
+max-height
+max-width
+min-height
+min-width
+outline
+outline-color
+outline-style
+outline-width
+padding
+padding-bottom
+padding-left
+padding-right
+padding-top
+pause
+pause-after
+pause-before
+pitch
+pitch-range
+quotes
+richness
+speak
+speak-header
+speak-numeral
+speak-punctuation
+speech-rate
+stress
+table-layout
+text-align
+text-decoration
+text-indent
+text-overflow
+text-shadow
+text-transform
+text-wrap
+transition-duration
+unicode-bidi
+vertical-align
+voice-family
+volume
+white-space
+width
+word-spacing
+word-wrap
+```
+
+## RSA Encryption
+
+The Hosted iFrame Tokenizer supports RSA encryption to encrypt account data before sending the tokenize request to CardSecure.
+
+The Hosted iFrame Tokenizer checks for an RSA key pair for your configuration, and if present retrieves the public key and encrypts the data during the tokenization request to CardSecure. You can use the browser's developer tools to verify that the data is encrypted using your RSA key.
+
+If you do not have a CardSecure RSA key pair already generated, the iFrame Tokenizer will fail to obtain a public key for encryption and you will encounter a `'No public key found'` error when viewing the request within the browser's developer tools. You can disregard this error, as the iFrame Tokenizer continues to transmit the account data over a secure connection to CardSecure.
+
+> If you want to use RSA encryption, contact CardPointe Support to get started.
+
+## Luhn/Mod 10 Validation
+
+By default, the Card Number field is validated using the Luhn algorithm, and is automatically assigned an HTML class where `class="error"` when the value does not pass validation. This error class contains no CSS declarations, and has no visible effect unless your implementation includes custom CSS.
+
+Use the optional `css` parameter to pass custom CSS declarations for the error class, which are then applied only when the Card Number value is determined to be invalid. Remember to URL encode the string passed to the `css` parameter as required.
+
+An example containing custom CSS for the error class is provided below for reference. The `css` parameter contains style declarations for the error class that result in the Card Number field turning red when the value does not pass Luhn validation.
+
+**Incorrect**: `https://fts-uat.cardconnect.com/itoke/ajax-tokenizer.html?css=.error{color:red;border-color:red;}`
+
+**Correct**: `https://fts-uat.cardconnect.com/itoke/ajax-tokenizer.html?css=.error%7Bcolor%3Ared%3Bborder-color%3Ared%3B%7D`
+
+<!-- theme: danger -->
+> Note that the string passed to the `css` paramater **must** be URL-encoded in order for the CSS to be parsed correctly. Failure to URL encode the string may cause page rendering issues and other disruptions.
+
+## ACH/eCheck Tokenization
+
+The Hosted iFrame Tokenizer can accept entry of electronic check or ACH details in order to retrieve a token that can then be submitted within an ACH Authorization.
+
+When using the iFrame Tokenizer to tokenize ACH account data, you must input the routing and account numbers in a single string, separated by a forward slash (/). Use the following format: `RoutingNumber/AccountNumber`.
+
+Example: `123456789/1234123412341234`
+
+> Include `fullmobilekeyboard=true` in the URL string to display the full keyboard on mobile devices. This allows mobile device users to enter a forward slash (/) in the input field.
+
+<!-- theme: warning -->
+> Alternatively, you can develop a custom form that allows your users to enter the routing and account numbers in separate fields.
+>
+> See Processing ACH Payments in the CardPointe Gateway Developer Guides for more information on handling ACH requests.
+
+## Supporting Screen Readers
+
+Screen readers enable blind and visually impaired users to interact with a web page using non-visual means, such as text-to-speech dictation of page elements.
+
+The Card Number, Expiry, and CVV field elements include title tags to enable compatibility with screen reader applications. 
+
+The default title values are:
+
+- **Credit Card Number** - "Credit Card Number"
+- **Expiry Month** - "Expiration Month"
+- **Expiry Year** - "Expiration Year"
+- **CVV** - "Card Verification Value"
+
+You can use the following URL parameters to customize the default titles:
+
+| Parameter	| Type	| Description |
+| --- | --- | --- |
+| cardtitle	| AN | A meaningful custom title for the card number field.
+| expirymonthtitle	| AN | A meaningful custom title for the expiry month field.
+| expiryyeartitle | AN | A meaningful custom title for the expiry year field.
+| cvvtitle	| AN | A meaningful custom title for the cvv field.
+
+# Integrating a Card Reader Device
+
+Certain use cases may benefit from using a card reader device with the Hosted iFrame Tokenizer.
+
+Using an encrypted card reader device to capture and pass card data to the iFrame Tokenizer electronically may help to reduce your PCI scope in some instances. The following plug-and-play USB devices are available for use with CardSecure and the iFrame Tokenizer:
+
+<!-- theme: warning -->
+> The CardPointe Desktop SDK provides a P2PE-validated, plug-and-play EMV (chip) and MSR (magstripe) card reader integration for the Hosted iFrame Tokenizer. See the CardPointe Desktop Developer Guide for more information.
+
+| Device | Connection Type | Capability
+| --- | --- | ---
+|CardPointe Desktop Reader (ID TECH Augusta) | USB | EMV (chip) and MSR (swipe) 
+| IDTECH SecuRed | USB | MSR (swipe)
+| IDTECH SREDkey 2 | USB | MSR (swipe)
+| MagTek Dynamag | USB | MSR (swipe)
+
+> In order to fully comply with PCI standards, only devices that have been pre-provisioned for use with your merchant account and have the appropriate encryption scheme are supported for use with this solution. 
