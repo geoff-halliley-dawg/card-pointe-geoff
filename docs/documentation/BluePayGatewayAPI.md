@@ -54,7 +54,7 @@ titles: Andriod SDK
 
 The BluePay Android SDK can be used to process authorizations, sales, generate tokens as $0 authorizations, and process card-present transactions. The SDK includes swipe support for the IDTech UniMag II and Shuttle.
 
-Download the BluePay Android SDK
+[Download the BluePay Android SDK](https://github.com/jslingerland/BluePay-Android-SDK)
 
 <!-- type: tab-end -->
 
@@ -65,7 +65,7 @@ titles: iOS SDK
 
 The BluePay iOS SDK can be used to process authorizations, sales, generate tokens as $0 authorizations, process card-present transactions. The SDK includes swipe support for the IDTech UniMag II and Shuttle.
 
-Download the BluePay iOS SDK
+[Download the BluePay iOS SDK](https://github.com/jslingerland/BluePay-iOS-SDK)
 
 <!-- type: tab-end -->
 
@@ -254,11 +254,17 @@ After you have chosen the template that you would like to use, create a URL to t
 
 Our primary transaction processing API. Name/value pairs are posted to the gateway which responds with name/value pairs.
 
-**Samples**: PHP, Perl, Ruby, Java, Python, C#, C++, Visual Basic.net, Classic ASP, Cold Fusion
+**Samples**: [PHP](https://github.com/BluePay/BluePay-Sample-Code/tree/master/PHP), [Perl](https://github.com/BluePay/BluePay-Sample-Code/tree/master/Perl), [Ruby](https://github.com/BluePay/BluePay-Sample-Code/tree/master/Ruby), [Java](https://github.com/BluePay/BluePay-Sample-Code/tree/master/Java), [Python](https://github.com/BluePay/BluePay-Sample-Code/tree/master/Python), [C#](https://github.com/BluePay/BluePay-Sample-Code/tree/master/C%23), [C++](https://github.com/BluePay/BluePay-Sample-Code/tree/master/C%2B%2B), [Visual Basic.net](https://github.com/BluePay/BluePay-Sample-Code/tree/master/VB), [Classic ASP](https://www.bluepay.com/sites/default/files/documentation/BluePay_bp10emu-ASP-WinHTTP%20+%20ACH.zip), [Cold Fusion](https://www.bluepay.com/sites/default/files/documentation/BluePay_bp10emu-Cold_Fusion.zip)
 
 ### BluePay Redirect (bp10emu) 
 
 The customer fills out a html form served from the merchant’s web server. When they click submit the information they filled in is sent to the redirect interface. It then processes the transaction and redirects the customer’s web browser to a web page on the merchant’s web server.
+
+### BluePay Hosted Payment Form (shpf)
+
+Service where a order form can be securely hosted on the BluePay gateway server. Primarily used as a front end for BluePay 2.0 Redirect.
+
+**Tool**: [Hosted Payment Form URL Generator](https://secure.bluepay.com/interfaces/support/urlgeneratorform)
 
 ### BluePayJS
 
@@ -276,7 +282,7 @@ File upload of transactions to be processed using the gateway's web site.
 
 Interface to upload comma delimited files into the gateway for processing.
 
-**Sample**: PHP
+**Sample**: [PHP](https://github.com/BluePay/BluePay-Sample-Code/tree/master/PHP)
 
 ### BluePay CSV Upload Report (bpbureport) 
 
@@ -286,7 +292,7 @@ Interface to check the status of and download results of CSV files uploaded into
 
 This interface is for updating and cancelling rebillings set up in the BluePay Gateway.
 
-**Samples**: PHP, Perl, Ruby, Java, Python, C#, C++, Visual Basic.net
+**Samples**: [PHP](https://github.com/BluePay/BluePay-Sample-Code/tree/master/PHP/Rebill), [Perl](https://github.com/BluePay/BluePay-Sample-Code/tree/master/Perl/Rebill), [Ruby](https://github.com/BluePay/BluePay-Sample-Code/tree/master/Ruby/samples/Rebill), [Java](https://github.com/BluePay/BluePay-Sample-Code/tree/master/Java/src/rebill), [Python](https://github.com/BluePay/BluePay-Sample-Code/tree/master/Python/Rebill), [C#](https://github.com/BluePay/BluePay-Sample-Code/tree/master/C%23/Rebill), [C++](https://github.com/BluePay/BluePay-Sample-Code/tree/master/C%2B%2B/Rebill), [Visual Basic.net](https://github.com/BluePay/BluePay-Sample-Code/tree/master/VB/vbnet/Rebill)
 
 ### BluePay Customer Token Administration (bp20tokenadmin) 
 
@@ -296,15 +302,15 @@ Interface for creating, updating and reading Customer Token data.
 
 A new version of the reporting interface for the retrieval of transaction data. 
 
-**Retrieve by transaction date samples:** PHP, Perl, Ruby, Java, Python, C#, C++, Visual Basic.net
+**Retrieve by transaction date samples:** [PHP](https://github.com/BluePay/BluePay-Sample-Code/blob/master/PHP/Get_Data/Retrieve_Transaction_Data.php), [Perl](https://github.com/BluePay/BluePay-Sample-Code/blob/master/Perl/Get_Data/Retrieve_Transaction_Data.pl), [Ruby](https://github.com/BluePay/BluePay-Sample-Code/blob/master/Ruby/samples/Get_Data/Retrieve_Transaction_Data.rb), [Java](https://github.com/BluePay/BluePay-Sample-Code/blob/master/Java/src/get_data/Retrieve_Transaction_Data.java), [Python](https://github.com/BluePay/BluePay-Sample-Code/blob/master/Python/Get_Data/Retrieve_Transaction_Data.py), [C#](https://github.com/BluePay/BluePay-Sample-Code/blob/master/C%23/Get_Data/Retrieve_Transaction_Data.cs), [C++](https://github.com/BluePay/BluePay-Sample-Code/blob/master/C%2B%2B/Get_Data/Retrieve_Transaction_Data.cpp), [Visual Basic.net](https://github.com/BluePay/BluePay-Sample-Code/blob/master/VB/vbnet/Get_Data/Retrieve_Transaction_Data.vb)
 
-**Retrieve by settlement date samples:** PHP, Perl, Ruby, Java, Python, C#, C++, Visual Basic.net
+**Retrieve by settlement date samples:** [PHP](https://github.com/BluePay/BluePay-Sample-Code/blob/master/PHP/Get_Data/Retrieve_Settlement_Data.php), [Perl](https://github.com/BluePay/BluePay-Sample-Code/blob/master/Perl/Get_Data/Retrieve_Settlement_Data.pl), [Ruby](https://github.com/BluePay/BluePay-Sample-Code/blob/master/Ruby/samples/Get_Data/Retrieve_Settlement_Data.rb), [Java](https://github.com/BluePay/BluePay-Sample-Code/blob/master/Java/src/get_data/Retrieve_Settlement_Data.java), [Python](https://github.com/BluePay/BluePay-Sample-Code/blob/master/Python/Get_Data/Retrieve_Settlement_Data.py), [C#](https://github.com/BluePay/BluePay-Sample-Code/blob/master/C%23/Get_Data/Retrieve_Settlement_Data.cs), [C++](https://github.com/BluePay/BluePay-Sample-Code/blob/master/C%2B%2B/Get_Data/Retrieve_Settlement_Data.cpp), [Visual Basic.net](https://github.com/BluePay/BluePay-Sample-Code/blob/master/VB/vbnet/Get_Data/Retrieve_Settlement_Data.vb)
 
 ### BluePay Single Transaction Query (stq) 
 
 Interface that can retrieve information of a single transaction using the transaction ID, merchant defined order_id or other search criteria.
 
-**Samples**: PHP, Perl, Ruby, Java, Python, C#, C++, Visual Basic.net
+**Samples**: [PHP](https://github.com/BluePay/BluePay-Sample-Code/blob/master/PHP/Get_Data/Single_Transaction_Query.php), [Perl](https://github.com/BluePay/BluePay-Sample-Code/blob/master/Perl/Get_Data/Single_Transaction_Query.pl), [Ruby](https://github.com/BluePay/BluePay-Sample-Code/blob/master/Ruby/samples/Get_Data/Single_Transaction_Query.rb), [Java](https://github.com/BluePay/BluePay-Sample-Code/blob/master/Java/src/get_data/Single_Transaction_Query.java), [Python](https://github.com/BluePay/BluePay-Sample-Code/blob/master/Python/Get_Data/Single_transaction_query.py), [C#](https://github.com/BluePay/BluePay-Sample-Code/blob/master/C%23/Get_Data/Single_Transaction_Query.cs), [C++](https://github.com/BluePay/BluePay-Sample-Code/blob/master/C%2B%2B/Get_Data/Single_Transaction_Query.cpp), [Visual Basic.net](https://github.com/BluePay/BluePay-Sample-Code/blob/master/VB/vbnet/Get_Data/Single_Transaction_Query.vb)
 
 ### BluePay Reserve Query (reserveq) 
 
@@ -322,7 +328,7 @@ Post to remote application when a recurring billing transaction is processed.
 
 Post to remote application when transactions are processed by the gateway.
 
-**Samples**: PHP, Perl, Ruby, Java, Python, C#, Visual Basic.net
+**Samples**: [PHP](https://github.com/BluePay/BluePay-Sample-Code/blob/master/PHP/Get_Data/Transaction_Notification.php), [Perl](https://github.com/BluePay/BluePay-Sample-Code/blob/master/Perl/Get_Data/Transaction_Notification.pl), [Ruby](https://github.com/BluePay/BluePay-Sample-Code/blob/master/Ruby/samples/Get_Data/Transaction_Notification.rb), [Java](https://github.com/BluePay/BluePay-Sample-Code/blob/master/Java/src/get_data/Transaction_Notification.java), [Python](https://github.com/BluePay/BluePay-Sample-Code/blob/master/Python/Get_Data/Transaction_Notification.py), [C#](https://github.com/BluePay/BluePay-Sample-Code/blob/master/C%23/Get_Data/Transaction_Notification.cs), [Visual Basic.net](https://github.com/BluePay/BluePay-Sample-Code/blob/master/VB/vbnet/Get_Data/Transaction_Notification.vb)
 
 ## Deprecated APIs
 
@@ -330,7 +336,7 @@ Post to remote application when transactions are processed by the gateway.
 
 Name/value pairs are posted to the gateway which returns results as name/value pairs. Same concept as BluePay 1.0 Post but the data is formatted differently.
 
-**Samples**: PHP, Perl, Ruby, Classic ASP
+**Samples**: [PHP](https://www.bluepay.com/sites/default/files/documentation/BluePay_bp20post-PHP.zip), [Perl](http://search.cpan.org/~cpkois/Bluepay-Bluepay20Post-0.15/), [Ruby](https://www.bluepay.com/sites/default/files/documentation/BluePay_bp20post-Ruby.zip), [Classic ASP](https://www.bluepay.com/sites/default/files/documentation/BluePay_bp20post-ASP-WinHTTP.zip)
 
 ### BluePay XML Post (asby)
 
@@ -340,7 +346,7 @@ XML based interface to the gateway that can be used for basic transaction proces
 
 A reporting interface for the retrieval of transaction data.
 
-**Sample**: Perl
+**Sample**: [Perl](http://search.cpan.org/~cpkois/Bluepay-Bluepay20DailyReport-0.20/Bluepay-Bluepay20DailyReport-0.20/lib/Bluepay/Bluepay20DailyReport)
 
 # Code Samples
 
@@ -348,38 +354,75 @@ A reporting interface for the retrieval of transaction data.
 
 **Transactions**
 
-- Charge a Customer
-- Level 2 & 3 Processing
-- Charge Customer Using ACH
-- Cancel a Transaction
-- Return Funds to Customer
-- Check Customer Has Available Credit
-- Store Payment Info
-- How to Use a Token
-- Create Customer Token
-- Swipe Card
-- Customer Defined Data
-- Update Transaction
+- [Charge a Customer](https://github.com/BluePay/BluePay-Sample-Code/blob/master/PHP/Transactions/Charge_Customer_CC.php)
+- [Level 2 & 3 Processing](https://github.com/BluePay/BluePay-Sample-Code/blob/master/PHP/Transactions/Charge_Customer_CC_Lvl2_Lvl3.php)
+- [Charge Customer Using ACH](https://github.com/BluePay/BluePay-Sample-Code/blob/master/PHP/Transactions/Charge_Customer_ACH.php)
+- [Cancel a Transaction](https://github.com/BluePay/BluePay-Sample-Code/blob/master/PHP/Transactions/Cancel_Transaction.php)
+- [Return Funds to Customer](https://github.com/BluePay/BluePay-Sample-Code/blob/master/PHP/Transactions/Return_Funds.php)
+- [Check Customer Has Available Credit](https://github.com/BluePay/BluePay-Sample-Code/blob/master/PHP/Transactions/Check_Customer_Credit.php)
+- [Store Payment Info](https://github.com/BluePay/BluePay-Sample-Code/blob/master/PHP/Transactions/Store_Payment_Information.php)
+- [How to Use a Token](https://github.com/BluePay/BluePay-Sample-Code/blob/master/PHP/Transactions/How_To_Use_Token.php)
+- [Create Customer Token](https://github.com/BluePay/BluePay-Sample-Code/blob/master/PHP/Transactions/Create_Customer_Token.php)
+- [Swipe Card](https://github.com/BluePay/BluePay-Sample-Code/blob/master/PHP/Transactions/Swipe.php)
+- [Customer Defined Data](https://github.com/BluePay/BluePay-Sample-Code/blob/master/PHP/Transactions/Customer_Defined_Data.php)
+- [Update Transaction](https://github.com/BluePay/BluePay-Sample-Code/blob/master/PHP/Transactions/Update_Transaction.php)
 
 **Get Data**
 
-- Retrieve Transaction
-- Retrieve Settlement Data
-- Single Transaction Query 
-- Transaction Notification
-- BP_STAMP Validation
+- [Retrieve Transaction](https://github.com/BluePay/BluePay-Sample-Code/blob/master/PHP/Get_Data/Retrieve_Transaction_Data.php)
+- [Retrieve Settlement Data](https://github.com/BluePay/BluePay-Sample-Code/blob/master/PHP/Get_Data/Retrieve_Settlement_Data.php)
+- [Single Transaction Query](https://github.com/BluePay/BluePay-Sample-Code/blob/master/PHP/Get_Data/Single_Transaction_Query.php)
+- [Transaction Notification](https://github.com/BluePay/BluePay-Sample-Code/blob/master/PHP/Get_Data/Transaction_Notification.php)
+- [BP_STAMP Validation](https://github.com/BluePay/BluePay-Sample-Code/blob/master/PHP/Get_Data/Validate_BP_Stamp.php)
 
 **Rebill**
 
-- Create Recurring Payment
-- Create Recurring Payment (ACH)
-- Update Recurring Payment
-- Cancel Recurring Payment
-- Get Recurring Payment Status
+- [Create Recurring Payment](https://github.com/BluePay/BluePay-Sample-Code/blob/master/PHP/Rebill/Create_Recurring_Payment_CC.php)
+- [Create Recurring Payment (ACH)](https://github.com/BluePay/BluePay-Sample-Code/blob/master/PHP/Rebill/Create_Recurring_Payment_ACH.php)
+- [Update Recurring Payment](https://github.com/BluePay/BluePay-Sample-Code/blob/master/PHP/Rebill/Update_Recurring_Payment.php)
+- [Cancel Recurring Payment](https://github.com/BluePay/BluePay-Sample-Code/blob/master/PHP/Rebill/Cancel_Recurring_Payment.php)
+- [Get Recurring Payment Status](https://github.com/BluePay/BluePay-Sample-Code/blob/master/PHP/Rebill/Get_Recurring_Payment_Status.php)
 
 **Hosted Payment Forms**
 
-- URL Generator
+- [URL Generator](https://github.com/BluePay/BluePay-Sample-Code/blob/master/PHP/Get_Data/URL_Generator.php)
 
 ## C#
+
+**Transactions**
+
+- [Charge a Customer](https://github.com/BluePay/BluePay-Sample-Code/blob/master/C%23/Transactions/Charge_Customer_CC.cs)
+- [Level 2 & 3 Processing](https://github.com/BluePay/BluePay-Sample-Code/blob/master/C%23/Transactions/Charge_Customer_CC_Lvl2_Lvl3.cs)
+- [Charge Customer Using ACH](https://github.com/BluePay/BluePay-Sample-Code/blob/master/C%23/Transactions/Charge_Customer_ACH.cs)
+- [Cancel a Transaction](https://github.com/BluePay/BluePay-Sample-Code/blob/master/C%23/Transactions/Cancel_Transaction.cs)
+- [Return Funds to Customer](https://github.com/BluePay/BluePay-Sample-Code/blob/master/C%23/Transactions/Return_Funds.cs)
+- [Check Customer Has Available Credit](https://github.com/BluePay/BluePay-Sample-Code/blob/master/C%23/Transactions/Check_Customer_Credit.cs)
+- [Store Payment Info](https://github.com/BluePay/BluePay-Sample-Code/blob/master/C%23/Transactions/Store_Payment_Information.cs)
+- [How to Use a Token](https://github.com/BluePay/BluePay-Sample-Code/blob/master/C%23/Transactions/How_To_Use_Token.cs)
+- [Create Customer Token](https://github.com/BluePay/BluePay-Sample-Code/blob/master/C%23/Transactions/Create_Customer_Token.cs)
+- [Swipe Card](https://github.com/BluePay/BluePay-Sample-Code/blob/master/C%23/Transactions/Swipe.cs)
+- [Customer Defined Data](https://github.com/BluePay/BluePay-Sample-Code/blob/master/C%23/Transactions/Swipe.cs)
+- [Update Transaction](https://github.com/BluePay/BluePay-Sample-Code/blob/master/C%23/Transactions/Update_Transaction.cs)
+
+**Get Data**
+
+- [Retrieve Transaction Data](https://github.com/BluePay/BluePay-Sample-Code/blob/master/C%23/Get_Data/Retrieve_Transaction_Data.cs)
+- [Retrieve Settlement Data](https://github.com/BluePay/BluePay-Sample-Code/blob/master/C%23/Get_Data/Retrieve_Settlement_Data.cs)
+- [Single Transaction Query](https://github.com/BluePay/BluePay-Sample-Code/blob/master/C%23/Get_Data/Single_Transaction_Query.cs)
+- [Transaction Notification](https://github.com/BluePay/BluePay-Sample-Code/blob/master/C%23/Get_Data/Transaction_Notification.cs)
+- [BP_STAMP Validation](https://github.com/BluePay/BluePay-Sample-Code/blob/master/C%23/Get_Data/Validate_BP_Stamp.cs)
+
+**Rebill**
+
+- [Create Recurring Payment](https://github.com/BluePay/BluePay-Sample-Code/blob/master/C%23/Rebill/Create_Recurring_Payment_CC.cs)
+- [Create Recurring Payment (ACH)](https://github.com/BluePay/BluePay-Sample-Code/blob/master/C%23/Rebill/Create_Recurring_Payment_ACH.cs)
+- [Update Recurring Payment](https://github.com/BluePay/BluePay-Sample-Code/blob/master/C%23/Rebill/Update_Recurring_Payment.cs)
+- [Cancel Recurring Payment](https://github.com/BluePay/BluePay-Sample-Code/blob/master/C%23/Rebill/Cancel_Recurring_Payment.cs)
+- [Get Recurring Payment Status](https://github.com/BluePay/BluePay-Sample-Code/blob/master/C%23/Rebill/Get_Recurring_Payment_Status.cs)
+
+**Hosted Payment Forms**
+
+- [URL Generator](https://github.com/BluePay/BluePay-Sample-Code/blob/master/C%23/Get_Data/URL_Generator.cs)
+
+## Perl
 
