@@ -426,3 +426,38 @@ A reporting interface for the retrieval of transaction data.
 
 ## Perl
 
+**Transactions**
+
+- [Charge a Customer](https://github.com/BluePay/BluePay-Sample-Code/blob/master/Perl/Transactions/Charge_Customer_CC.pl)
+- [Level 2 & 3 Processing](https://github.com/BluePay/BluePay-Sample-Code/blob/master/Perl/Transactions/Charge_Customer_CC_Lvl2_Lvl3.pl)
+- [Charge a Customer Using ACH](https://github.com/BluePay/BluePay-Sample-Code/blob/master/Perl/Transactions/Charge_Customer_ACH.pl)
+- [Cancel a Transaction](https://github.com/BluePay/BluePay-Sample-Code/blob/master/Perl/Transactions/Cancel_Transaction.pl)
+- [Return Funds to Customer](https://github.com/BluePay/BluePay-Sample-Code/blob/master/Perl/Transactions/Return_Funds.pl)
+- [Check Customer Has Available Credit](https://github.com/BluePay/BluePay-Sample-Code/blob/master/Perl/Transactions/Check_Customer_Credit.pl)
+- [Store Payment Info](https://github.com/BluePay/BluePay-Sample-Code/blob/master/Perl/Transactions/Store_Payment_Information.pl)
+- [How to Use a Token](https://github.com/BluePay/BluePay-Sample-Code/blob/master/Perl/Transactions/How_To_Use_Token.pl)
+- [Create Customer Token](https://github.com/BluePay/BluePay-Sample-Code/blob/master/Perl/Transactions/Create_Customer_Token.pl)
+- [Swipe Card](https://github.com/BluePay/BluePay-Sample-Code/blob/master/Perl/Transactions/Swipe.pl)
+- [Customer Defined Data](https://github.com/BluePay/BluePay-Sample-Code/blob/master/Perl/Transactions/Customer_Defined_Data.pl)
+- [Update Transaction](https://github.com/BluePay/BluePay-Sample-Code/blob/master/Perl/Transactions/Update_Transaction.pl)
+
+**Get Data**
+
+- [Retrieve Transaction Data](https://github.com/BluePay/BluePay-Sample-Code/blob/master/Perl/Get_Data/Retrieve_Transaction_Data.pl)
+- [Retrieve Settlement Data](https://github.com/BluePay/BluePay-Sample-Code/blob/master/Perl/Get_Data/Retrieve_Settlement_Data.pl)
+- [Single Transaction Query](https://github.com/BluePay/BluePay-Sample-Code/blob/master/Perl/Get_Data/Single_Transaction_Query.pl)
+- [Transaction Notification](https://github.com/BluePay/BluePay-Sample-Code/blob/master/Perl/Get_Data/Transaction_Notification.pl)
+- [BP_STAMP Validation](https://github.com/BluePay/BluePay-Sample-Code/blob/master/Perl/Get_Data/Validate_BP_Stamp.pl)
+
+**Rebill**
+
+- [Create Recurring Payment](https://github.com/BluePay/BluePay-Sample-Code/blob/master/Perl/Rebill/Create_Recurring_Payment_CC.pl)
+- [Create Recurring Payment (ACH)](https://github.com/BluePay/BluePay-Sample-Code/blob/master/Perl/Rebill/Create_Recurring_Payment_ACH.pl)
+- [Update Recurring Payment](https://github.com/BluePay/BluePay-Sample-Code/blob/master/Perl/Rebill/Update_Recurring_Payment.pl)
+- [Cancel Recurring Payment](https://github.com/BluePay/BluePay-Sample-Code/blob/master/Perl/Rebill/cancel_recurring_payment.pl)
+- [Get Recurring Payment Status](https://github.com/BluePay/BluePay-Sample-Code/blob/master/Perl/Rebill/Get_Recurring_Payment_Status.pl)
+
+**Hosted Payment Forms**
+
+- [URL Generator](https://github.com/BluePay/BluePay-Sample-Code/blob/master/Perl/Get_Data/URL_Generator.pl)
+
