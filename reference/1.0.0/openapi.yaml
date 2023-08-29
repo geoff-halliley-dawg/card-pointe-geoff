@@ -1,371 +1,919 @@
 ################################################################################
-# Copyrights © 2021-2022 Fiserv, Inc. or its affiliates. 
-# Fiserv is a trademark of Fiserv, Inc., 
-# registered or used in the United States and foreign countries, 
-# and may or may not be registered in your country.  
-# All trademarks, service marks, 
-# and trade names referenced in this 
-# material are the property of their 
-# respective owners. This work, including its contents 
-# and programming, is confidential and its use 
-# is strictly limited. This work is furnished only 
-# for use by duly authorized licensees of Fiserv, Inc. 
-# or its affiliates, and their designated agents 
-# or employees responsible for installation or 
-# operation of the products. Any other use, 
-# duplication, or dissemination without the 
-# prior written consent of Fiserv, Inc. 
-# or its affiliates is strictly prohibited. 
-# Except as specified by the agreement under 
-# which the materials are furnished, Fiserv, Inc. 
-# and its affiliates do not accept any liabilities 
-# with respect to the information contained herein 
-# and are not responsible for any direct, indirect, 
-# special, consequential or exemplary damages 
-# resulting from the use of this information. 
-# No warranties, either express or implied, 
-# are granted or extended by this work or 
+# Copyrights © 2021-2022 Fiserv, Inc. or its affiliates.
+# Fiserv is a trademark of Fiserv, Inc.,
+# registered or used in the United States and foreign countries,
+# and may or may not be registered in your country.
+# All trademarks, service marks,
+# and trade names referenced in this
+# material are the property of their
+# respective owners. This work, including its contents
+# and programming, is confidential and its use
+# is strictly limited. This work is furnished only
+# for use by duly authorized licensees of Fiserv, Inc.
+# or its affiliates, and their designated agents
+# or employees responsible for installation or
+# operation of the products. Any other use,
+# duplication, or dissemination without the
+# prior written consent of Fiserv, Inc.
+# or its affiliates is strictly prohibited.
+# Except as specified by the agreement under
+# which the materials are furnished, Fiserv, Inc.
+# and its affiliates do not accept any liabilities
+# with respect to the information contained herein
+# and are not responsible for any direct, indirect,
+# special, consequential or exemplary damages
+# resulting from the use of this information.
+# No warranties, either express or implied,
+# are granted or extended by this work or
 # the delivery of this work
 ################################################################################
 
 openapi: 3.0.2
 info:
-  title: Dev Portal Tenant APIs.
-  description: To onboard properly into the Fiserv Developer Studio as a tenant each
-    product must support these APIs so that we can retrieve product specific API specifications
-    and documentation.
+  title: CardSecure API Service Endpoints
+  description: This API documentation provides technical guidance when utilizing CardSecure.
   version: 1.0.0
 servers:
-  - url: https://tenants.fiserv.com/
+ - {url: 'DNE', description: Production}
+ - {url: 'DNE', description: Sandbox}
 paths:
-  /v1/products:
+  /v1/cnn/tokenize:
     get:
       tags:
-        - Tenant
-      x-group-name: Tenant
-      x-proxy-name: products
-      summary: Returns tenant provider API.
-      operationId: TenantProviderID
-      responses:
-        200:
-          description: Tenant provider response. <a href="https://fiserv.com" rel="noopener noreferrer" target="_blank">external link</a> <a href="../docs?path=docs/getting-started/setup-tenant/setup-tenant.md">Setup Tenant</a>
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/TenantProviderResponse'
-            text/yaml:
-              schema:
-                $ref: '#/components/schemas/TenantProviderResponse'
-            text/plain:
-              schema:
-                $ref: '#/components/schemas/TenantProviderResponse'
-  /v1/apis:
-    post:
-      tags:
-        - Specs
-      x-group-name: Specs
-      x-proxy-name: apis
-      summary: Returns OpenAPI Spec.
-      operationId: APISpecProviderId
+        - Tokenize Endpoint Definition
+      x-group-name: CardSecure
+      x-proxy-name: Tokenize
+      x-default-example: PaymentCard
+      summary: A request to the tokenize endpoint returns a CardSecure token generated from the data provided in the request.
+      description: |+
+        A request to the tokenize endpoint returns a CardSecure token generated from the data provided in the request.
+        Either the account or devicedata field must be provided.
+        * <a href="https://www.wikipedia.com">Documentation List Point 1</a> = <i>true</i>
       requestBody:
-        description: Filter Request
+        required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/SpecsFilterRequest'
-        required: false
+              $ref: '#/components/schemas/TokenizeRequest'
+            examples:
+              PaymentCard:
+                summary: TokenizeRequest with PaymentCard
+                $ref: '#/components/examples/PaymentCardRequestExample'
+              PaymentCard CardPointe Terminal Entry:
+                summary: TokenizeRequest with PaymentCard via CardPointe Terminal
+                $ref: '#/components/examples/PaymentCardTerminalRequestExample'
+              ACH Unencrypted:
+                summary: TokenizeRequest with Unencrypted ACH
+                $ref: '#/components/examples/ACHRequestExample'
+              GooglePay:
+                summary: TokenizeRequest with GooglePay
+                $ref: '#/components/examples/GooglePayRequestExample'
+              ApplePay:
+                summary: TokenizeRequest with ApplePay
+                $ref: '#/components/examples/ApplePayRequestExample'
       responses:
-        200:
-          description: ""
-          content: {}
-      x-codegen-request-body-name: Body
-  /v1/docs:
-    get:
-      tags:
-        - Documents
-      x-group-name: Documents
-      x-proxy-name: docs
-      summary: Returns Docs in markdown format.
-      operationId: DocsAPIId
-      parameters:
-        - in: query
-          name: path
-          schema:
-            type: string
-          required: true
-          description: Markdown document path
-      responses:
-        200:
-          description: ""
-          content: {}
-      x-codegen-request-body-name: Body
-  /v1/layouts:
-    get:
-      tags:
-        - Layout
-      x-group-name: Layout
-      x-proxy-name: layouts
-      summary: Returns the product page layout.
-      operationId: LayoutAPIId
-      responses:
-        200:
-          description: This text will appear as description of your response body.
+        00:
+          description: No Error
           content:
             application/json:
-              schema:
-                $ref: '#/components/schemas/PageLayoutResponse'
-            text/yaml:
-              schema:
-                $ref: '#/components/schemas/PageLayoutResponse'
-            text/plain:
-              schema:
-                $ref: '#/components/schemas/PageLayoutResponse'
-  /live:
-    get:
-      tags:
-        - HealthCheck
-      x-group-name: HealthCheck
-      x-proxy-name: live
-      summary: Health check probes.
-      operationId: healthCheckId
-      x-links: 
-        link1: 
-          description: Developer Studio
-          flag: external
-          url:  'https://dev-developerstudio.fiserv.com/'
-        link2: 
-          description: Setup tenant
-          flag: internal
-          url:  '../docs?path=docs/getting-started/setup-tenant/setup-tenant.md'
-        link3: 
-          description: Fiserv Portal
-          flag: external
-          url:  'https://fiserv.com'
-      responses:
-        200:
-          description: Health check.
+              $ref: '#/components/response/TokenizeResponse'
+              examples:
+                SuccessfulToken:
+                  summary: Token Response
+                  $ref: '#/components/examples/TokenResponse'
+        03:
+          description: Wrong version number
           content:
             application/json:
-              schema:
-                $ref: '#/components/schemas/LiveProbeResponse'
-  
+              $ref: '#/components/errorcodes/WrongVersion'
+        07:
+          description: Invalid action
+          content:
+            application/json:
+              $ref: '#/components/errorcodes/InvalidAction'
+        08:
+          $ref: '#/components/errorcodes/DataNotDecimal'
+        12:
+          $ref: '#/components/errorcodes/KeyIDNotFound'
+        13:
+          $ref: '#/components/errorcodes/DataTooLong'
+        14:
+          $ref: '#/components/errorcodes/DataEmpty'
+        16:
+          $ref: '#/components/errorcodes/UnknownAlgo'
+        17:
+          $ref: '#/components/errorcodes/EncryptionFailure'
+        19:
+          $ref: '#/components/errorcodes/Base64Failure'
+        20:
+          $ref: '#/components/errorcodes/CryptoWrongLength'
+        21:
+          $ref: '#/components/errorcodes/DataTooShort'
+        22:
+          $ref: '#/components/errorcodes/CCNWrongLength'
+        24:
+          $ref: '#/components/errorcodes/DecryptionFailure'
+        25:
+          $ref: '#/components/errorcodes/BadPadding'
+        26:
+          $ref: '#/components/errorcodes/BadDecrypt'
+        27:
+          $ref: '#/components/errorcodes/KeystoreNotInit'
+        33:
+          $ref: '#/components/errorcodes/ApplicationNotInit'
+        35:
+          $ref: '#/components/errorcodes/BufferTooShort'
+        38:
+          $ref: '#/components/errorcodes/IllegalCharacter'
+        39:
+          $ref: '#/components/errorcodes/WrongLength'
+        43:
+          $ref: '#/components/errorcodes/ServerFailed'
+        44:
+          $ref: '#/components/errorcodes/ConfigItemBad'
+        46:
+          $ref: '#/components/errorcodes/TokenDataProb'
+        47:
+          $ref: '#/components/errorcodes/UnAuthHost'
+        48:
+          $ref: '#/components/errorcodes/TokenPurged'
+        49:
+          $ref: '#/components/errorcodes/DataNotFound'
+        50:
+          $ref: '#/components/errorcodes/ErrorHashing'
+        53:
+          $ref: '#/components/errorcodes/TokenDuplicate'
+        54:
+          $ref: '#/components/errorcodes/LuhnFailure'
+        55:
+          $ref: '#/components/errorcodes/MissingSiteName'
+        56:
+          $ref: '#/components/errorcodes/TokenFormatBad'
+        57:
+          $ref: '#/components/errorcodes/RequestSignatureInvalid'
+        58:
+          $ref: '#/components/errorcodes/RequestSignatureExpired'
+        59:
+          $ref: '#/components/errorcodes/RequestSignatureMismatch'
+        60:
+          $ref: '#/components/errorcodes/RequestSignatureInvalid'
+        61:
+          $ref: '#/components/errorcodes/PINTranslationFail'
+        63:
+          $ref: '#/components/errorcodes/KeystoreImportFail'
+        64:
+          $ref: '#/components/errorcodes/KeystoreUserstoreFail'
+        65:
+          $ref: '#/components/errorcodes/KeystoreInvalidProc'
+        66:
+          $ref: '#/components/errorcodes/UnauthTerminal'
+        68:
+          $ref: '#/components/errorcodes/KeystoreRollbackFail'
+        71:
+          $ref: '#/components/errorcodes/UnauthDecrypt'
+        72:
+          $ref: '#/components/errorcodes/InvalidEMVData'
+        73:
+          $ref: '#/components/errorcodes/EMVDataEmpty'
+        74:
+          $ref: '#/components/errorcodes/MissingReqParam'
+        75:
+          $ref: '#/components/errorcodes/InvalidEllipticParam'
+        76:
+          $ref: '#/components/errorcodes/JSONSerializationError'
+        77:
+          $ref: '#/components/errorcodes/JSONDeserializationError'
+        78:
+          $ref: '#/components/errorcodes/InvalidSwipeData'
+        parameters:
+            - {$ref: '#/components/parameters/ContentTypeHeader'}
+            - {$ref: '#/components/parameters/ApiKeyHeader'}
+            - {$ref: '#/components/parameters/TimestampHeader'}
+            - {$ref: '#/components/parameters/AcceptLanguageHeader'}
+            - {$ref: '#/components/parameters/MessageDigestHeader'}
+  /cardsecure/api/v1/echo:
+    x-model-version: 1.0
+    post:
+      tags:
+        - Echo
+      x-group-name: 'CardSecure'
+      x-proxy-name: 'Echo'
+      x-default-example: echoId
+      summary: Send a ping command to the server.
+      description: A call to the echo service endpoint sends a ping command to the CardSecure server to verify the application's connection.
+      requestBody:
+        required: true
+        content:
+          application/JSON:
+            schema:
+              $ref: '#/components/schemas/EchoRequest'
+            examples:
+              echoId:
+                summary: Echo request using Message
+                $ref: '#/examples/EchoRequestExample'
+      responses:
+        00:
+          description: No Error
+          content:
+            application/json:
+              $ref: '#/components/response/EchoResponse'
+              examples:
+                SuccessfulToken:
+                  summary: Token Response
+                  $ref: '#/examples/EchoResponseExample'
+        03:
+          description: Wrong version number
+          content:
+            application/json:
+              $ref: '#/components/errorcodes/WrongVersion'
+        07:
+          description: Invalid action
+          content:
+            application/json:
+              $ref: '#/components/errorcodes/InvalidAction'
+        08:
+          $ref: '#/components/errorcodes/DataNotDecimal'
+        12:
+          $ref: '#/components/errorcodes/KeyIDNotFound'
+        13:
+          $ref: '#/components/errorcodes/DataTooLong'
+        14:
+          $ref: '#/components/errorcodes/DataEmpty'
+        16:
+          $ref: '#/components/errorcodes/UnknownAlgo'
+        17:
+          $ref: '#/components/errorcodes/EncryptionFailure'
+        19:
+          $ref: '#/components/errorcodes/Base64Failure'
+        20:
+          $ref: '#/components/errorcodes/CryptoWrongLength'
+        21:
+          $ref: '#/components/errorcodes/DataTooShort'
+        22:
+          $ref: '#/components/errorcodes/CCNWrongLength'
+        24:
+          $ref: '#/components/errorcodes/DecryptionFailure'
+        25:
+          $ref: '#/components/errorcodes/BadPadding'
+        26:
+          $ref: '#/components/errorcodes/BadDecrypt'
+        27:
+          $ref: '#/components/errorcodes/KeystoreNotInit'
+        33:
+          $ref: '#/components/errorcodes/ApplicationNotInit'
+        35:
+          $ref: '#/components/errorcodes/BufferTooShort'
+        38:
+          $ref: '#/components/errorcodes/IllegalCharacter'
+        39:
+          $ref: '#/components/errorcodes/WrongLength'
+        43:
+          $ref: '#/components/errorcodes/ServerFailed'
+        44:
+          $ref: '#/components/errorcodes/ConfigItemBad'
+        46:
+          $ref: '#/components/errorcodes/TokenDataProb'
+        47:
+          $ref: '#/components/errorcodes/UnAuthHost'
+        48:
+          $ref: '#/components/errorcodes/TokenPurged'
+        49:
+          $ref: '#/components/errorcodes/DataNotFound'
+        50:
+          $ref: '#/components/errorcodes/ErrorHashing'
+        53:
+          $ref: '#/components/errorcodes/TokenDuplicate'
+        54:
+          $ref: '#/components/errorcodes/LuhnFailure'
+        55:
+          $ref: '#/components/errorcodes/MissingSiteName'
+        56:
+          $ref: '#/components/errorcodes/TokenFormatBad'
+        57:
+          $ref: '#/components/errorcodes/RequestSignatureInvalid'
+        58:
+          $ref: '#/components/errorcodes/RequestSignatureExpired'
+        59:
+          $ref: '#/components/errorcodes/RequestSignatureMismatch'
+        60:
+          $ref: '#/components/errorcodes/RequestSignatureInvalid'
+        61:
+          $ref: '#/components/errorcodes/PINTranslationFail'
+        63:
+          $ref: '#/components/errorcodes/KeystoreImportFail'
+        64:
+          $ref: '#/components/errorcodes/KeystoreUserstoreFail'
+        65:
+          $ref: '#/components/errorcodes/KeystoreInvalidProc'
+        66:
+          $ref: '#/components/errorcodes/UnauthTerminal'
+        68:
+          $ref: '#/components/errorcodes/KeystoreRollbackFail'
+        71:
+          $ref: '#/components/errorcodes/UnauthDecrypt'
+        72:
+          $ref: '#/components/errorcodes/InvalidEMVData'
+        73:
+          $ref: '#/components/errorcodes/EMVDataEmpty'
+        74:
+          $ref: '#/components/errorcodes/MissingReqParam'
+        75:
+          $ref: '#/components/errorcodes/InvalidEllipticParam'
+        76:
+          $ref: '#/components/errorcodes/JSONSerializationError'
+        77:
+          $ref: '#/components/errorcodes/JSONDeserializationError'
+        78:
+          $ref: '#/components/errorcodes/InvalidSwipeData'
+        parameters:
+          - $ref: '#/components/parameters/ContentTypeHeader'
+          - $ref: '#/components/parameters/ApiKeyHeader'
+          - $ref: '#/components/parameters/TimestampHeader'
+          - $ref: '#/components/parameters/AcceptLanguageHeader'
+          - $ref: '#/components/parameters/MessageDigestHeader'
 components:
+  parameters:
+    TimestampHeader:
+      x-model-version: 1.0
+      name: Timestamp
+      schema: {type: integer, format: int64}
+      in: header
+      required: true
+      description: Epoch timestamp in milliseconds in the request from a client system.
+        Used for authorization header generation and time limit (5 minutes).
+    MessageDigestHeader:
+      x-model-version: 1.0
+      name: Message-Digest
+      schema: {
+        type: string,
+        default: "Message-Digest"
+       }
+      in: header
+      required: false
+      description: Needed only from customer browser or app to the API in Hosted Payment
+        Page requests.
+    AcceptLanguageHeader:
+      x-model-version: 1.0
+      name: Accept-Language
+      schema: {
+        type: string,
+        default: "Accept-Language"
+       }
+      in: header
+      required: false
+      description: The Accept Language header contains information about the language
+        preference of a user. This HTTP header is useful to multilingual sites for
+        deciding the best language to serve to the client. For example en-US or fr-CA.
+    ApiKeyHeader:
+      x-model-version: 1.0
+      name: Api-Key
+      schema: {
+        type: string,
+        default: "Api-Key"
+       }
+      in: header
+      required: true
+      description: API key provided to the merchant associating the requests with the appropriate app in the Developer Portal.
+    ContentTypeHeader:
+      x-model-version: 1.0
+      name: Content-Type
+      schema:
+        type: string
+        enum: [application/json]
+        default: application/json
+      in: header
+      required: true
+      description: The content type. Valid value (application/json).
+    AccountParam:
+      x-model-version: 1.0
+      name: account
+      schema: {
+          type: String,
+          default: 4444333322221111
+        }
+      in: header
+      required: false
+      description: This field is required only if devicedata is absent.
+                    One of the following,
+                      A clear or encrypted payment account number (PAN)
+                      An ACH routing and account number string in the format <routing>/<account> for eCheck transactions
+                    If encryptionhandler is provided, the account is treated as an encrypted PAN.
+    DeviceDataParam:
+      x-model-version: 1.0
+      name: devicedata
+      schema: {
+          type: string,
+          required: false
+        }
+      in: header
+      description: This field is required only if account is absent.
+    CVVParam:
+      x-model-version: 1.0
+      name: cvv
+      schema: {
+          type: number,
+          required: False
+        }
+      in: header
+      description: Card Verification Value (CVV)
+    ExpiryParam:
+      x-model-version: 1.0
+      name: expiry
+      schema:
+        {
+          type: number,
+          required: False
+        }
+      in: header
+      description: Expiration date
+    SigParam:
+      x-model-version: 1.0
+      name: signature
+      schema:
+        {
+          type: string,
+          required: False
+        }
+      in: header
+      description: Signature data is the form of a Base64-encoded, Gzipped bitmap (BMP)
+    EncryptHandleParam:
+      x-model-version: 1.0
+      name: encryptionhandler
+      schema:
+        {
+          type: string,
+          required: False
+        }
+      in: header
+      description: Encryption Handler. Either RSA, EX_APPLE_PAY, EX_GOOGLE_PAY
+    UniqueParam:
+      x-model-version: 1.0
+      name: unique
+      schema:
+        {
+          type: boolean,
+          required: False
+        }
+      in: header
+      description: Specifies whether a unique token should be generated. Defaults to false.
+    MessageParam:
+      x-model-version: 1.0
+      name: message
+      schema:
+        {
+          type: string,
+          required: False
+        }
+      in: header
+      description: A message to send in the ping request and receive in the response. The value can be blank, however the message field must be included in the request.
   schemas:
-    LiveProbeResponse:
+    ErrorCode:
+      type: number
+      description: An error code. Returns "00" if successful. All error codes contain four digits. Two zeros precede the codes.
+      properties:
+        errorcode:
+          $ref: '#/components/errorcodes/'
+        message:
+          $ref: '#/components/errorcodes/'
+    Error:
+      x-model-version: 1.0
+      description: Error information
+      properties:
+        type:
+          description: 'The type of response either from the HOST, GATEWAY, NETWORK, or APIM.'
+          type: string
+        example: GATEWAY
+      code:
+        description: 'Error response code from the host, gateway, or network'
+        type: string
+        message:
+          description: 'Information specific to a propery or attribute.'
+          type: string
+    EchoRequest:
+      x-model-version: 1.0
       type: object
       properties:
         message:
-          type: string
-          description: Message
-    PageLayoutResponse:
-      type: array
-      items:
-        type: object
-        properties:
-          hero:
-            type: array
-            items:
-              type: object
-              properties:
-                descrption:
-                  type: string
-                  description: Descrption
-                image:
-                  type: string
-                  description: Image
-            description: Hero
-          journey Cards:
-            type: array
-            items:
-              type: object
-              properties:
-                journeyCard:
-                  type: array
-                  items:
-                    type: object
-                    properties:
-                      contextualNavigationCards:
-                        type: array
-                        items:
-                          type: object
-                          properties:
-                            contextualNavigationCard:
-                              type: array
-                              items:
-                                type: object
-                                properties:
-                                  description:
-                                    type: string
-                                    description: Description
-                                  link:
-                                    type: array
-                                    items:
-                                      type: object
-                                      properties:
-                                        type:
-                                          type: string
-                                          description: Type
-                                        uri:
-                                          type: string
-                                          description: URI
-                                    description: Link
-                                  title:
-                                    type: string
-                                    description: Title
-                              description: ContextualNavigationCard
-                        description: ContextualNavigationCards
-                      description:
-                        type: string
-                        description: Description
-                      link:
-                        type: array
-                        items:
-                          type: object
-                          properties:
-                            type:
-                              type: string
-                              description: Type
-                            uri:
-                              type: string
-                              description: URI
-                        description: Link
-                      title:
-                        type: string
-                        description: Title
-                  description: JourneyCard
-            description: JourneyCards
-    SpecsFilterRequest:
-      type: object
-      properties:
-        categories:
-          type: array
-          items:
-            type: object
-            properties:
-              name:
-                type: string
-                description: Name
-              subcategories:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    name:
-                      type: string
-                      description: Name
-                description: Subcategories
-          description: Categories
-    TenantProviderResponse:
-      type: object
-      properties:
-        brand:
-          type: string
-          description: Brand
-        brandDescription:
-          type: string
-          description: BrandDescription
-        brandLogoURL:
-          type: string
-          description: BrandLogoURL
-        categories:
-          type: array
-          items:
-            type: object
-            properties:
-              name:
-                type: string
-                description: Name
-              subcategories:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    name:
-                      type: string
-                      description: Name
-                    value:
-                      type: string
-                      description: Value
-                description: Subcategories
-              value:
-                type: string
-                description: Value
-          description: Categories
-        name:
-          type: string
-          description: Name
-        product:
-          type: object
+          type: String
+          maxLength: 250
+          description: A message to send in the ping request and receive in the response. The value can be blank, however the message field must be included in the request.
+    TokenizeRequest:
+      x-model-version: 1.0
+      oneOf:
+        - ref: '#/components/schemas/TokenizeRequestAccount'
+        - type: object
           properties:
-            apiSpecification:
+            account:
               type: string
-              description: APISpecification 
-            description:
+              maxLength: 19
+              description: Account number
+              example: '4444333322221111'
+        - ref: '#/components/schemas/TokenizeRequestDeviceData'
+        - type: object
+          properties:
+            devicedata:
               type: string
-              description: Description
-            documentation:
-              type: string
-              description: Documentation
-            featured:
-              type: boolean
-              description: Featured
-            layout:
-              type: string
-              description: Layout
-            logoURL:
-              type: string
-              description: LogoURL
-          description: Product
-        solution:
-          type: string
-          description: Solution
-        title:
-          type: string
-          description: Title
-  responses:
-    apiSpecResponseWrapper:
-      description: OpenAPI Spec for the APIs. 
-      content: {}
-    docsResponseWrapper:
-      description: Markdown files.
-      content: {}
-    liveResponse:
-      description: Health check.
+              description: Either track data, ApplePay payment token, or GooglePay wallet payload.
+              example: '2'
+            oneOf:
+              signature:
+                type: String
+                description: Saved image file of signature
+                example: sig
+              encryptionhandler:
+                type: String
+                description: Payment acceptance and encryption method.
+  response:
+    TokenizeResponse:
+      x-model-version: 1.0
+      description: Contains the <a href="path">Gateway Response</a>
+      content:
+        message:
+          type: String
+          description: Status of the request. Returns "No Error" if the request was successful.
+          example: 'No Error'
+        errorcode:
+          $ref: '#/components/schemas/ErrorCode'
+          example: 0
+        token:
+          type: String
+          description: The token generated from the request data.
+          example: '9417119164771111'
+    EchoResponse:
+      x-model-version: 1.0
+      description: Contains the status of connection to CardSecure server.
+      content:
+        message:
+          type: String
+          description: The message value included in the request. Returns a descriptive error message if the request failed.
+          example: 'Hello?'
+        errorcode:
+          $ref: '#/components/schemas/ErrorCode'
+          example: 0
+  errorcodes:
+    WrongVersion:
+      x-model-version: 1.0
+      description: Wrong version number
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/LiveProbeResponse'
-        text/yaml:
+            $ref: '#/components/schemas/Error'
+    InvalidAction:
+      x-model-version: 1.0
+      description: Invalid action
+      content:
+        application/JSON:
           schema:
-            $ref: '#/components/schemas/LiveProbeResponse'
-        text/plain:
+            $ref: '#components/schemas/Error'
+    DataNotDecimal:
+      x-model-version: 1.0
+      description: Data is not decimal digits
+      content:
+        application/JSON:
           schema:
-            $ref: '#/components/schemas/LiveProbeResponse'
-    productPage:
-      description: This text will appear as description of your response body. 
+            $ref: '#components/schemas/Error'
+    KeyIDNotFound:
+      x-model-version: 1.0
+      description: Key ID is not found
+      content:
+        application/JSON:
+          schema:
+            $ref: '#components/schemas/Error'
+    DataTooLong:
+      x-model-version: 1.0
+      description: Data is too long
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/PageLayoutResponse'
-        text/yaml:
-          schema:
-            $ref: '#/components/schemas/PageLayoutResponse'
-        text/plain:
-          schema:
-            $ref: '#/components/schemas/PageLayoutResponse'
-    tenant:
-      description: This text will appear as description of your response body. 
+            $ref: '#/components/schemas/Error'
+    DataEmpty:
+      x-model-version: 1.0
+      description: Data is empty
       content:
-        application/json:
+        application/JSON:
           schema:
-            $ref: '#/components/schemas/TenantProviderResponse'
-        text/yaml:
+            $ref: '#/components/schemas/Error'
+    UnknownAlgo:
+      x-model-version: 1.0
+      description: Unknown Algorithm
+      content:
+        application/JSON:
           schema:
-            $ref: '#/components/schemas/TenantProviderResponse'
-        text/plain:
+            $ref: '#/components/schemas/Error'
+    EncryptionFailure:
+      x-model-version: 1.0
+      description: Encryption Failure
+      content:
+        application/JSON:
           schema:
-            $ref: '#/components/schemas/TenantProviderResponse'
-  securitySchemes:
-    basic:
-      type: http
-      scheme: basic
+            $ref: '#/components/schemas/Error'
+    Base64Failure:
+      x-model-version: 1.0
+      description: Base 64 decode failure
+      content:
+        application/JSON:
+          schema:
+            $ref: '#/components/schemas/Error'
+    CryptoWrongLength:
+      x-model-version: 1.0
+      description: Crypto data is the wrong length
+      content:
+        application/JSON:
+          schema:
+            $ref: '#/components/schemas/Error'
+    DataTooShort:
+      x-model-version: 1.0
+      description: Data is too short
+      content:
+        application/JSON:
+          schema:
+            $ref: '#/components/schemas/Error'
+    CCNWrongLength:
+      x-model-version: 1.0
+      description: CCN wrong length on decryption
+      content:
+        application/JSON:
+          schema:
+            $ref: '#/components/schemas/Error'
+    DecryptionFailure:
+      x-model-version: 1.0
+      description: Decryption Failure
+      content:
+        application/JSON:
+          schema:
+            $ref: '#/components/schemas/Error'
+    BadPadding:
+      x-model-version: 1.0
+      description: Bad PKCS 5 padding
+      content:
+        application/JSON:
+          schema:
+            $ref: '#/components/schemas/Error'
+    BadDecrypt:
+      description: Bad decryption length field
+    KeystoreNotInit:
+      description: Keystore not initialized
+    ApplicationNotInit:
+      x-model-version: 1.0
+      description: Application not initialized
+      content:
+        application/JSON:
+          schema:
+            $ref: '#/components/schemas/Error'
+    BufferTooShort:
+      x-model-version: 1.0
+      description: Buffer too short
+      content:
+        application/JSON:
+          schema:
+            $ref: '#/components/schemas/Error'
+    IllegalCharacter:
+      x-model-version: 1.0
+      description: Illegal characters
+      content:
+        application/JSON:
+          schema:
+            $ref: '#/components/schemas/Error'
+    WrongLength:
+      x-model-version: 1.0
+      description: Wrong message length
+      content:
+        application/JSON:
+          schema:
+            $ref: '#/components/schemas/Error'
+    ServerFailed:
+      x-model-version: 1.0
+      description: Server failed
+      content:
+        application/JSON:
+          schema:
+            $ref: '#/components/schemas/Error'
+    ConfigItemBad:
+      x-model-version: 1.0
+      description: Config item is bad
+      content:
+        application/JSON:
+          schema:
+            $ref: '#/components/schemas/Error'
+    TokenDataProb:
+      x-model-version: 1.0
+      description: Token database problem
+      content:
+        application/JSON:
+          schema:
+            $ref: '#/components/schemas/Error'
+    UnAuthHost:
+      x-model-version: 1.0
+      description: Unauthorized host
+      content:
+        application/JSON:
+          schema:
+            $ref: '#/components/schemas/Error'
+    TokenPurged:
+      x-model-version: 1.0
+      description: Token Purged
+      content:
+        application/JSON:
+          schema:
+            $ref: '#/components/schemas/Error'
+    DataNotFound:
+      x-model-version: 1.0
+      description: Data not found
+      content:
+        application/JSON:
+          schema:
+            $ref: '#/components/schemas/Error'
+    ErrorHashing:
+      x-model-version: 1.0
+      description: Error hashing the value
+      content:
+        application/JSON:
+          schema:
+            $ref: '#/components/schemas/Error'
+    TokenDuplicate:
+      x-model-version: 1.0
+      description: Token or data duplicate
+      content:
+        application/JSON:
+          schema:
+            $ref: '#/components/schemas/Error'
+    LuhnFailure:
+      x-model-version: 1.0
+      description: Card number check (Luhn formula) failed
+      content:
+        application/JSON:
+          schema:
+            $ref: '#/components/schemas/Error'
+    MissingSiteName:
+      x-model-version: 1.0
+      description: Missing or unknown site name
+      content:
+        application/JSON:
+          schema:
+            $ref: '#/components/schemas/Error'
+    TokenFormatBad:
+      x-model-version: 1.0
+      description: Token format is bad
+      content:
+        application/JSON:
+          schema:
+            $ref: '#/components/schemas/Error'
+    RequestSignatureInvalid:
+      x-model-version: 1.0
+      description: Request signature is bad
+      content:
+        application/JSON:
+          schema:
+            $ref: '#/components/schemas/Error'
+    RequestSignatureExpired:
+      x-model-version: 1.0
+      description: Request signature timestamp expired
+      content:
+        application/JSON:
+          schema:
+            $ref: '#/components/schemas/Error'
+    RequestSignatureMismatch:
+      x-model-version: 1.0
+      description: Request signature mismatch
+      content:
+        application/JSON:
+          schema:
+            $ref: '#/components/schemas/Error'
+    RequestSignatureFailure:
+      x-model-version: 1.0
+      description: Request signature failure
+      content:
+        application/JSON:
+          schema:
+            $ref: '#/components/schemas/Error'
+    PINTranslationFail:
+      x-model-version: 1.0
+      description: PIN translation fail
+      content:
+        application/JSON:
+          schema:
+            $ref: '#/components/schemas/Error'
+    KeystoreImportFail:
+      x-model-version: 1.0
+      description: Keystore import failure
+      content:
+        application/JSON:
+          schema:
+            $ref: '#/components/schemas/Error'
+    KeystoreUserstoreFail:
+      x-model-version: 1.0
+      description: Keystore userstore failure
+      content:
+        application/JSON:
+          schema:
+            $ref: '#/components/schemas/Error'
+    KeystoreInvalidProc:
+      x-model-version: 1.0
+      description: Keystore invalid processor
+      content:
+        application/JSON:
+          schema:
+            $ref: '#/components/schemas/Error'
+    UnauthTerminal:
+      x-model-version: 1.0
+      description: Unauthorized terminal
+      content:
+        application/JSON:
+          schema:
+            $ref: '#/components/schemas/Error'
+    KeystoreRollbackFail:
+      x-model-version: 1.0
+      description: Keystore rollback failure
+      content:
+        application/JSON:
+          schema:
+            $ref: '#/components/schemas/Error'
+    UnauthDecrypt:
+      x-model-version: 1.0
+      description: Unauthorized decrypt
+      content:
+        application/JSON:
+          schema:
+            $ref: '#/components/schemas/Error'
+    InvalidEMVData:
+      x-model-version: 1.0
+      description: Invalid EMV tag data
+      content:
+        application/JSON:
+          schema:
+            $ref: '#/components/schemas/Error'
+    EMVDataEmpty:
+      x-model-version: 1.0
+      description: EMV tag data empty
+      content:
+        application/JSON:
+          schema:
+            $ref: '#/components/schemas/Error'
+    MissingReqParam:
+      x-model-version: 1.0
+      description: Missing required parameter
+      content:
+        application/JSON:
+          schema:
+            $ref: '#/components/schemas/Error'
+    InvalidEllipticParam:
+      x-model-version: 1.0
+      description: Invalid elliptic curve type parameter
+      content:
+        application/JSON:
+          schema:
+            $ref: '#/components/schemas/Error'
+    JSONSerializationError:
+      x-model-version: 1.0
+      description: JSON serialization error
+      content:
+        application/JSON:
+          schema:
+            $ref: '#/components/schemas/Error'
+    JSONDeserializationError:
+      x-model-version: 1.0
+      description: JSON deserialization error
+      content:
+        application/JSON:
+          schema:
+            $ref: '#/components/schemas/Error'
+    InvalidSwipeData:
+      x-model-version: 1.0
+      description: Invalid swipe data
+      content:
+        application/JSON:
+          schema:
+            $ref: '#/components/schemas/Error'
+  examples:
+    EchoRequestExample:
+      value:
+        message: 'Hello?'
+        source:
+          sourcetype: EchoRequest
+    EchoResponseExample:
+      value:
+        message: 'Hello?'
+        errorcode: 0
+    TokenResponse:
+      value:
+        message: 'No Error'
+        errorcode: 0
+        token: 9417119164771111
+    PaymentCardRequestExample:
+      value:
+        account: 4444333322221111
+    PaymentCardTerminalRequestExample:
+      value:
+        devicedata: '2'
+        signature: sig
+    ACHRequestExample:
+      value:
+        account: 011401533/1234123412341234
+    ApplePayRequestExample:
+      value:
+        encryptionhandler: EC_APPLE_PAY
+        devicedata: '2'
+    GooglePayRequestExample:
+      value:
+        encryptionhandler: EC_GOOGLE_PAY
+        devicedata: '2'
