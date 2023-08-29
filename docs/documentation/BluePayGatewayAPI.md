@@ -191,29 +191,23 @@ These third-party WordPress plugins are compatible with the BluePay Gateway.
 
 <!--
 type: tab
-titles: JD Edwards
+titles: JD Edwards, Oracle, SAP
 -->
 
 Integrating JD Edwards ERP systems with BluePay’s payment gateway gives you PCI-certified security and customization of your payment experience to meet your specific needs.
 
 [Learn More](https://www.cditechnology.com/payments/integrated-payments-jd-edwards/)
 
-<!-- type: tab-end -->
-
 <!--
 type: tab
-titles: Oracle
 -->
 
 Integration of the Oracle ERP system with BluePay’s payment environment keeps your customers’ data secure and decreases your liability.
 
 [Learn More](https://cloudmarketplace.oracle.com/marketplace/en_US/homeLinkPage?tabName=O&adf.tfDoc=%2FWEB-INF%2Ftaskflow%2Fadhtf.xml&application_id=27749748&adf.tfId=adhtf)
 
-<!-- type: tab-end -->
-
 <!--
 type: tab
-titles: SAP
 -->
 
 Using SAP with BluePay’s payment solution provides efficient and secure credit card processing, allows customers to purchase from you via tablets and smartphones, and lets you decide exactly what functions you need.
@@ -244,6 +238,8 @@ Outlined below are four "ready-to-use" templates for payment forms. Click the li
 - [Credit Card & ACH - White with recurring](https://secure.bluepay.com/interfaces/shpf?SHPF_FORM_ID=mobileform02RD&SHPF_ACCOUNT_ID=100155584807&SHPF_TPS_DEF=SHPF%5FFORM%5FID%20SHPF%5FACCOUNT%5FID%20DBA%20TAMPER%5FPROOF%5FSEAL%20AMEX%5FIMAGE%20DISCOVER%5FIMAGE%20TPS%5FDEF%20SHPF%5FTPS%5FDEF%20CUSTOM%5FHTML&SHPF_TPS=f58b041585234518473a6dc325faaaa4&MODE=TEST&TRANSACTION_TYPE=SALE&DBA=Merchant%20Name&AMOUNT=&TAMPER_PROOF_SEAL=9b820e08c1a331eb87bd7db4b8f7113f&CUSTOM_ID=&CUSTOM_ID2=&REBILLING=1&REB_CYCLES=&REB_AMOUNT=&REB_EXPR=&REB_FIRST_DATE=&AMEX_IMAGE=amex%2Egif&DISCOVER_IMAGE=discvr%2Egif&REDIRECT_URL=https%3A%2F%2Fsecure%2Ebluepay%2Ecom%2Finterfaces%2Fshpf%3FSHPF%5FFORM%5FID%3Dmobileresult01%26SHPF%5FACCOUNT%5FID%3D100155584807%26SHPF%5FTPS%5FDEF%3DSHPF%5FACCOUNT%5FID%20SHPF%5FFORM%5FID%20RETURN%5FURL%20DBA%20AMEX%5FIMAGE%20DISCOVER%5FIMAGE%20SHPF%5FTPS%5FDEF%26SHPF%5FTPS%3Dfa08ab37dc5819e5904af10c18222cd2%26RETURN%5FURL%3Dhttp%253A%252F%252Fwww%252Ebluepay%252Ecom%252F%26DBA%3DMerchant%2520Name%26AMEX%5FIMAGE%3Damex%252Egif%26DISCOVER%5FIMAGE%3Ddiscvr%252Egif&TPS_DEF=MERCHANT%20APPROVED%5FURL%20DECLINED%5FURL%20MISSING%5FURL%20MODE%20TRANSACTION%5FTYPE%20TPS%5FDEF&CUSTOM_HTML=&CARD_TYPES=vi%2Dmc%2Ddi%2Dam)
 - [ACH Only - White](https://secure.bluepay.com/interfaces/shpf?SHPF_FORM_ID=mobileform03D&SHPF_ACCOUNT_ID=100155584807&SHPF_TPS_DEF=SHPF%5FFORM%5FID%20SHPF%5FACCOUNT%5FID%20DBA%20TAMPER%5FPROOF%5FSEAL%20AMEX%5FIMAGE%20DISCOVER%5FIMAGE%20TPS%5FDEF%20SHPF%5FTPS%5FDEF%20CUSTOM%5FHTML%20REBILLING%20REB%5FCYCLES%20REB%5FAMOUNT%20REB%5FEXPR%20REB%5FFIRST%5FDATE&SHPF_TPS=27311c56d1b82c91b0c5963663b9d4aa&MODE=TEST&TRANSACTION_TYPE=SALE&DBA=Merchant%20Name&AMOUNT=&TAMPER_PROOF_SEAL=1963bfd3b151b4453f068647cf79f4ef&CUSTOM_ID=&CUSTOM_ID2=&REBILLING=0&REB_CYCLES=&REB_AMOUNT=&REB_EXPR=&REB_FIRST_DATE=&AMEX_IMAGE=amex%2Egif&DISCOVER_IMAGE=discvr%2Egif&REDIRECT_URL=https%3A%2F%2Fsecure%2Ebluepay%2Ecom%2Finterfaces%2Fshpf%3FSHPF%5FFORM%5FID%3Dmobileresult01%26SHPF%5FACCOUNT%5FID%3D100155584807%26SHPF%5FTPS%5FDEF%3DSHPF%5FACCOUNT%5FID%20SHPF%5FFORM%5FID%20RETURN%5FURL%20DBA%20AMEX%5FIMAGE%20DISCOVER%5FIMAGE%20SHPF%5FTPS%5FDEF%26SHPF%5FTPS%3D2bd02e08a400072786a4959476998d01%26RETURN%5FURL%3Dhttp%253A%252F%252Fwww%252Ebluepay%252Ecom%26DBA%3DMerchant%2520Name%26AMEX%5FIMAGE%3Damex%252Egif%26DISCOVER%5FIMAGE%3Ddiscvr%252Egif&TPS_DEF=MERCHANT%20APPROVED%5FURL%20DECLINED%5FURL%20MISSING%5FURL%20MODE%20TRANSACTION%5FTYPE%20TPS%5FDEF%20REBILLING%20REB%5FCYCLES%20REB%5FAMOUNT%20REB%5FEXPR%20REB%5FFIRST%5FDATE&CUSTOM_HTML=&CARD_TYPES=vi%2Dmc%2Ddi%2Dam)
 
+> [BluePay Gateway HPP Templates (ALL)](https://view.officeapps.live.com/op/view.aspx?src=https%3A%2F%2Fdeveloper.cardpointe.com%2Fassets%2Fdeveloper%2Fassets%2Fshpf_default_forms.xlsx&wdOrigin=BROWSELINK)
+
 After you have chosen the template that you would like to use, create a URL to that template with this tool: [URL Generator](https://secure.bluepay.com/interfaces/support/urlgeneratorform)
 
 # API Documentation
@@ -256,9 +252,15 @@ Our primary transaction processing API. Name/value pairs are posted to the gatew
 
 **Samples**: [PHP](https://github.com/BluePay/BluePay-Sample-Code/tree/master/PHP), [Perl](https://github.com/BluePay/BluePay-Sample-Code/tree/master/Perl), [Ruby](https://github.com/BluePay/BluePay-Sample-Code/tree/master/Ruby), [Java](https://github.com/BluePay/BluePay-Sample-Code/tree/master/Java), [Python](https://github.com/BluePay/BluePay-Sample-Code/tree/master/Python), [C#](https://github.com/BluePay/BluePay-Sample-Code/tree/master/C%23), [C++](https://github.com/BluePay/BluePay-Sample-Code/tree/master/C%2B%2B), [Visual Basic.net](https://github.com/BluePay/BluePay-Sample-Code/tree/master/VB), [Classic ASP](https://www.bluepay.com/sites/default/files/documentation/BluePay_bp10emu-ASP-WinHTTP%20+%20ACH.zip), [Cold Fusion](https://www.bluepay.com/sites/default/files/documentation/BluePay_bp10emu-Cold_Fusion.zip)
 
+> [BluePay Post (bp10emu)](https://developer.cardpointe.com/assets/developer/assets/BluePay_Post_bp10emu.txt)
+
+> [BluePay 10emu Test Form](https://developer.cardpointe.com/assets/developer/assets/bp10emu-Test-Form.htm)
+
 ### BluePay Redirect (bp10emu) 
 
 The customer fills out a html form served from the merchant’s web server. When they click submit the information they filled in is sent to the redirect interface. It then processes the transaction and redirects the customer’s web browser to a web page on the merchant’s web server.
+
+> [BluePay Post (bp10emu)](https://developer.cardpointe.com/assets/developer/assets/BluePay_Post_bp10emu.txt)
 
 ### BluePay Hosted Payment Form (shpf)
 
@@ -266,17 +268,29 @@ Service where a order form can be securely hosted on the BluePay gateway server.
 
 **Tool**: [Hosted Payment Form URL Generator](https://secure.bluepay.com/interfaces/support/urlgeneratorform)
 
+> [BluePay Hosted Payment Form (shpf)](https://developer.cardpointe.com/assets/developer/assets/BluePay_Hosted_Payment_Form_shpf.txt)
+
 ### BluePayJS
 
 Javascript method to tokenize payment information from a merchant's payment form.
+
+> [BluePay JS Documentation & Sample Code](https://developer.cardpointe.com/assets/developer/assets/BluePayJS_2016-05-17.zip)
 
 ### BluePay Authorize.net AIM Emulator (a.net) 
 
 This interface allows existing Authorize.net integrations to communicate to the BluePay gateway.
 
+> [BluePay Authorize.net AIM Emulator (a.net)](https://developer.cardpointe.com/assets/developer/assets/BluePay_Authorize.net_AIM_Emulator_a.net.txt)
+
 ### Manual CSV Upload 
 
 File upload of transactions to be processed using the gateway's web site.
+
+> [BluePay Manual CSV Upload](https://developer.cardpointe.com/assets/developer/assets/BluePay-Manual-CSV-Upload.txt)
+
+> [No Level 3 Single Line Format Documentation](https://developer.cardpointe.com/assets/developer/assets/bpbuweb.txt)
+
+> [Level 3 Multiple Line Format Documentation](https://developer.cardpointe.com/assets/developer/assets/bp20bu_line_item.pdf)
 
 ### BluePay CSV Upload (bp20bu) 
 
@@ -284,9 +298,17 @@ Interface to upload comma delimited files into the gateway for processing.
 
 **Sample**: [PHP](https://github.com/BluePay/BluePay-Sample-Code/tree/master/PHP)
 
+> [BluePay CSV Upload (bp20bu)](https://developer.cardpointe.com/assets/developer/assets/BluePay-CSV-Upload-bp20bu.txt)
+
+> [No Level 3 Single Line Format Documentation](https://developer.cardpointe.com/assets/developer/assets/bp20bu.txt)
+
+> [Level 3 Multiple Line Format Documentation](https://developer.cardpointe.com/assets/developer/assets/bp20bu_line_item.pdf)
+
 ### BluePay CSV Upload Report (bpbureport) 
 
 Interface to check the status of and download results of CSV files uploaded into the gateway for processing.
+
+> [BluePay CSV Upload Report (bpbureport)](https://developer.cardpointe.com/assets/developer/assets/BluePay_CSV_Upload_Report_bpbureport.txt)
 
 ### BluePay Rebill Administration (bprebadmin) 
 
@@ -294,9 +316,13 @@ This interface is for updating and cancelling rebillings set up in the BluePay G
 
 **Samples**: [PHP](https://github.com/BluePay/BluePay-Sample-Code/tree/master/PHP/Rebill), [Perl](https://github.com/BluePay/BluePay-Sample-Code/tree/master/Perl/Rebill), [Ruby](https://github.com/BluePay/BluePay-Sample-Code/tree/master/Ruby/samples/Rebill), [Java](https://github.com/BluePay/BluePay-Sample-Code/tree/master/Java/src/rebill), [Python](https://github.com/BluePay/BluePay-Sample-Code/tree/master/Python/Rebill), [C#](https://github.com/BluePay/BluePay-Sample-Code/tree/master/C%23/Rebill), [C++](https://github.com/BluePay/BluePay-Sample-Code/tree/master/C%2B%2B/Rebill), [Visual Basic.net](https://github.com/BluePay/BluePay-Sample-Code/tree/master/VB/vbnet/Rebill)
 
+> [BluePay Rebill Administration (bprebadmin)](https://developer.cardpointe.com/assets/developer/assets/BluePay_Rebill_Administration_bprebadmin.txt)
+
 ### BluePay Customer Token Administration (bp20tokenadmin) 
 
 Interface for creating, updating and reading Customer Token data.
+
+> [BluePay Customer Token Administration (bp20tokenadmin)](https://developer.cardpointe.com/assets/developer/assets/BluePay_Customer_Token_Administration_bp20tokenadmin.txt)
 
 ### BluePay Daily Report 2 (bpdailyreport2)
 
@@ -306,29 +332,47 @@ A new version of the reporting interface for the retrieval of transaction data.
 
 **Retrieve by settlement date samples:** [PHP](https://github.com/BluePay/BluePay-Sample-Code/blob/master/PHP/Get_Data/Retrieve_Settlement_Data.php), [Perl](https://github.com/BluePay/BluePay-Sample-Code/blob/master/Perl/Get_Data/Retrieve_Settlement_Data.pl), [Ruby](https://github.com/BluePay/BluePay-Sample-Code/blob/master/Ruby/samples/Get_Data/Retrieve_Settlement_Data.rb), [Java](https://github.com/BluePay/BluePay-Sample-Code/blob/master/Java/src/get_data/Retrieve_Settlement_Data.java), [Python](https://github.com/BluePay/BluePay-Sample-Code/blob/master/Python/Get_Data/Retrieve_Settlement_Data.py), [C#](https://github.com/BluePay/BluePay-Sample-Code/blob/master/C%23/Get_Data/Retrieve_Settlement_Data.cs), [C++](https://github.com/BluePay/BluePay-Sample-Code/blob/master/C%2B%2B/Get_Data/Retrieve_Settlement_Data.cpp), [Visual Basic.net](https://github.com/BluePay/BluePay-Sample-Code/blob/master/VB/vbnet/Get_Data/Retrieve_Settlement_Data.vb)
 
+> [BluePay Daily Report 2 (bpdailyreport2)](https://developer.cardpointe.com/assets/developer/assets/BluePay_Daily_Report_2_bpdailyreport2.pdf)
+
+> [BluePay Daily Report 2 (bpdailyreport2) Test Form](https://developer.cardpointe.com/assets/developer/assets/bpdailyreport2-Test-Form.htm)
+
 ### BluePay Single Transaction Query (stq) 
 
 Interface that can retrieve information of a single transaction using the transaction ID, merchant defined order_id or other search criteria.
 
 **Samples**: [PHP](https://github.com/BluePay/BluePay-Sample-Code/blob/master/PHP/Get_Data/Single_Transaction_Query.php), [Perl](https://github.com/BluePay/BluePay-Sample-Code/blob/master/Perl/Get_Data/Single_Transaction_Query.pl), [Ruby](https://github.com/BluePay/BluePay-Sample-Code/blob/master/Ruby/samples/Get_Data/Single_Transaction_Query.rb), [Java](https://github.com/BluePay/BluePay-Sample-Code/blob/master/Java/src/get_data/Single_Transaction_Query.java), [Python](https://github.com/BluePay/BluePay-Sample-Code/blob/master/Python/Get_Data/Single_transaction_query.py), [C#](https://github.com/BluePay/BluePay-Sample-Code/blob/master/C%23/Get_Data/Single_Transaction_Query.cs), [C++](https://github.com/BluePay/BluePay-Sample-Code/blob/master/C%2B%2B/Get_Data/Single_Transaction_Query.cpp), [Visual Basic.net](https://github.com/BluePay/BluePay-Sample-Code/blob/master/VB/vbnet/Get_Data/Single_Transaction_Query.vb)
 
+> [BluePay Single Transaction Query (stq)](https://developer.cardpointe.com/assets/developer/assets/BluePay_Single_Transaction_Query_stq.txt)
+
+> [BluePay Single Transaction Query (stq) Test Form](https://developer.cardpointe.com/assets/developer/assets/stq-Test-Form.htm)
+
 ### BluePay Reserve Query (reserveq) 
 
 Interface that can retrieve information on ACH reserve payments using a date range and other fields.
+
+> [BluePay Reserve Query (reserveq)](https://developer.cardpointe.com/assets/developer/assets/BluePay_Reserve_Query_reserveq.txt)
+
+> [BluePay Reserve Query (reserveq) Test Form](https://developer.cardpointe.com/assets/developer/assets/reserveq-Test-Form.htm)
 
 ### BluePay Manager CSV Export 
 
 Export of transaction data in Comma Separated Value (CSV) format using the gateway's website.
 
+> [BluePay Manual CSV Download](https://developer.cardpointe.com/assets/developer/assets/BluePay_Manual_CSV_Download.txt)
+
 ### Rebill Post 
 
 Post to remote application when a recurring billing transaction is processed.
+
+> [BluePay Rebill Post](https://developer.cardpointe.com/assets/developer/assets/BluePay_Rebill_Post.txt)
 
 ### Trans Notify Post
 
 Post to remote application when transactions are processed by the gateway.
 
 **Samples**: [PHP](https://github.com/BluePay/BluePay-Sample-Code/blob/master/PHP/Get_Data/Transaction_Notification.php), [Perl](https://github.com/BluePay/BluePay-Sample-Code/blob/master/Perl/Get_Data/Transaction_Notification.pl), [Ruby](https://github.com/BluePay/BluePay-Sample-Code/blob/master/Ruby/samples/Get_Data/Transaction_Notification.rb), [Java](https://github.com/BluePay/BluePay-Sample-Code/blob/master/Java/src/get_data/Transaction_Notification.java), [Python](https://github.com/BluePay/BluePay-Sample-Code/blob/master/Python/Get_Data/Transaction_Notification.py), [C#](https://github.com/BluePay/BluePay-Sample-Code/blob/master/C%23/Get_Data/Transaction_Notification.cs), [Visual Basic.net](https://github.com/BluePay/BluePay-Sample-Code/blob/master/VB/vbnet/Get_Data/Transaction_Notification.vb)
+
+> [BluePay Trans Notify Post Webhook](https://developer.cardpointe.com/assets/developer/assets/BluePay_Trans_Notify_Post_Webhook.txt)
 
 ## Deprecated APIs
 
@@ -338,15 +382,25 @@ Name/value pairs are posted to the gateway which returns results as name/value p
 
 **Samples**: [PHP](https://www.bluepay.com/sites/default/files/documentation/BluePay_bp20post-PHP.zip), [Perl](http://search.cpan.org/~cpkois/Bluepay-Bluepay20Post-0.15/), [Ruby](https://www.bluepay.com/sites/default/files/documentation/BluePay_bp20post-Ruby.zip), [Classic ASP](https://www.bluepay.com/sites/default/files/documentation/BluePay_bp20post-ASP-WinHTTP.zip)
 
+> [BluePay 2.0 Post (bp20post)](https://developer.cardpointe.com/assets/developer/assets/BluePay_2.0_Post_bp20post.txt)
+
+> [BluePay 2.0 Post (bp20post) Test Form](https://developer.cardpointe.com/assets/developer/assets/bp20post-Test-Form.htm)
+
 ### BluePay XML Post (asby)
 
 XML based interface to the gateway that can be used for basic transaction processing. See BluePay 1.0 Post if advanced features are needed.
+
+> [BluePay XML Post (asby)](https://developer.cardpointe.com/assets/developer/assets/BluePay_XML_Post_asby.pdf)
 
 ### BluePay Daily Report (bpdailyreport)
 
 A reporting interface for the retrieval of transaction data.
 
 **Sample**: [Perl](http://search.cpan.org/~cpkois/Bluepay-Bluepay20DailyReport-0.20/Bluepay-Bluepay20DailyReport-0.20/lib/Bluepay/Bluepay20DailyReport)
+
+> [BluePay Daily Report (bpdailyreport) Documentation](https://developer.cardpointe.com/assets/developer/assets/dailyreport.txt)
+
+> [BluePay Daily Report (bpdailyreport) Test Form](https://developer.cardpointe.com/assets/developer/assets/bpdailyreport-Test-Form.htm)
 
 # Code Samples
 
@@ -734,7 +788,7 @@ To support the requirements to identify stored credential transactions, the Blue
 | `STORED_ID`	| 15 | N	| Required when `STORED_INDICATOR` is `S`, and used to associate subsequent transactions in a series with the initial transaction. <br> <br> The `STORED_ID` is returned in the authorization  response from the initial stored credential transaction (when `STORED_INDICATOR` is `F`), and must be provided in subsequent transactions in the series (for example, in a recurring billing arrangement).
 | `STORED_TYPE` | 1	| AN | The `STORED_TYPE` parameter specifies whether the transaction is initiated by the customer or merchant. <br> <br> `C` - Customer-Initiated Transaction (CIT) <br> `M` - Merchant-Initiated Transaction (MIT) |
 
-Expand the following topic for additional sample scenarios:
+Additional sample scenarios:
 
 <!--
 type: tab
@@ -758,67 +812,124 @@ titles: Stored Credential Sample Scenarios
 
 # Developer FAQ
 
-Q) **What is the maximum number of transactions that the Transaction Search can return?**
-A) 20,000.
+- Q) **What is the maximum number of transactions that the Transaction Search can return?**
+    - A) 20,000.
 
-Q) **How can a gateway user be set to have the "Include Column Headers" option for CSV export checked by default?**
-1) From the User List page, under Options choose Preferences.
-2) Click the “Edit” button.
-3) Change the value of “Print CSV Headrers” from “No” to “Yes”.
-4) Click the “Save” button.
+- Q) **How can a gateway user be set to have the "Include Column Headers" option for CSV export checked by default?**
+    - 1) From the User List page, under Options choose Preferences.
+    - 2) Click the “Edit” button.
+    - 3) Change the value of “Print CSV Headrers” from “No” to “Yes”.
+    - 4) Click the “Save” button.
 
-Q) **What causes an "Invalid field name" error when the field names are correct in a batch upload file?**
-A) The file is probably using Unicode encoding. Open the file in Notepad and save file using ANSI encoding.
+- Q) **What causes an "Invalid field name" error when the field names are correct in a batch upload file?**
+    - A) The file is probably using Unicode encoding. Open the file in Notepad and save file using ANSI encoding.
 
-Q) **Can the BluePay Gateway process foreign currencies?**
-A) Yes, using Fiserv’s Global ePricing service.
+- Q) **Can the BluePay Gateway process foreign currencies?**
+    - A) Yes, using Fiserv’s Global ePricing service.
 
-Q) **Where can I see a sample of an online application?**
-A) [Click here to view a sample of an online application.](http://bluepaydevcwybhqpkyb.devcloud.acquia-sites.com/sites/default/files/SamplesShortForm.compressed.pdf)
+- Q) **Where can I see a sample of an online application?**
+    - A) [Click here to view a sample of an online application.](http://bluepaydevcwybhqpkyb.devcloud.acquia-sites.com/sites/default/files/SamplesShortForm.compressed.pdf)
 
-Q) **Why is the CVV result no match when the CVV value is correct but the expiration date is incorrect?**
-A) The CVV value is not a value stored by the card issuer. It is a value calculated using the card number, expiration date and other information on file with the card issuer. Because the expiration date is used in that calculation, supplying the wrong expiration date causes the calculated value to not match the one on the card. When the values don’t match, a no-match CVV response is returned.
+- Q) **Why is the CVV result no match when the CVV value is correct but the expiration date is incorrect?**
+    - A) The CVV value is not a value stored by the card issuer. It is a value calculated using the card number, expiration date and other information on file with the card issuer. Because the expiration date is used in that calculation, supplying the wrong expiration date causes the calculated value to not match the one on the card. When the values don’t match, a no-match CVV response is returned.
 
-Q) **What user permissions must be set to give a gateway user view only access?**
-A) account.view, scope.account, scope.hier, trans.view
+- Q) **What user permissions must be set to give a gateway user view only access?**
+    - A) account.view, scope.account, scope.hier, trans.view
 
-Q) **With which banks can ACH transactions be processed directly?**
-- American Charter Bank
-- Bank of America
-- Capital One
-- Central Bank
-- Chase Bank
-- Comerica Bank
-- First Republic Bank
-- Metabank
-- PNC Bank
-- Regions Bank
-- US Bank
-- Wells Fargo Bank
+- Q) **With which banks can ACH transactions be processed directly?**
+    - American Charter Bank
+    - Bank of America
+    - Capital One
+    - Central Bank
+    - Chase Bank
+    - Comerica Bank
+    - First Republic Bank
+    - Metabank
+    - PNC Bank
+    - Regions Bank
+    - US Bank
+    - Wells Fargo Bank
 
-Q) **How long is a transaction available for use as a Master ID on a new transaction?**
-A) The encrypted card number is kept for seven (7) years.
+- Q) **How long is a transaction available for use as a Master ID on a new transaction?**
+    - A) The encrypted card number is kept for seven (7) years.
 
-Q) **What is Rebill Retry and how does it work?**
-A) If a rebill credit card transaction is declined, the gateway can automatically reattempt the transaction after a configurable amount of time. This option is not available for ACH. IT must enable and configure this option.
+- Q) **What is Rebill Retry and how does it work?**
+    - A) If a rebill credit card transaction is declined, the gateway can automatically reattempt the transaction after a configurable amount of time. This option is not available for ACH. IT must enable and configure this option.
 
-Q) **Why is a test transaction declined?**
-A) The results of a test transaction are determined by the dollar amount of the transaction without cents. If the dollar amount is odd, an approval is returned. If the dollar amount is even, a decline is returned. This allows testing of both transaction result types.
+- Q) **Why is a test transaction declined?**
+    - A) The results of a test transaction are determined by the dollar amount of the transaction without cents. If the dollar amount is odd, an approval is returned. If the dollar amount is even, a decline is returned. This allows testing of both transaction result types.
 
-Q) **If "Customer Receipt" is checked in the settings, will customer receipt emails be sent when a rebilling executes?**
-A) Yes.
+- Q) **If "Customer Receipt" is checked in the settings, will customer receipt emails be sent when a rebilling executes?**
+    - A) Yes.
 
-Q) **Does BluePay issue SSL certificates?**
-A) BluePay does not issue SSL certificates. The merchant would need to contact a certificate authority to get an SSL certificate. Some of the larger companies issuing SSL certificates are GoDaddy, Thawte, Comodo and Verisign. GoDaddy is usually the least expensive option.
+- Q) **Does BluePay issue SSL certificates?**
+    - A) BluePay does not issue SSL certificates. The merchant would need to contact a certificate authority to get an SSL certificate. Some of the larger companies issuing SSL certificates are GoDaddy, Thawte, Comodo and Verisign. GoDaddy is usually the least expensive option.
 
-Q) **When using a USB card swipe with the Virtual Terminal, is the address information required?**
-A) Address information is not required when the track data is submitted in the "Swipe Result" field. Using "Swipe Result" causes a transaction to be treated as a card present transaction.
+- Q) **When using a USB card swipe with the Virtual Terminal, is the address information required?**
+    - A) Address information is not required when the track data is submitted in the "Swipe Result" field. Using "Swipe Result" causes a transaction to be treated as a card present transaction.
 
-Q) **What does RRNO stand for?**
-A) RRNO is an acronym for Reference Routing Number. It is more commonly known as the transaction ID.
+- Q) **What does RRNO stand for?**
+    - A) RRNO is an acronym for Reference Routing Number. It is more commonly known as the transaction ID.
 
-Q) **How can a demo account be configured to process test ACH transactions?**
-A) Send an email to bluepay-gateway@fiserv.com with your demo account ID requesting that ACH processing capability be added. The number sequence 123456780 can be used as the routing number on test ACH transactions.
+- Q) **How can a demo account be configured to process test ACH transactions?**
+    - A) Send an email to bluepay-gateway@fiserv.com with your demo account ID requesting that ACH processing capability be added. The number sequence 123456780 can be used as the routing number on test ACH transactions.
 
-Q) **Which shows on a BluePay Manager receipt — the Account Name or the DBA Name?**
-A) The Account Name is displayed on the receipt.
+- Q) **Which shows on a BluePay Manager receipt — the Account Name or the DBA Name?**
+    - A) The Account Name is displayed on the receipt.
+
+# Instructional Videos
+
+## Processing Transactions
+
+- [Locating Your BluePay Secret Key and Account ID](https://www.youtube.com/watch?v=_oknodNHBmM)
+- [How to Authorize Funds](https://www.youtube.com/watch?v=KHEtDeQqUts)
+- [How to Capture Authorized Funds](https://www.youtube.com/watch?v=lBnoont1L98)
+- [How to Close a Batch](https://www.youtube.com/watch?v=rGLo-XyDEuY)
+- [How to Login and Process Transactions](https://www.youtube.com/watch?v=KWdTMC4WHKA)
+- [How to Search for Transactions and Process Refunds](https://www.youtube.com/watch?v=J0u_GNZGERY)
+- [How to Set Up Recurring Billing](https://www.youtube.com/watch?v=-duALQaV_bY)
+- [How to Review Recurring Billing Data](https://www.youtube.com/watch?v=yMI1Z9hUQbo)
+- [How to Edit Recurring Billing Data](https://www.youtube.com/watch?v=V0fakBh5sHI)
+
+## Fraud Management
+
+- [Demo](https://www.youtube.com/watch?v=q0j3Cwy6eoE)
+- [AVS / CVV Filter](https://www.youtube.com/watch?v=Z2j3QfqmrKo)
+- [Card Issuing Country Filter](https://www.youtube.com/watch?v=2YBSB-p9HCg)
+- [Geo IP Tracking](https://www.youtube.com/watch?v=xI3V9xHE8qE)
+- [Negative Database](https://www.youtube.com/watch?v=CUKNbz38M8M)
+- [Threshold](https://www.youtube.com/watch?v=yi0TPRslXJI)
+- [Velocity Filter](https://www.youtube.com/watch?v=CZgDy6JigZs)
+
+## QuickBooks Desktop Plugin 
+
+- [Introduction and How to Process Against an Invoice](https://www.youtube.com/watch?v=5IvDtulT9TU)
+- [How to Process a Sales Receipt](https://www.youtube.com/watch?v=jaPV4_10quo)
+- [How to Set Up and Modify Recurring Billing Cycles](https://www.youtube.com/watch?v=qmrJp7bgT48)
+
+## QuickBooks Online Plugin 
+
+- [Setting Up Your Account](https://www.youtube.com/watch?v=5Z8lUxdRGps)
+- [Processing a Transaction](https://www.youtube.com/watch?v=L6doZ3zNHUs)
+- [Importing Transactions](https://www.youtube.com/watch?v=9y-AzIDCv8g)
+- [Invoice Presentment](https://www.youtube.com/watch?v=oPY2ATs7-SI)
+- [Setting Up and Modifying Billing Cycles](https://www.youtube.com/watch?v=VGMXmNIIwDQ)
+- [Storing Payment Information](https://www.youtube.com/watch?v=kdPcJvW_fKs)
+
+## Salesforce Plugin 
+
+- [Setup and Installation](https://www.youtube.com/watch?v=tT_F3JzAJ0M)
+- [Processing a Transaction and Refund](https://www.youtube.com/watch?v=dse3RQx7IDg)
+- [Stored Payments](https://www.youtube.com/watch?v=D9OFGCT2oXM)
+- [Recurring Billing](https://www.youtube.com/watch?v=1XzfDqkk8r0)
+
+## Microsoft Dynamics GP Plugin 
+
+- [Install and Setup](https://www.youtube.com/watch?v=yldchW4Ire8)
+- [Processing Credit Card Transactions](https://www.youtube.com/watch?v=Fevf3SxV1QU)
+- [Processing ACH Transactions](https://www.youtube.com/watch?v=Kk5VNCUa-rQ)
+- [Manually Approved Transactions](https://www.youtube.com/watch?v=0GrY2tN7qUs)
+- [Authorize and Capture Funds](https://www.youtube.com/watch?v=LlTWdysuWto)
+- [Process Holds](https://www.youtube.com/watch?v=fQQ50pX_7UU)
+- [Batch Processing](https://www.youtube.com/watch?v=ZKZ_XNlNTKQ)
+- [Order Download](https://www.youtube.com/watch?v=lhZQWsolNWo)
