@@ -736,3 +736,89 @@ To support the requirements to identify stored credential transactions, the Blue
 
 Expand the following topic for additional sample scenarios:
 
+<!--
+type: tab
+titles: Stored Credential Sample Scenarios
+-->
+
+> The `STORED_TYPE` and `STORED_INDICATOR` fields are specific to the BluePay Post (bp10emu) API. see the BluePay Post API documentation for additional information.
+
+| Scenario | `STORED_TYPE` | `STORED_INDICATOR` |
+| --- | --- | --- |
+| A new customer makes a one-time purchase on your web store or app, and opts to create an account to store their billing and payment information.	| `C`	| `F` |
+| A patient calls your office to make a one-time payment over the phone. The customer provides their billing information to an associate, who enters it into your application. When asked, the customer agrees to store their billing information for future payments.	| `C`	| `F` |
+| A patient calls your office to make a one-time payment over the phone, and their billing information is already stored for use in your application.	| `C` |	`S` |
+| A new customer creates an account on your website and enrolls in a subscription service, which is billed monthly. Your application processes the initial payment or a $0 authorization to verify the billing details. | `M` | `F` | 
+| A customer previously enrolled in your subscription service, and is automatically billed for the monthly amount using their saved billing details. | `M` | `S` |
+| An existing customer purchased multiple items from your web store, and checked out with their stored profile; however, only some goods were in stock at the time of the order. <br> <br> The customer is charged twice for the split shipment, where: |  |  |
+| The customer is initially charged for the in-stock goods at the time of the order. | `C`	| `S` |
+| The customer is charged a second time for the remainder of their purchase once the goods are available. | `M`	| `S` |
+
+<!-- type: tab-end -->
+
+# Developer FAQ
+
+Q) **What is the maximum number of transactions that the Transaction Search can return?**
+A) 20,000.
+
+Q) **How can a gateway user be set to have the "Include Column Headers" option for CSV export checked by default?**
+1) From the User List page, under Options choose Preferences.
+2) Click the “Edit” button.
+3) Change the value of “Print CSV Headrers” from “No” to “Yes”.
+4) Click the “Save” button.
+
+Q) **What causes an "Invalid field name" error when the field names are correct in a batch upload file?**
+A) The file is probably using Unicode encoding. Open the file in Notepad and save file using ANSI encoding.
+
+Q) **Can the BluePay Gateway process foreign currencies?**
+A) Yes, using Fiserv’s Global ePricing service.
+
+Q) **Where can I see a sample of an online application?**
+A) [Click here to view a sample of an online application.](http://bluepaydevcwybhqpkyb.devcloud.acquia-sites.com/sites/default/files/SamplesShortForm.compressed.pdf)
+
+Q) **Why is the CVV result no match when the CVV value is correct but the expiration date is incorrect?**
+A) The CVV value is not a value stored by the card issuer. It is a value calculated using the card number, expiration date and other information on file with the card issuer. Because the expiration date is used in that calculation, supplying the wrong expiration date causes the calculated value to not match the one on the card. When the values don’t match, a no-match CVV response is returned.
+
+Q) **What user permissions must be set to give a gateway user view only access?**
+A) account.view, scope.account, scope.hier, trans.view
+
+Q) **With which banks can ACH transactions be processed directly?**
+- American Charter Bank
+- Bank of America
+- Capital One
+- Central Bank
+- Chase Bank
+- Comerica Bank
+- First Republic Bank
+- Metabank
+- PNC Bank
+- Regions Bank
+- US Bank
+- Wells Fargo Bank
+
+Q) **How long is a transaction available for use as a Master ID on a new transaction?**
+A) The encrypted card number is kept for seven (7) years.
+
+Q) **What is Rebill Retry and how does it work?**
+A) If a rebill credit card transaction is declined, the gateway can automatically reattempt the transaction after a configurable amount of time. This option is not available for ACH. IT must enable and configure this option.
+
+Q) **Why is a test transaction declined?**
+A) The results of a test transaction are determined by the dollar amount of the transaction without cents. If the dollar amount is odd, an approval is returned. If the dollar amount is even, a decline is returned. This allows testing of both transaction result types.
+
+Q) **If "Customer Receipt" is checked in the settings, will customer receipt emails be sent when a rebilling executes?**
+A) Yes.
+
+Q) **Does BluePay issue SSL certificates?**
+A) BluePay does not issue SSL certificates. The merchant would need to contact a certificate authority to get an SSL certificate. Some of the larger companies issuing SSL certificates are GoDaddy, Thawte, Comodo and Verisign. GoDaddy is usually the least expensive option.
+
+Q) **When using a USB card swipe with the Virtual Terminal, is the address information required?**
+A) Address information is not required when the track data is submitted in the "Swipe Result" field. Using "Swipe Result" causes a transaction to be treated as a card present transaction.
+
+Q) **What does RRNO stand for?**
+A) RRNO is an acronym for Reference Routing Number. It is more commonly known as the transaction ID.
+
+Q) **How can a demo account be configured to process test ACH transactions?**
+A) Send an email to bluepay-gateway@fiserv.com with your demo account ID requesting that ACH processing capability be added. The number sequence 123456780 can be used as the routing number on test ACH transactions.
+
+Q) **Which shows on a BluePay Manager receipt — the Account Name or the DBA Name?**
+A) The Account Name is displayed on the receipt.
