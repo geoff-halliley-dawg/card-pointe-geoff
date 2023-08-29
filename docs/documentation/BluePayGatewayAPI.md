@@ -461,3 +461,278 @@ A reporting interface for the retrieval of transaction data.
 
 - [URL Generator](https://github.com/BluePay/BluePay-Sample-Code/blob/master/Perl/Get_Data/URL_Generator.pl)
 
+## Ruby
+
+**Transactions**
+
+- [Charge a Customer](https://github.com/BluePay/BluePay-Sample-Code/blob/master/Perl/Get_Data/URL_Generator.pl)
+- [Level 2 & 3 Processing](https://github.com/BluePay/BluePay-Sample-Code/blob/master/Ruby/samples/Transactions/Charge_Customer_CC_Lvl2_Lvl3.rb)
+- [Charge a Customer Using ACH](https://github.com/BluePay/BluePay-Sample-Code/blob/master/Ruby/samples/Transactions/Charge_Customer_ACH.rb)
+- [Cancel a Transaction](https://github.com/BluePay/BluePay-Sample-Code/blob/master/Ruby/samples/Transactions/Cancel_Transaction.rb)
+- [Return Funds to Customer](https://github.com/BluePay/BluePay-Sample-Code/blob/master/Ruby/samples/Transactions/Return_Funds.rb)
+- [Check Customer Has Available Credit](https://github.com/BluePay/BluePay-Sample-Code/blob/master/Ruby/samples/Transactions/Check_Customer_Credit.rb)
+- [Store Payment Info](https://github.com/BluePay/BluePay-Sample-Code/blob/master/Ruby/samples/Transactions/Store_Payment_Information.rb)
+- [How to Use a Token](https://github.com/BluePay/BluePay-Sample-Code/blob/master/Ruby/samples/Transactions/How_To_Use_Token.rb)
+- [Create Customer Token](https://github.com/BluePay/BluePay-Sample-Code/blob/master/Ruby/samples/Transactions/Create_Customer_Token.rb)
+- [Swipe Card](https://github.com/BluePay/BluePay-Sample-Code/blob/master/Ruby/samples/Transactions/Swipe.rb)
+- [Customer Defined Data](https://github.com/BluePay/BluePay-Sample-Code/blob/master/Ruby/samples/Transactions/Customer_Defined_Data.rb)
+- [Update Transaction](https://github.com/BluePay/BluePay-Sample-Code/blob/master/Ruby/samples/Transactions/Update_Transaction.rb)
+
+**Get Data**
+
+- [Retrieve Transaction Data](https://github.com/BluePay/BluePay-Sample-Code/blob/master/Ruby/samples/Get_Data/Retrieve_Transaction_Data.rb)
+- [Retrieve Settlement Data](https://github.com/BluePay/BluePay-Sample-Code/blob/master/Ruby/samples/Get_Data/Retrieve_Settlement_Data.rb)
+- [Single Transaction Query](https://github.com/BluePay/BluePay-Sample-Code/blob/master/Ruby/samples/Get_Data/Single_Transaction_Query.rb)
+- [Transaction Notification](https://github.com/BluePay/BluePay-Sample-Code/blob/master/Ruby/samples/Get_Data/Transaction_Notification.rb)
+- [BP_STAMP Validation](https://github.com/BluePay/BluePay-Sample-Code/blob/master/Ruby/samples/Get_Data/Validate_BP_Stamp.rb)
+
+**Rebill**
+
+- [Create Recurring Payment](https://github.com/BluePay/BluePay-Sample-Code/blob/master/Ruby/samples/Rebill/Create_Recurring_Payment_CC.rb)
+- [Create Recurring Payment (ACH)](https://github.com/BluePay/BluePay-Sample-Code/blob/master/Ruby/samples/Rebill/Create_Recurring_Payment_ACH.rb)
+- [Update Recurring Payment](https://github.com/BluePay/BluePay-Sample-Code/blob/master/Ruby/samples/Rebill/Update_Recurring_Payment.rb)
+- [Cancel Recurring Payment](https://github.com/BluePay/BluePay-Sample-Code/blob/master/Ruby/samples/Rebill/Cancel_Recurring_Payment.rb)
+- [Get Recurring Payment Status](https://github.com/BluePay/BluePay-Sample-Code/blob/master/Ruby/samples/Rebill/Get_Recurring_Payment_Status.rb)
+
+**Hosted Payment Forms**
+
+- [URL Generator](https://github.com/BluePay/BluePay-Sample-Code/blob/master/Ruby/samples/Get_Data/URL_Generator.rb)
+
+## Java
+
+**Transactions**
+
+- [Charge a Customer](https://github.com/BluePay/BluePay-Sample-Code/blob/master/Java/src/transactions/Charge_Customer_CC.java)
+- [Level 2 & 3 Processing](https://github.com/BluePay/BluePay-Sample-Code/blob/master/Java/src/transactions/Charge_Customer_CC_Lvl2_Lvl3.java)
+- [Charge a Customer Using ACH](https://github.com/BluePay/BluePay-Sample-Code/blob/master/Java/src/transactions/Charge_Customer_ACH.java)
+- [Cancel a Transaction](https://github.com/BluePay/BluePay-Sample-Code/blob/master/Java/src/transactions/Cancel_Transaction.java)
+- [Return Funds to Customer](https://github.com/BluePay/BluePay-Sample-Code/blob/master/Java/src/transactions/Return_Funds.java)
+- [Check Customer Has Available Credit](https://github.com/BluePay/BluePay-Sample-Code/blob/master/Java/src/transactions/Check_Customer_Credit.java)
+- [Store Payment Info](https://github.com/BluePay/BluePay-Sample-Code/blob/master/Java/src/transactions/Store_Payment_Information.java)
+- [How to Use a Token](https://github.com/BluePay/BluePay-Sample-Code/blob/master/Java/src/transactions/How_To_Use_Token.java)
+- [Create Customer Token](https://github.com/BluePay/BluePay-Sample-Code/blob/master/Java/src/transactions/Create_Customer_Token.java)
+- [Swipe Card](https://github.com/BluePay/BluePay-Sample-Code/blob/master/Java/src/transactions/Swipe.java)
+- [Customer Defined Data](https://github.com/BluePay/BluePay-Sample-Code/blob/master/Java/src/transactions/Customer_Defined_Data.java)
+- [Update Transaction](https://github.com/BluePay/BluePay-Sample-Code/blob/master/Java/src/transactions/Customer_Defined_Data.java)
+
+**Get Data**
+
+- [Retrieve Transaction Data](https://github.com/BluePay/BluePay-Sample-Code/blob/master/Java/src/get_data/Retrieve_Transaction_Data.java)
+- [Retrieve Settlement Data](https://github.com/BluePay/BluePay-Sample-Code/blob/master/Java/src/get_data/Retrieve_Settlement_Data.java)
+- [Single Transaction Query](https://github.com/BluePay/BluePay-Sample-Code/blob/master/Java/src/get_data/Single_Transaction_Query.java)
+- [Transaction Notification](https://github.com/BluePay/BluePay-Sample-Code/blob/master/Java/src/get_data/Transaction_Notification.java)
+- [BP_STAMP Validation](https://github.com/BluePay/BluePay-Sample-Code/blob/master/Java/src/get_data/Validate_BP_Stamp.java)
+
+**Rebill**
+
+- [Create Recurring Payment](https://github.com/BluePay/BluePay-Sample-Code/blob/master/Java/src/rebill/Create_Recurring_Payment_CC.java)
+- [Create Recurring Payment (ACH)](https://github.com/BluePay/BluePay-Sample-Code/blob/master/Java/src/rebill/Create_Recurring_Payment_ACH.java)
+- [Update Recurring Payment](https://github.com/BluePay/BluePay-Sample-Code/blob/master/Java/src/rebill/Update_Recurring_Payment.java)
+- [Cancel Recurring Payment](https://github.com/BluePay/BluePay-Sample-Code/blob/master/Java/src/rebill/Cancel_Recurring_Payment.java)
+- [Get Recurring Payment Status](https://github.com/BluePay/BluePay-Sample-Code/blob/master/Java/src/rebill/Get_Recurring_Payment_Status.java)
+
+**Hosted Payment Forms**
+
+- [URL Generator](https://github.com/BluePay/BluePay-Sample-Code/blob/master/Java/src/get_data/URL_Generator.java)
+
+## Python
+
+**Transactions**
+
+- [Charge a Customer](https://github.com/BluePay/BluePay-Sample-Code/blob/master/Python/Transactions/Charge_Customer_CC.py)
+- [Level 2 & 3 Processing](https://github.com/BluePay/BluePay-Sample-Code/blob/master/Python/Transactions/Charge_Customer_CC_Lvl2_Lvl3.py)
+- [Charge a Customer Using ACH](https://github.com/BluePay/BluePay-Sample-Code/blob/master/Python/Transactions/Charge_Customer_ACH.py)
+- [Cancel a Transaction](https://github.com/BluePay/BluePay-Sample-Code/blob/master/Python/Transactions/Cancel_Transaction.py)
+- [Return Funds to Customer](https://github.com/BluePay/BluePay-Sample-Code/blob/master/Python/Transactions/Return_Funds.py)
+- [Check Customer Has Available Credit](https://github.com/BluePay/BluePay-Sample-Code/blob/master/Python/Transactions/Check_Customer_Credit.py)
+- [Store Payment Info](https://github.com/BluePay/BluePay-Sample-Code/blob/master/Python/Transactions/Store_Payment_Information.py)
+- [How to Use a Token](https://github.com/BluePay/BluePay-Sample-Code/blob/master/Python/Transactions/How_To_Use_Token.py)
+- [Create Customer Token](https://github.com/BluePay/BluePay-Sample-Code/blob/master/Python/Transactions/Create_Customer_Token.py)
+- [Swipe Card](https://github.com/BluePay/BluePay-Sample-Code/blob/master/Python/Transactions/Swipe.py)
+- [Customer Defined Data](https://github.com/BluePay/BluePay-Sample-Code/blob/master/Python/Transactions/Customer_Defined_Data.py)
+- [Update Transaction](https://github.com/BluePay/BluePay-Sample-Code/blob/master/Python/Transactions/Update_Transaction.py)
+
+**Get Data**
+
+- [Retrieve Transaction Data](https://github.com/BluePay/BluePay-Sample-Code/blob/master/Python/Get_Data/Retrieve_Transaction_Data.py)
+- [Retrieve Settlement Data](https://github.com/BluePay/BluePay-Sample-Code/blob/master/Python/Get_Data/Retrieve_Settlement_Data.py)
+- [Single Transaction Query](https://github.com/BluePay/BluePay-Sample-Code/blob/master/Python/Get_Data/Single_transaction_query.py)
+- [Transaction Notification](https://github.com/BluePay/BluePay-Sample-Code/blob/master/Python/Get_Data/Transaction_Notification.py)
+- [BP_STAMP Validation](https://github.com/BluePay/BluePay-Sample-Code/blob/master/Python/Get_Data/Validate_BP_Stamp.py)
+
+**Rebill**
+
+- [Create Recurring Payment](https://github.com/BluePay/BluePay-Sample-Code/blob/master/Python/Rebill/Create_Recurring_Payment_CC.py)
+- [Create Recurring Payment (ACH)](https://github.com/BluePay/BluePay-Sample-Code/blob/master/Python/Rebill/Create_Recurring_Payment_ACH.py)
+- [Update Recurring Payment](https://github.com/BluePay/BluePay-Sample-Code/blob/master/Python/Rebill/Update_Recurring_Payment.py)
+- [Cancel Recurring Payment](https://github.com/BluePay/BluePay-Sample-Code/blob/master/Python/Rebill/Cancel_Recurring_Payment.py)
+- [Get Recurring Payment Status](https://github.com/BluePay/BluePay-Sample-Code/blob/master/Python/Rebill/Get_Recurring_Payment_Status.py)
+
+**Hosted Payment Forms**
+
+- [URL Generator](https://github.com/BluePay/BluePay-Sample-Code/blob/master/Python/Get_Data/URL_Generator.py)
+
+## C++
+
+**Transactions**
+
+- [Charge a Customer](https://github.com/BluePay/BluePay-Sample-Code/blob/master/C%2B%2B/Transactions/Charge_Customer_CC.cpp)
+- [Level 2 & 3 Processing](https://github.com/BluePay/BluePay-Sample-Code/blob/master/C%2B%2B/Transactions/Charge_Customer_CC_Lv2_Lv3.cpp)
+- [Charge a Customer Using ACH](https://github.com/BluePay/BluePay-Sample-Code/blob/master/C%2B%2B/Transactions/Charge_Customer_ACH.cpp)
+- [Cancel a Transaction](https://github.com/BluePay/BluePay-Sample-Code/blob/master/C%2B%2B/Transactions/Cancel_Transaction.cpp)
+- [Return Funds to Customer](https://github.com/BluePay/BluePay-Sample-Code/blob/master/C%2B%2B/Transactions/Return_Funds.cpp)
+- [Check Customer Has Available Credit](https://github.com/BluePay/BluePay-Sample-Code/blob/master/C%2B%2B/Transactions/Check_Customer_Credit.cpp)
+- [Store Payment Info](https://github.com/BluePay/BluePay-Sample-Code/blob/master/C%2B%2B/Transactions/Store_Payment_Information.cpp)
+- [How to Use a Token](https://github.com/BluePay/BluePay-Sample-Code/blob/master/C%2B%2B/Transactions/How_To_Use_Token.cpp)
+- [Create Customer Token](https://github.com/BluePay/BluePay-Sample-Code/blob/master/C%2B%2B/Transactions/Create_Customer_Token.cpp)
+- [Swipe Card](https://github.com/BluePay/BluePay-Sample-Code/blob/master/C%2B%2B/Transactions/Swipe.cpp)
+- [Customer Defined Data](https://github.com/BluePay/BluePay-Sample-Code/blob/master/C%2B%2B/Transactions/Customer_Defined_Data.cpp)
+- [Update Transaction](https://github.com/BluePay/BluePay-Sample-Code/blob/master/C%2B%2B/Transactions/Update_Transaction.cpp)
+
+**Get Data**
+
+- [Retrieve Transaction Data](https://github.com/BluePay/BluePay-Sample-Code/blob/master/C%2B%2B/Get_Data/Retrieve_Transaction_Data.cpp)
+- [Retrieve Settlement Data](https://github.com/BluePay/BluePay-Sample-Code/blob/master/C%2B%2B/Get_Data/Retrieve_Settlement_Data.cpp)
+- [Single Transaction Query](https://github.com/BluePay/BluePay-Sample-Code/blob/master/C%2B%2B/Get_Data/Single_Transaction_Query.cpp)
+- [BP_STAMP Validation](https://github.com/BluePay/BluePay-Sample-Code/blob/master/C%2B%2B/Get_Data/Validate_BP_Stamp.cpp)
+
+**Rebill**
+
+- [Create Recurring Payment](https://github.com/BluePay/BluePay-Sample-Code/blob/master/C%2B%2B/Rebill/Create_Recurring_Payment_CC.cpp)
+- [Create Recurring Payment (ACH)](https://github.com/BluePay/BluePay-Sample-Code/blob/master/C%2B%2B/Rebill/Create_Recurring_Payment_ACH.cpp)
+- [Update Recurring Payment](https://github.com/BluePay/BluePay-Sample-Code/blob/master/C%2B%2B/Rebill/Update_Recurring_Payment.cpp)
+- [Cancel Recurring Payment](https://github.com/BluePay/BluePay-Sample-Code/blob/master/C%2B%2B/Rebill/Cancel_Recurring_Payment.cpp)
+- [Get Recurring Payment Status](https://github.com/BluePay/BluePay-Sample-Code/blob/master/C%2B%2B/Rebill/Get_Recurring_Payment_Status.cpp)
+
+**Hosted Payment Forms**
+
+- [URL Generator](https://github.com/BluePay/BluePay-Sample-Code/blob/master/C%2B%2B/Get_Data/URL_Generator.cpp)
+
+## Visual Basic.NET
+
+**Transactions**
+
+- [Charge a Customer](https://github.com/BluePay/BluePay-Sample-Code/blob/master/VB/vbnet/Transactions/Charge_Customer_CC.vb)
+- [Level 2 & 3 Processing](https://github.com/BluePay/BluePay-Sample-Code/blob/master/VB/vbnet/Transactions/Charge_Customer_CC_Lv2_Lv3.vb)
+- [Charge a Customer Using ACH](https://github.com/BluePay/BluePay-Sample-Code/blob/master/VB/vbnet/Transactions/Charge_Customer_ACH.vb)
+- [Cancel a Transaction](https://github.com/BluePay/BluePay-Sample-Code/blob/master/VB/vbnet/Transactions/Cancel_Transaction.vb)
+- [Return Funds to Customer](https://github.com/BluePay/BluePay-Sample-Code/blob/master/VB/vbnet/Transactions/Return_Funds.vb)
+- [Check Customer Has Available Credit](https://github.com/BluePay/BluePay-Sample-Code/blob/master/VB/vbnet/Transactions/Check_Customer_Credit.vb)
+- [Store Payment Info](https://github.com/BluePay/BluePay-Sample-Code/blob/master/VB/vbnet/Transactions/Store_Payment_Information.vb)
+- [How to Use a Token](https://github.com/BluePay/BluePay-Sample-Code/blob/master/VB/vbnet/Transactions/How_To_Use_Token.vb)
+- [Create Customer Token](https://github.com/BluePay/BluePay-Sample-Code/blob/master/VB/vbnet/Transactions/Create_Customer_Token.vb)
+- [Swipe Card](https://github.com/BluePay/BluePay-Sample-Code/blob/master/VB/vbnet/Transactions/Swipe.vb)
+- [Customer Defined Data](https://github.com/BluePay/BluePay-Sample-Code/blob/master/VB/vbnet/Transactions/Customer_Defined_Data.vb)
+- [Update Transaction](https://github.com/BluePay/BluePay-Sample-Code/blob/master/VB/vbnet/Transactions/Update_Transaction.vb)
+
+**Get Data**
+
+- [Retrieve Transaction Data](https://github.com/BluePay/BluePay-Sample-Code/blob/master/VB/vbnet/Get_Data/Retrieve_Transaction_Data.vb)
+- [Retrieve Settlement Data](https://github.com/BluePay/BluePay-Sample-Code/blob/master/VB/vbnet/Get_Data/Retrieve_Settlement_Data.vb)
+- [Single Transaction Query](https://github.com/BluePay/BluePay-Sample-Code/blob/master/VB/vbnet/Get_Data/Single_Transaction_Query.vb)
+- [Transaction Notification](https://github.com/BluePay/BluePay-Sample-Code/blob/master/VB/vbnet/Get_Data/Transaction_Notification.vb)
+- [BP_STAMP Validation](https://github.com/BluePay/BluePay-Sample-Code/blob/master/VB/vbnet/Get_Data/Validate_BP_Stamp.vb)
+
+**Rebill**
+
+- [Create Recurring Payment](https://github.com/BluePay/BluePay-Sample-Code/blob/master/VB/vbnet/Rebill/Create_Recurring_Payment_CC.vb)
+- [Create Recurring Payment (ACH)](https://github.com/BluePay/BluePay-Sample-Code/blob/master/VB/vbnet/Rebill/Create_Recurring_Payment_ACH.vb)
+- [Update Recurring Payment](https://github.com/BluePay/BluePay-Sample-Code/blob/master/VB/vbnet/Rebill/Update_Recurring_Payment.vb)
+- [Cancel Recurring Payment](https://github.com/BluePay/BluePay-Sample-Code/blob/master/VB/vbnet/Rebill/Cancel_Recurring_Payment.vb)
+- [Get Recurring Payment Status](https://github.com/BluePay/BluePay-Sample-Code/blob/master/VB/vbnet/Rebill/Get_Recurring_Payment_Status.vb)
+
+**Hosted Payment Forms**
+
+- [URL Generator](https://github.com/BluePay/BluePay-Sample-Code/blob/master/VB/vbnet/Get_Data/URL_Generator.vb)
+
+# Status & Support
+
+>
+>  **BluePay Gateway Status**
+> 
+> Get real-time notifications on the BluePay Gateway operational status.
+>
+> [status.bluepay.com](https://status.bluepay.com/)
+>
+
+>
+> **Contact Our Integration Team**
+>
+> For technical questions related to the BluePay Gateway, please complete the form [here](https://share.hsforms.com/1tSCfYMcuS1mCDiex8YyCqg1yip0) or contact us directly at: 
+>
+> bluepay-integration@fiserv.com | **800.350.2684**
+>
+
+# Handling Stored Credential Transactions
+
+In October 2017, Visa and Mastercard issued new rules regarding the use of stored credentials. This mandate requires specific handling and transmission of stored credentials (in this case, tokens representing payment data). See the following documentation from Visa and Mastercard for detailed information:
+
+- https://usa.visa.com/dam/VCOM/global/support-legal/documents/stored-credential-transaction-framework-vbs-10-may-17.pdf
+- https://www.mastercard.us/content/dam/mccom/global/documents/transaction-processing-rules.pdf (sections 5.3 and 5.4)
+
+The BluePay Gateway is certified for compliance with this mandate, for merchants processing on the Cardnet/North ISO8583 platform.
+
+## Understanding Stored Credentials
+
+A stored credential is information (including, but not limited to, an account number or payment token) that is stored by a merchant or its agent to process future transactions.
+
+If your application stores cardholder data for use in future one-time or recurring payments, you must do the following to become compliant with this mandate:
+
+- Disclose to cardholders how those credentials will be used.
+- Obtain cardholders’ consent to store the credentials.
+- Notify cardholders when any changes are made to the terms of use.
+- Inform the account issuer that payment credentials are now stored on file, either by processing a payment or a $0 account verification.
+- Identify the initiator (cardholder or merchant) and frequency (one-time or scheduled) of the transactions with appropriate indicators when using stored credentials.
+- Provide proactive notification of future payment transactions and ability to cancel a subscription or recurring payment.
+
+Additionally, merchants offering subscription services in Europe must send an electronic reminder notification (email or SMS/text message, if cardholder accepted future notification) and a link to online cancellation at least seven (7) days before initiating a recurring transaction if a trial period, introductory offer or promotional period has expired.
+
+## Identifying Cardholder and Merchant-Initiated Transactions
+
+Payment applications must determine whether each applicable transaction is a Cardholder-Initiated Transaction (CIT), or a Merchant-Initiated Transaction (MIT).
+
+A Cardholder-Initiated Transaction is any transaction in which the cardholder is actively participating in the transaction (by phone, online, or in-person) using stored credential and payment details, for example:
+
+- A cardholder creating a standing order for a recurring, fixed-amount payment for goods or services (for example, a scheduled rent payment).
+- A cardholder authorizing a payment on an account over the phone.
+
+A Merchant-Initiated Transaction is any transaction in which the cardholder is not available to participate:
+
+- A follow-up payment after an initial cardholder-initiated transaction.
+- A direct deposit agreement for the payment of goods or services (for example, a recurring bill payment for a streaming service subscription).
+
+## Integrated Payment Application Changes
+
+If you or your merchants use an application that integrates the BluePay Gateway APIs to accept and manage transactions, you must update your application to become compliant with this mandate.
+
+<!-- type: row -->
+
+<!-- type: card
+description: This feature is available for merchants processing on the CardNet/North ISO8583 platform, using one of the following integrations: <br> <br> BluePay Post (bp10emu) <br> BluePay 2.0 Post (bp20post) <br> Manual CSV Upload <br> BluePay CSV Upload (bp20bu)
+-->
+
+<!-- type: row-end -->
+
+The changes required to comply with this mandate affect merchants who:
+
+- Store and reuse payment tokens and customer information to process recurring payments through an E-commerce or ERP application.
+- Create and store customer profiles and process card-not-present payments using the associated stored payment information.
+
+If your payment workflows use either of these methods to store and reuse customer data, you will need to update your integration to identify the initial and subsequent payments.
+
+## New Authorization Request Parameters
+
+To support the requirements to identify stored credential transactions, the BluePay Gateway APIs include the following new parameters, which must be included in the authorization request for all E-commerce, telephone, and recurring payments using stored customer payment information.
+
+> The following field names are case-sensitive, and vary depending on your integration method.
+>
+> For the BluePay Post (bp10emu) and BluePay 2.0 Post 2.0 (bp20post), these field names are capitalized as shown below.  For Manual CSV Upload and BluePay CSV Upload (bp20bu) integrations, the field names are lowercase. See the API documentation for your integration method for specific details.
+
+| Field | Max Length | Type | Description |
+| --- | --- | --- | --- |
+| `STORED_INDICATOR` | 1 | AN |	The `STORED_INDICATOR` field indicates whether the transaction is a one-time payment, first in a series, or subsequent payment using stored credentials. <br> <br> `F` - The first transaction in a series or a one-time payment using stored credentials. <br> `S` - A subsequent transaction using stored credentials. <br> <br> **Note**: _When_ `STORED_INDICATOR` _is_ `F`, _you must also specify the_ `RESPONSEVERSION` _as_ `8` _or higher to retrieve the_ `STORED_ID` _value in the response._
+| `STORED_ID`	| 15 | N	| Required when `STORED_INDICATOR` is `S`, and used to associate subsequent transactions in a series with the initial transaction. <br> <br> The `STORED_ID` is returned in the authorization  response from the initial stored credential transaction (when `STORED_INDICATOR` is `F`), and must be provided in subsequent transactions in the series (for example, in a recurring billing arrangement).
+| `STORED_TYPE` | 1	| AN | The `STORED_TYPE` parameter specifies whether the transaction is initiated by the customer or merchant. <br> <br> `C` - Customer-Initiated Transaction (CIT) <br> `M` - Merchant-Initiated Transaction (MIT) |
+
+Expand the following topic for additional sample scenarios:
+
