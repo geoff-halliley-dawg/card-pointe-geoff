@@ -459,3 +459,443 @@ Upon successful completion of a transaction, the response includes the authoriza
 
 The GCS request returns the current status and availability of the device.
 
+### GCS Request Syntax
+
+```
+*PAE|GCS|CMD|1||<checksum>|*!PAE!*
+```
+
+#### Sample GCS Request
+
+```json
+*PAE|GCS|CMD|1||23478|*!PAE!*
+```
+
+### Request Syntax
+
+The GCS response returns the device and application status in the following format:
+
+```
+*PAE|GCS|RESP|<response code>|{JSON response object}|<checksum>|*!PAE!*
+```
+
+`<response code>` is 00000000 for a successful response, or one or more error codes if the command failed. See Response Codes for more information.
+
+`{JSON response object}` is a JSON-encoded string that includes the following fields:
+
+#### Sample GCS Response
+
+```json
+*PAE|GCS|RESP|00000000|{"Started":1,"Registered":1,"Connected":1,"Encryption":1,"CardInReader":1,"InPayment":0,"OfflineRecovery":0,"~OfflineTxnsAvail":1100,"AppLoaderStatus":"Idle"}|21083|*!PAE!*
+```
+
+| Parameter | Type | Description |
+| --- | --- | --- |
+| AppLoaderStatus | string | The status of the AppLoader update process. One of the following values: <br> <br> **Startup** - Starting up and waiting for PAE to initialize. <br> **Contacting Cloud** - Attempting to contact the update server. <br> **Downloading** - Downloading data from the update server. <br> **Reconnect Delay** - Waiting during the delay between attempts to connect to the update server. <br> **Validating** - Validating the downloaded update against the apps and SDKs already loaded on the device. <br> **Install Pending** - An update to the app or SDK is pending, allowing the POS application time to detect the pending update prior to installation. <br> **Installing** - App or SDK installation is starting.  <br> **Idle** - The update check is completed and AppLoader is in an idle state until the next device reboot/restart (typically the 24-hour self-check).
+| CardInReader | numeral | Indicates whether or not a card is currently inserted into the device. <br> <br> One of the following values: <br> <br> **0** - No card inserted <br> **1** - Card inserted
+| Connected	| numeral | Indicates whether or not the device is connected to the web payment application. <br> <br> One of the following values: <br> <br> **0** - Disconnected <br> **1** - Connected
+| Encryption | numeral | Indicates whether or not the encryption key is installed and enabled on the device <br> <br> One of the following values: <br> <br> **0** - Not enabled <br> **1** - Enabled |
+| InPayment	| numeral | Indicates whether or not the payment application is currently processing a payment. <br> <br> One of the following values: <br> <br> **0** - Ready <br> **1** - Processing a payment |
+| OfflineRecovery | numeral	| Indicates whether or not the payment application is currently processing one or more offline payments. <br> <br> One of the following values: <br> <br> **0** - Not processing offline payments <br> **1** - Currently processing offline payments |
+| ~OfflineTxnsAvail	| numeral | Indicates the approximate number of offline transactions that can be stored on the device's remaining available storage. |
+| Registered | numeral | Indicates whether or not the device successfully registered with the web payment application. <br> <br> One of the following values: <br> <br> **0** - Not registered <br> **1** - Registered |
+| Started | numeral | Indicates whether or not the payment application successfully started. <br> <br> One of the following values: <br> <br> **0** - Not started <br> **1** - Running |
+
+## GOT (Get Offline Transactions)
+
+The GOT request returns information on transactions that are currently stored while the unattended device is in Offline Mode.
+
+### GOT Request Syntax
+
+```
+*PAE|GOT|CMD|1|{optional parameters}|<checksum>|*!PAE!*
+```
+
+> Fields 4 and 5 might not contain values, but **must** be present to preserve the expected message format.
+
+#### Sample GOT Request (all offline transactions)
+
+```json
+*PAE|GOT|CMD|||01197|*!PAE!*
+```
+
+#### Sample GOT Request (filtered)
+
+```json
+*PAE|GOT|CMD|1|{"page":2,"paymentType":"emv"}|64046|*!PAE!*
+```
+
+Optionally, you can use the following parameters to filter the results:
+
+| Parameter | Type | Description |
+| --- | --- | --- |
+| page | numeral | Indicates the page number to return from the response payload (for example, `2` to return page 2 of 4). <br> <br> Each page includes a maximum of 400 offline transactions. |
+| paymentType | string | Indicates the type of offline payments to return, either `EMV` or `MSR`. <br> <br> **Required** when a page is specified. |
+
+### GOT Response Syntax
+
+The GOT response returns the stored offline transaction details in the following format:
+
+```
+*PAE|GOT|RESP|<response code>|{JSON response object}|<checksum>|*!PAE!*
+```
+
+#### Sample GOT Response (No Stored Transactions)
+
+```json
+*PAE|GOT|RESP|00000000|{"OfflineTxnsStored":0,"Total$":0,"EMVPayments":"","MSRPayments":""}|55587|*!PAE!*
+```
+
+#### Sample GOT Response (Pending Stored Transactions)
+
+```json
+*PAE|GOT|RESP|00000000|{"OfflineTxnsStored":"2","Total$":"600","EMVPayments":2,"MSRPayments":0}|20242|*!PAE!*
+```
+
+#### Sample GOT Response (Filtered Results - "page":2,"paymentType":"emv")
+
+```json
+*PAE|GOT|RESP|00000000|{"EMVPayments":"2021-10-22T19:24:28,2021-10-22T19:25:05,2021-10-22T19:27:22,2021-10-22T19:27:45,2021-10-22T19:28:27"}|54967|*!PAE!*
+```
+
+The `<response code>` is `00000000` for a successful response, or one or more error codes if the command failed. See Response Codes for more information.
+
+The `{JSON response object}` includes the following fields:
+
+| Field | Description | 
+| --- | --- |
+| OfflineTxnsStored | The number of stored offline transactions. <br> <br> Only returned for _unfiltered_ GOT requests.
+| Total$ | The total amount (in pennies) of currently stored transactions. <br> <br> Only returned for _unfiltered_ GOT requests.
+| EMVPayments | For _filtered_ requests (`"paymentType":"emv"`),a comma-separated list of timestamps for all stored EMV transactions, in the format `<YY>-<MM>-<DD>T<HH>:<MM>:<SS>`. <br> <br> for _unfiltered_ requests, the number of stored EMV transactions. |
+| MSRPayments | For _filtered_ requests (`"paymentType":"msr"`), a comma-separated list of timestamps for all stored MSR transactions, in the format `<YY>-<MM>-<DD>T<HH>:<MM>:<SS>`. <br> <br> For _unfiltered_ requests, the number of stored MSR transactions. |
+
+## GTI (Get Terminal Info)
+
+The GTI request returns detailed information about the unattended device configuration, which can be useful for identifying or troubleshooting the device.
+
+### GTI Request Syntax
+
+```
+*PAE|GTI|CMD|1||<checksum>|*!PAE!*
+```
+
+> Fields 4 and 5 are not used, but **must** be present to preserve the expected message format.
+
+#### Sample GTI Request
+
+```json
+*PAE|GTI|CMD|1||28604|*!PAE!*
+```
+
+### GTI Response Syntax
+
+The GTI response returns the device and application details in the following format:
+
+```
+*PAE|GTI|RESP|<response code>|{JSON response object}|<checksum>|*!PAE!*
+```
+
+#### GTI Response Example
+
+```json
+*PAE|GTI|RESP|00000000|{"PAE_Version":"1.5.3.5","AppLoader_Version":"0.2.0.3","FW_Version":"VP5300 FW v1.02.090.0444.S","HW_Version":"HW, VP5300
+K81F Rev4","SerialNum":"103T662933","CompanyId":"00a2aa6d-5c4a-4ae1-ae48-f95e335550e1","ApplicationID":"ab02d9c6-64f1-48f6-8d50-245ee5aa71e8"}|59371|*!PAE!*
+```
+
+The `<response code>` is `00000000` for a successful response, or one or more error codes if the command failed. See Response Codes for more information.
+
+The `{JSON response object}` includes the following fields:
+
+| Field	| Description
+| --- | ---
+| PAE_Version | The Payment Application Engine (PAE) version running on the device.
+| AppLoader_Version	| The AppLoader version running on the device.
+| FW_Version | The current firmware version running on the device.
+| HW_Version | The current hardware revision of the device.
+| SerialNum	| The hardware serial number (HSN) for the device, used to identify the device to the CardPointe Gateway.
+| CompanyId	| A GUID, used by the web payments application, to identify the merchant associated with the device.
+| ApplicationID	| A GUID, used by the web payments application, to identify the application running on the device.
+
+## RBT (Reboot Terminal)
+
+The RBT request remotely reboots, or power cycles, the device.
+
+### RBT Request Syntax 
+
+```
+*PAE|RBT|CMD|1||<checksum>|*!PAE!*
+```
+
+> Fields 4 and 5 are not used, but **must** be present to preserve the expected message format.
+
+#### Sample RBT Request
+
+```json
+*PAE|RBT|CMD|1||22891|*!PAE!*
+```
+
+### RBT Response Syntax
+
+The RBT response returns a response code to indicate if the command was successful or if an error occurred in the following format:
+
+```
+*PAE|RBT|RESP|<response code>||<checksum>|*!PAE!*
+```
+
+The `<response code>` is `00000000` for a successful response, or one or more error codes if the command failed. See Response Codes for more information.
+
+#### Sample RBT Response
+
+```json
+*PAE|RBT|RESP|00000000||62093|*!PAE!*
+```
+
+# Response Codes
+
+The payment application includes a series of response codes that provide status and error information within the response message. 
+
+Response codes are generated as 8-character hexadecimal strings, in the format: `<general code>` `<detail code>`, where 
+
+- `<general code>` is a 4-character value representing the general response information.
+- `<detail code>` is a 4-character value representing a more detailed explanation. The `<detail code>` value can be null, represented as `0000`, if no detailed response is available.
+
+For example, the following response code indicates that the DPT command was successful, and the device is waiting for the customer to insert a card:
+
+```
+*PAE|DPT|RESP|01F40000|{"cardToken":"9475419822370119","processorMsg":"No error"}|08414|*!PAE!*
+```
+
+In this example, `01F4` represents the general DPT successful status response and `0000` represents no additional detailed information.
+
+The following table describes each possible response code, and the corresponding decimal value, returned in the previous version of the application:
+
+<!-- theme: danger -->
+> The following response codes are still in development and are subject to change. Undocumented values are reserved for future use.
+
+| Decimal Value | Hex Value | Description | 
+| --- | --- | ---
+| **0-199 General Response Codes** |  |  |
+| 0	| 0000 | Command succeeded.
+| 1	| 0001 | Command failed.
+| **200-209 PAE Message Errors** |  |  | 
+| 200 | 00C8 | Command could not be sent because PAE is starting.
+| 201 | 00C9 | Message received is not valid.
+| 202 | 00CA | Message missing required fields.
+| 203 | 00CB | Invalid checksum value.
+| 204 | 00CC | Invalid command.
+| 205 | 00CD | Message received is empty.
+| **210-219 File System Errors** |  |  |
+| 210 | 00D2 | Can't create file on device.
+| 211 | 00D3 | Can't open file on device.
+| 212 | 00D4 | Can't read file on device.
+| 213 | 00D5 | Can't write file to device.
+| 214 | 00D6 | Can't remove file from device.
+| **220-229 Device Configuration Errors** |  |  | 
+| 220 | 00DC | Configuration file can't be read.
+| 221 | 00DD | Configuration file can't be parsed.
+| 222 | 00DE | Configuration file can't be saved
+| 223 | 00DF | Required configuration parameter missing.
+| **230-249 Payment System Errors** |  |  | 
+| 230 | 00E6 | Failed to start the payment process.
+| **250-299 HTTP Communication Errors** |  |  |
+| 250 | 00FA | Failed to register device with ITSCO server.
+| 251 | 00FB | Failed to register PAE with ITSCO server.
+| 252 | 00FC | Internal server error.
+| 253 | 00FD | Payment cannot be finalized on server.
+| 254 | 00FE | Failed to send HTTP request.
+| 255 | 00FF | Timed out waiting for HTTP response.
+| 256 | 0100 | HTTP response 400+ (client or server error).
+| 257 | 0101 | HTTP response missing a required value.
+| 258 | 0102 | Device SSL certificate error.
+| 259 | 0103 | No network connection.
+| **260-275 Firmware HTTP Errors** <br> <br> **Note**: _Descriptions of the following errors are intentionally omitted. Contact Support if you encounter one of the following errors._ |  |  |
+| 260 | 0104 |
+| 261 | 0105 |	
+| 262 | 0106 |	
+| 263 | 0107 |	
+| 264 | 0108 |	
+| 265 | 0109 |	
+| 266 | 010A |
+| 267 | 010B |	
+| 268 | 010C |	
+| 269 | 010D |	
+| 270 | 010E |	
+| 271 | 010F |	
+| 272 | 0110 |	
+| 273 | 0111 |	
+| 274 | 0112 |	
+| 275 | 0113 |	
+| **300-399 General Errors** |  |  |
+| 300 | 012C | Invalid JSON.
+| 301 | 012D | Device cannot allocate memory.
+| 302 | 012E | Firmware call failed.
+| 303 | 012F | Unknown error.
+| 304 | 0130 | PAE received a message with invalid JSON.
+| 305 | 0131 | PAE could not generate mutex.
+| 306 | 0132 | Encryption is not enabled.
+| 307 | 0133 | Data encryption key missing.
+| **400-419 CFU Response Codes** |  |  |
+| **420-439 CPT Response Codes** |  |  |
+| 420 | 01A4 | Payment cannot be canceled.
+| 421 | 01A5 | No active payment.
+| 422 | 01A6 | Request to cancel payment failed.
+| **440-459 GCS Response Codes** |  |  |
+| **460-479 GTI Response Codes** |  |  |
+| 460 | 01CC | Not all data fields could be returned.
+| **480-499 GOT Response Codes** |  |  |
+| 480 | 01E0 | paymentType required when a page is specified.
+| **500- 599 DPT Response Codes** |  |  |
+| 500 | 01F4 | Payment accepted.
+| 501 | 01F5 | Payment declined.
+| 502 | 01F6 | Request missing required parameter.
+| 503 | 01F7 | Invalid request.
+| 504 | 01F8 | Payment already in progress.
+| 505 | 01F9 | Times out waiting for card.
+| 506 | 01FA | Card read error.
+| 507 | 01FB | Payment canceled by POS.
+| 508 | 01FC | Payment failed due to internal error.
+| 509 | 01FD | Card read fallback to contact.
+| 510 | 01FE | Internal error.
+| 511 | 01FF | Unknown MSR response received from device.
+| 512 | 0200 | General EMV failure.
+| 513 | 0201 | LCD message passthrough, where the data field in the response includes an LCD code and message wrapped in a JSON object, which the POS application can present to the user. <br> <br> The following messages are most commonly returned: <br> <br> {"LCD_Code":13,"LCD_Msg":"INSERT CARD"} <br> {"LCD_Code":17,"LCD_Msg":"PLEASE WAIT..."} <br> {"LCD_Code":26,"LCD_Msg":"PROCESSING..."} <br> {"LCD_Code":35,"LCD_Msg":"WELCOME"} <br> <br> See LCD Codes and Messages, below, for a complete list of all possible messages. |
+| 514 | 0202 | Unsupported AID.
+| 515 | 0203 | Bad card read, terminating.
+| 516 | 0204 | Bad card read, retrying.
+| 517 | 0205 | Cannot accept offline payment - No offline storage remaining.
+| 518 | 0206 | Cannot accept offline payment - Offline mode not enabled.
+| 519 | 0207 | Cannot accept offline payment - The amount exceeds the offline maximum.
+| 520 | 0208 | Cannot accept offline payment - The allowed offline time period has expired.
+| 521 | 0209 | Invalid amount format. The amount must not contain decimals.
+| 522 | 020A | Device is offline; the transaction was accepted in Offline Mode.
+| 523 | 020B | No encryption key loaded.
+| **600 - 610 RBT Response Codes** |  |  |
+
+## LCD Codes and Messages
+
+See the following topic below to review the complete list of LCD codes and messages.
+
+```
+{"LCD_Code":0,"LCD_Msg":""}
+{"LCD_Code":1,"LCD_Msg":"AMOUNT:"}
+{"LCD_Code":2,"LCD_Msg":"AMOUNT OK?"}
+{"LCD_Code":3,"LCD_Msg":"APPROVED"}
+{"LCD_Code":4,"LCD_Msg":"CALL YOUR BANK"}
+{"LCD_Code":5,"LCD_Msg":"CANCEL OR ENTER"}
+{"LCD_Code":6,"LCD_Msg":"CARD ERROR"}
+{"LCD_Code":7,"LCD_Msg":"DECLINED"}
+{"LCD_Code":8,"LCD_Msg":"ENTER AMOUNT"}
+{"LCD_Code":9,"LCD_Msg":"PLEASE ENTER PIN"}
+{"LCD_Code":10,"LCD_Msg":"INCORRECT PIN"}
+{"LCD_Code":11,"LCD_Msg":"INSERT/SWIPE CARD"}
+{"LCD_Code":12,"LCD_Msg":"CARD"}
+{"LCD_Code":13,"LCD_Msg":"INSERT CARD"}
+{"LCD_Code":14,"LCD_Msg":"USE CHIP  READER"}
+{"LCD_Code":15,"LCD_Msg":"NOT ACCEPTED"}
+{"LCD_Code":16,"LCD_Msg":"GET PIN OK"}
+{"LCD_Code":17,"LCD_Msg":"PLEASE WAIT..."}
+{"LCD_Code":18,"LCD_Msg":"PROCESSING ERROR"}
+{"LCD_Code":19,"LCD_Msg":"USE MAGSTRIPE"}
+{"LCD_Code":20,"LCD_Msg":"TRY AGAIN"}
+{"LCD_Code":21,"LCD_Msg":"AUTHORIZING..."}
+{"LCD_Code":22,"LCD_Msg":"TRANSACTION ERROR"}
+{"LCD_Code":23,"LCD_Msg":"TERMINATED"}
+{"LCD_Code":24,"LCD_Msg":"ADVICE"}
+{"LCD_Code":25,"LCD_Msg":"TIMEOUT"}
+{"LCD_Code":26,"LCD_Msg":"PROCESSING..."}
+{"LCD_Code":27,"LCD_Msg":"PIN TRY LIMIT EX"}
+{"LCD_Code":28,"LCD_Msg":"ISSUER AUTH FAIL"}
+{"LCD_Code":29,"LCD_Msg":"CONTINUE PROCESS"}
+{"LCD_Code":30,"LCD_Msg":"GET PIN ERROR"}
+{"LCD_Code":31,"LCD_Msg":"GET PIN FAIL"}
+{"LCD_Code":32,"LCD_Msg":"NO KEY GET PIN"}
+{"LCD_Code":33,"LCD_Msg":"CANCELED"}
+{"LCD_Code":34,"LCD_Msg":"LAST PIN TRY"}
+{"LCD_Code":35,"LCD_Msg":"WELCOME"}
+{"LCD_Code":36,"LCD_Msg":"AMOUNT OTHER"}
+{"LCD_Code":37,"LCD_Msg":"ENTER AMOUNT OTHER"}
+{"LCD_Code":38,"LCD_Msg":"CAPK HASH VALUE FAIL"}
+{"LCD_Code":39,"LCD_Msg":"REMOVE CARD"}
+------Codes 40-63 Reserved for Future Use------
+{"LCD_Code":64,"LCD_Msg":"TRY MSR AGAIN"}
+{"LCD_Code":65,"LCD_Msg":"LAST MSR TRY"}
+{"LCD_Code":66,"LCD_Msg":"TRY ICC AGAIN"}
+{"LCD_Code":67,"LCD_Msg":"PLEASE REMOVE CARD"}
+{"LCD_Code":68,"LCD_Msg":"THANK YOU"}
+{"LCD_Code":69,"LCD_Msg":"NOT AUTHORIZED"}
+{"LCD_Code":70,"LCD_Msg":"TRANSACTION COMPLETED"}
+{"LCD_Code":71,"LCD_Msg":"FAIL"}
+{"LCD_Code":72,"LCD_Msg":"ERROR"}
+{"LCD_Code":73,"LCD_Msg":"STOP"}
+{"LCD_Code":74,"LCD_Msg":"SEE MOBILE PHONE"}
+{"LCD_Code":75,"LCD_Msg":"PLEASE SIGN RECEIPT"}
+{"LCD_Code":76,"LCD_Msg":"SIGNATURE REQUIRED"}
+{"LCD_Code":77,"LCD_Msg":"NOT CONNECTED"}
+{"LCD_Code":78,"LCD_Msg":"TOO MANY TAPS"}
+{"LCD_Code":79,"LCD_Msg":"FORM ERROR"}
+{"LCD_Code":80,"LCD_Msg":"OFFLINE AMOUNT"}
+{"LCD_Code":81,"LCD_Msg":"BALANCE:"}
+{"LCD_Code":82,"LCD_Msg":"REFUND"}
+{"LCD_Code":83,"LCD_Msg":"SWIPE CARD"}
+{"LCD_Code":84,"LCD_Msg":"PRESENT CARD"}
+{"LCD_Code":85,"LCD_Msg":"PLEASE TAP OR SWIPE CARD"}
+{"LCD_Code":86,"LCD_Msg":"INSERT/PRESENT CARD"}
+{"LCD_Code":87,"LCD_Msg":"INSERT/PRESENT/SWIPE CARD"}
+{"LCD_Code":88,"LCD_Msg":"USE CHIP & PIN"}
+{"LCD_Code":89,"LCD_Msg":"TRY OTHER"}
+{"LCD_Code":90,"LCD_Msg":"USE OTHER CARD"}
+{"LCD_Code":91,"LCD_Msg":"PLEASE USE OTHER VISA CARD"}
+{"LCD_Code":92,"LCD_Msg":"USE ALTERNATIVE PAYMENT METHOD"}
+{"LCD_Code":93,"LCD_Msg":"NO CARD"}
+{"LCD_Code":94,"LCD_Msg":"PRESENT ONE CARD ONLY"}
+{"LCD_Code":95,"LCD_Msg":"INTERNATIONAL CARD ONLY"}
+{"LCD_Code":96,"LCD_Msg":"SWIPE CARD AGAIN"}
+{"LCD_Code":97,"LCD_Msg":"LAST SWIPE CARD"}
+{"LCD_Code":98,"LCD_Msg":"INSERT CARD AGAIN"}
+{"LCD_Code":99,"LCD_Msg":"CARD BLOCKED"}
+{"LCD_Code":100,"LCD_Msg":"CORRECT PIN"}
+{"LCD_Code":101,"LCD_Msg":"ENTER PIN AGAIN"}
+{"LCD_Code":102,"LCD_Msg":"UNABLE TO ENTER PIN"}
+{"LCD_Code":103,"LCD_Msg":"SELECT NEXT CANDIDATE"}
+{"LCD_Code":104,"LCD_Msg":"CARD READ OK REMOVE CARD"}
+{"LCD_Code":105,"LCD_Msg":"AVAILABLE:"}
+{"LCD_Code":106,"LCD_Msg":"PLEASE WAIT"}
+{"LCD_Code":107,"LCD_Msg":"INITIALIZING PLEASE WAIT..."}
+{"LCD_Code":108,"LCD_Msg":"APPROVED, BAL:"}
+{"LCD_Code":109,"LCD_Msg":"DECLINED, BAL:"}
+{"LCD_Code":110,"LCD_Msg":"PIN REQUIRED"}
+{"LCD_Code":111,"LCD_Msg":"PAYMENT TYPE NOT ACCEPTED"}
+{"LCD_Code":112,"LCD_Msg":"ONLINE APPROVED"}
+{"LCD_Code":113,"LCD_Msg":"ONLINE DECLINED"}
+{"LCD_Code":114,"LCD_Msg":"ONLINE FAIL OFFLINE DECLINED"}
+{"LCD_Code":115,"LCD_Msg":"BLACKLIST"}
+{"LCD_Code":116,"LCD_Msg":"CARD EXPIRED"}
+{"LCD_Code":117,"LCD_Msg":"ONLINE APPROVED BAL:"}
+{"LCD_Code":118,"LCD_Msg":"ONLINE DECLINED BAL:"}
+{"LCD_Code":119,"LCD_Msg":"ODA PERFORMED SDA SUCCESS"}
+{"LCD_Code":120,"LCD_Msg":"ODA PERFORMED FDDA SUCCESS"}
+{"LCD_Code":121,"LCD_Msg":"ODA PERFORMED SDA FAIL"}
+{"LCD_Code":122,"LCD_Msg":"ODA PERFORMED FDDA FAIL"}
+{"LCD_Code":123,"LCD_Msg":"ODA FAIL"}
+{"LCD_Code":124,"LCD_Msg":"SEE PINPAD"}
+{"LCD_Code":125,"LCD_Msg":"OFFLINE APPROVED"}
+{"LCD_Code":126,"LCD_Msg":"OFFLINE DECLINED"}
+{"LCD_Code":127,"LCD_Msg":"OFFLINE APPROVED BAL:"}
+{"LCD_Code":128,"LCD_Msg":"OFFLINE DECLINED BAL:"}
+{"LCD_Code":129,"LCD_Msg":""}
+```
+
+## Hex to Decimal Response Code Converter
+
+You can use the following C/C++ code snippet to convert the hexadecimal response codes into decimal values, if needed to retain backwards compatibility with your application.
+
+#### Sample Response Code Converter
+
+```C++
+void DecodeResponse(char* responseCode, unsigned short* detailCode, unsigned short* generalCode)
+{
+    unsigned long tmp = (unsigned long)strtol(responseCode, NULL, 16);
+    *generalCode = tmp >> 16;
+    *detailCode = (unsigned short)(0x0000FFFF & tmp);
+}
+```
