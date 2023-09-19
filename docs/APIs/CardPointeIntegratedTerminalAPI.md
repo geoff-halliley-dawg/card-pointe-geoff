@@ -44,3 +44,64 @@ description: Visit the Changelog for more information on recent updates to the C
 
 # Getting Started
 
+See the CardPointe Integrated Terminal Developer Guides for information to help you get started, including guides for [understanding the Terminal API application workflow](?path=docs/documentation/CardPointeIntegratedTerminalDeveloperGuides.md#understanding-the-terminal-api-application-workflow) and [understanding the Terminal API service endpoints](?path=docs/documentation/CardPointeIntegratedTerminalDeveloperGuides.md#understanding-the-terminal-api-service-endpoints).
+
+Additionally, see the [API Connectivity Guide](?path=docs/documentation/APIConnectivityGuide.md) for information on API connectivity.
+
+## RESTful Implementation
+
+The Terminal API is a RESTful web service, which uses the JSON (JavaScript Object Notation) method of encoding data for transmission via the HTTP network protocol. Most programming languages have libraries to convert an arbitrary object to and from a JSON data transfer encoding. See the [API Basics and Best Practices Guide](?path=docs/documentation/APIBasicsAndBestPractices.md) for more information on these concepts.
+
+The Terminal API provides a library of POST operations used to submit HTTP requests to the web service. The Terminal service expects that ALL properties are encoded as US ASCII strings. Responses are returned in JSON objects. See [Service Endpoints](#service-endpoints) for detailed information on the supported request types and corresponding responses.
+
+<!-- theme: danger -->
+> Changes to the Terminal API are designed to retain backwards-compatibility. The JSON standard does not assign any significance to the ordering of key/value pairs, and this API does not guarantee the order of key/value pairs in response messages. See the [API Basics and Best Practices Guide](?path=docs/documentation/APIBasicsAndBestPractices.md) for recommendations for retaining backwards compatibility in your application.
+
+## Requirements
+
+Integrating the Terminal API requires: 
+
+- Your application, which calls the Terminal service endpoints via HTTPS. 
+- Pre-provisioned terminal devices.
+
+Additionally, integrating EMV acceptance requires your merchant account to be on a supported processing platform. 
+
+For more information on specific requirements, contact integrationdelivery@fiserv.com.
+
+## Additional Resources
+
+In addition to this API documentation, the following additional resources are available to help you get started.
+
+### Developer Guides 
+
+Browse the [Developer Guides](?path=docs/getting-started.md) library for general information on integrating our products and services.
+
+The following guides provide helpful information for developing your integration:
+
+<!-- type: row -->
+
+<!-- type: card
+title: CardPointe Integrated Terminal Developer Guides
+description: Provides best practices and supplemental information for integrating the Terminal API with your point-of-sale application
+link: ?path=docs/documentation/CardPointeIntegratedTerminalDeveloperGuides.md
+-->
+
+<!-- type: card
+title: CardPointe Integrated Terminal Developer Guide for Clover Terminals
+description: Provides specific details for integrating Clover terminals with a new or existing CardPointe Integrated Terminal solution
+link: ?path=docs/documentation/CardPointeIntegratedTerminalDeveloperGuideForCloverTerminals.md
+-->
+
+<!-- type: row-end -->
+
+Additionally, review the [CardPointe Gateway API](?path=docs/APIs/CardPointeGatewayAPI.md) documentation for more information on the additional transaction processing and reporting capabilities offered by the CardPointe Gateway, for example the ability to void and inquire on transactions.
+
+### Run in Postman
+
+To help you get started with your integration, we created a Terminal API Postman collection that includes a template of the Terminal API service endpoints. Click the following button to download the collection.
+
+> [Run in Postman](https://app.getpostman.com/run-collection/78bf7730d5cf55a3080f?action=collection%2Fimport#?env%5BBolt%20Terminal%20API%20UAT%20Environment%5D=W3sia2V5Ijoic2l0ZSIsInZhbHVlIjoie1VBVCBvciBwcm9kdWN0aW9uIHNpdGV9IiwiZW5hYmxlZCI6dHJ1ZX0seyJrZXkiOiJ1cmwiLCJ2YWx1ZSI6Imh0dHBzOi8ve3tzaXRlfX0uY2FyZHBvaW50ZS5jb20vYXBpIiwiZW5hYmxlZCI6dHJ1ZX0seyJrZXkiOiJBdXRob3JpemF0aW9uIiwidmFsdWUiOiJ7eW91ciBhdXRoIGtleX0iLCJlbmFibGVkIjp0cnVlfSx7ImtleSI6Im1lcmNoYW50SWQiLCJ2YWx1ZSI6Int5b3VyIG1lcmNoYW50SWR9IiwiZW5hYmxlZCI6dHJ1ZX0seyJrZXkiOiJoc24iLCJ2YWx1ZSI6Int5b3VyIGhzbn0iLCJlbmFibGVkIjp0cnVlfSx7ImtleSI6IlgtQ2FyZENvbm5lY3QtU2Vzc2lvbktleSIsInZhbHVlIjoiIiwiZW5hYmxlZCI6dHJ1ZX1d)
+
+See [Running the API in Postman](?path=docs/documentation/CardPointeIntegratedTerminalDeveloperGuides.md#running-the-api-in-postman) in the [CardPointe Integrated Terminal Developer Guides](?path=docs/documentation/CardPointeIntegratedTerminalDeveloperGuides.md) for information on using the Postman collection.
+
+# Service Endpoints
