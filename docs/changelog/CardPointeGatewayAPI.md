@@ -63,7 +63,7 @@ This release includes backend enhancements in addition to the following update:
 
 ### COF Update for First Data North Retail Merchants 
 
-For Retail merchants who process Card on File (COF) transactions on the First Data North platform, subsequent COF transactions will no longer process as COF transactions. Instead these transactions will process as Swiped or Keyed transactions, unless the transaction includes "ecomind" : "T" (telephone) or "ecomind:"E" (e-commerce).
+For Retail merchants who process Card on File (COF) transactions on the First Data North platform, subsequent COF transactions will no longer process as COF transactions. Instead these transactions will process as `Swiped` or `Keyed` transactions, unless the transaction includes `"ecomind" : "T"` (telephone) or `"ecomind:"E"` (e-commerce).
 
 ## Date Updated: 11/15/2022 
 
