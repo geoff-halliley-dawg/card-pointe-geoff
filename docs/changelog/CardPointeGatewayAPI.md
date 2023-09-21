@@ -79,8 +79,8 @@ To simulate a PIN Debit transaction, you can now make an authorization request u
 
 | Test Card #	| Amount Range
 | --- | ---
-| `4222222222222204` | Minimum amount - 0 <br> Maximum amount - 4999 ($49.99)
-| `6510000000000331` | Minimum amount - 0 <br> Maximum amount - 4999 ($49.99)
+| `4222222222222204` | Minimum amount - `0` <br> Maximum amount - `4999` ($49.99)
+| `6510000000000331` | Minimum amount - `0` <br> Maximum amount - `4999` ($49.99)
 
 See [Testing your Integration](?path=docs/documentation/CardPointeGatewayDeveloperGuides.md) for more details on testing in the UAT environment.
 
