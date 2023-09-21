@@ -173,3 +173,28 @@ See **Accepting PIN Debit Cards** in the [CardPointe Integrated Terminal Develop
 > - PIN debit is currently only supported on Ingenico terminals.
 > - Terminals must be provisioned with the necessary encryption keys for handling PIN data.
 
+## Date Updated: 3/28/2020 
+
+The following updates were deployed to the UAT environment on 11/15/2019 and the production environment on 3/28/2020. 
+
+Visit status.cardconnect.com and click **subscribe to updates** to receive important release and status notifications. 
+
+### New authCard and authManual Response Fields 
+
+The authCard and authManual responses now include the following fields:
+
+| Request | Field	| Type | Description
+| --- | --- | --- | ---
+| authCard/authManual | `receiptData`	| Array | If `"printReceipt":"true"` is included in the request, the response includes the `receiptData` array. This array includes additional transaction information to be printed on a receipt. <br> <br> See the Receipt Data Fields description in the CardPointe Gateway API for a list of the possible fields returned.
+| authCard/authManual | `orderid` | String | The order ID included in the authCard or authManual request, or the automatically-generated order ID if no value was included in the request.
+| authCard/authManual | `entrymode`	| String	| _**Note**: Currently,_ `entrymode` _is only returned for merchants processing on the First Data North (FNOR) platform._ <br> <br> The point-of-sale (POS) payment entry mode. <br> <br> Possible values are: <br> <br> Keyed <br> Moto <br> ECommerce <br> Recurring <br> Swipe(Non EMV) <br> DigitalWallet <br> EMVContact <br> Contactless <br> Fallback to Swipe <br> Fallback to Keyed
+| authCard/authManual | `bintype` | String | _**Note**: Currently,_ `bintype` _is only returned for merchants processing on the First Data North (FNOR) platform._ <br> <br> The type of card used, determined by the BIN. <br> <br> Possible values are: <br> Corp <br> FSA+Prepaid <br> GSA+Purchase <br> Prepaid <br> Prepaid+Corp <br> Prepaid+Purchase <br> Purchase
+
+### Terminal in Merchant Mode Error Response 
+
+For Clover terminals, the following error message is now returned to the calling application when the device is in Merchant Mode:
+
+`"errorMessage": "hsn: <hsn> is currently in merchant mode"`
+
+See the [CardPointe Integrated Terminal Developer Guide for Clover Terminals](?path=docs/documentation/CardPointeIntegratedTerminalDeveloperGuideForCloverTerminals.md) for more information.
+
