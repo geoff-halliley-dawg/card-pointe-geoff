@@ -1,4 +1,4 @@
-# Hosted iFrame Tokenizer
+# Hosted iFrame Tokenizer Changelog
 
 The following entries describe changes to the [Hosted iFrame Tokenizer](?path=docs/documentation/HostediFrameTokenizer.md) and documentation.
 
