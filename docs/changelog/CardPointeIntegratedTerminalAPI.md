@@ -198,3 +198,101 @@ For Clover terminals, the following error message is now returned to the calling
 
 See the [CardPointe Integrated Terminal Developer Guide for Clover Terminals](?path=docs/documentation/CardPointeIntegratedTerminalDeveloperGuideForCloverTerminals.md) for more information.
 
+## Date Updated: 7/24/2019 
+
+This release includes the following updates:
+
+### Updated Signature Capture Logic 
+
+The authCard and authManual endpoints no longer prompt for signature when an authorization is declined. 
+
+Previously, if the authCard or authManual request included `"includeSignature" : "true"`, the cardholder would be prompted for their signature even if the authorization was declined.
+
+### Updated Error Messages 
+
+#### "errorCode" : 1 and "errorCode" : 8
+
+The response body returned for errorCode 1 and errorCode 8 now include the authorization response data returned from the CardPointe Gateway, in the event that an authorization attempt was successfully initiated before the command sequence was canceled or timed out. 
+
+For example:
+
+```
+HTTP/1.1 500
+Content-Type: application/json
+ 
+{
+  "errorCode": 1,
+  "errorMessage": "Terminal request timed out",
+  "authResponse": {
+       "token" : "9445123546981111",
+       "expiry" : "0224",
+       "name" : "John Doe",
+       "batchid" : "100",
+       "retref" : "173006146691",
+       "avsresp" : "Y",
+       "respproc" : "RPCT",
+       "amount" : "1.00",
+       "resptext" : "Approval",
+       "authcode" : "909443",
+       "respcode" : "00",
+       "merchid" : "1234",
+       "cvvresp" : "",
+       "respstat": "A",
+       "orderId": "C032UQ82820315-20180422141315"    
+    }  
+}
+```
+
+This allows you to determine if the authorization was successfully completed before the authCard or authManual command sequence timed out or was canceled.
+
+See [500: Client or Server Error](?path=docs/APIs/CardPointeIntegratedTerminalAPI.md#500-client-or-server-error) for more information.
+
+#### {"errorCode": 400, "errorMessage: "PIN Debit not supported for merchantId <MID>"}
+
+The "PIN Debit not supported for merchantId" message now includes the MID used in the authorization attempt.
+
+## Date Updated: 5/3/2019 
+
+This release includes the following updates:
+
+### Improved Timeout Handling Logic 
+
+The Terminal API has been updated with improved logic for handling timed out transactions. When the terminal service does not receive an authorization response from the CardPointe Gateway, the terminal service uses the CardPointe Gateway API inquireByOrderid endpoint to check on the status of the authorization attempt. If no status is returned, the terminal service sends three voidByOrderID requests to void the transaction. If enough time remains in the terminal service request sequence, the terminal service retries the authorization. Otherwise, the terminal service returns an authorization failed error, and the request must be resent. See Handling Timeouts in the [CardPointe Integrated Terminal Developer Guides](?path=docs/documentation/CardPointeIntegratedTerminalDeveloperGuides.md) for more information.
+
+### authCard and authManual Improvements 
+
+The authCard and authManual endpoints include the following enhancements:
+
+- **Support for refunds** - You can now specify a negative amount value to initiate a negative authorization (forced credit). Note that the merchant account must be enabled to process forced credit transactions.
+- **Ability to create profiles** - You can now use the data in the request to create a payment profile. If you set the createProfile parameter to true, the terminal service initiates a request to the CardPoint Gateway profile endpoint to create a secure stored payment profile. See the CardPointe Gateway API Profile endpoint description for detailed information.
+- **Default orderid values** - To support the improved timeout handling logic, the terminal now automatically generates a unique order ID in the format <HSN-timestamp> if the orderId parameter is not included in the request.
+
+## Date Updated: 11/29/2018 
+
+This release includes the following updates:
+
+### New tip Endpoint 
+
+The new tip endpoint allows you to prompt a user for a tip. You can specify up to four preset tip percentage amounts, including a custom amount option that allows the user to enter a custom tip amount.
+
+### Developer Documentation Improvements 
+
+The Terminal API documentation has been updated with numerous improvements, including:
+
+- An updated [Postman Collection](?path=docs/APIs/CardPointeIntegratedTerminalAPI.md#additional-resources) and additional information for getting started.
+- More detailed and consistent service endpoint descriptions and API documentation.
+- Revised content and improved layout, throughout.
+
+## Date Updated: 8/23/2018 
+
+This release includes the following updates:
+
+### Enhanced Authorization Capabilities 
+
+- The authCard and authManual endpoints now support the optional **orderId** request parameter.
+- EMV tags are now supported for authCard and readCard requests. See Authorization Response | EMV Tags in the CardPointe Gateway API Developer Documentation for more information on integrating EMV acceptance.
+
+### Enhanced Terminal Integration 
+
+- The new clearDisplay endpoint sends a request to clear the existing terminal display.
+- The readInput and readConfirmation services now support the optional **beep** request parameter.
