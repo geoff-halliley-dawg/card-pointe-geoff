@@ -1,4 +1,4 @@
-# CoPilot API
+# CoPilot API Changelog
 
 The following entries describe changes to the [CoPilot API](?path=docs/APIs/CoPilotAPI.md) and documentation.
 
