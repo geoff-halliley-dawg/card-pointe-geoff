@@ -1,4 +1,4 @@
-# CardSecure API
+# CardSecure API Changelog
 
 The following entries describe changes to the [CardSecure API](?path=docs/APIs/CardSecureAPI.md) and documentation.
 
