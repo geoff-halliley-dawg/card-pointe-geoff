@@ -284,3 +284,190 @@ If a cardholder taps a Contactless MSD card (excluding Amex), the CardPointe Gat
 ...
 }
 ```
+
+## Date Updated: 11/13/2021 
+
+A release of the CardPointe Gateway was deployed to the UAT environment on 11/10/2021 and to the Production environment on 11/13/2021.
+
+This release includes the following updates, in addition to internal fixes and enhancements:
+
+### Refund Authorizations 
+
+This release includes support for refund authorizations on the **Chase Paymentech Salem (PMT)** processor for **Visa**, **Mastercard**, and **Discover** transactions.  
+
+With refund authorizations enabled, refund transactions are subject to the same authorization process as sale transactions, and will no longer be automatically approved by the CardPointe Gateway.
+
+See the Refund Authorizations support article for detailed information on this change and the expected changes to refund response data.
+
+See Testing With Amount-Driven Response Codes in the [Testing Your Integration guide](?path=docs/documentation/CardPointeGatewayDeveloperGuides.md) for information for testing refund authorizations in the UAT environment.
+
+### Card Account Updater GET Linked Profile Updates 
+
+The CardAccount Updater API GET request includes a new, optional parameter, `profiles=true`, to return information on updated stored profiles.
+
+When `profiles=true` in the request, each update record in the response includes a profiles array that includes each profile (`profileid`/`acctid` pair) associated with the card update.
+
+See the [Card Account Updater Integration Guide](?path=docs/documentation/CardAccountUpdaterIntegrationGuide.md) for more information.
+
+### New inquireMerchant Response Fields 
+
+The inquireMerchant response now includes the following fields:
+
+- `avs` - Either `Y` or `N`. Determines whether or not AVS validation is enabled for the MID. If `Y`, the MID can perform $0 authorizations to validate the `postal` and `address` values in the auth request.
+
+- `cvv` -  Either `Y` or `N`. Determines whether or not cvv validation is enabled for the MID. If `Y`, the MID can perform $0 authorizations to validate the `cvv2` value in the auth request.
+
+- `echeck` - Either `Y` or `N`. Determines whether or not the MID is configured to process eCheck/ACH transactions. If `Y`, the MID can process ACH transactions.
+
+### New settlestat Response Fields 
+
+The settlestat response now includes the following fields:
+
+- `authcode` - The authcode copied from the authorization response.
+
+- `cardtype` - The card brand returned by the processor.
+
+### New First Data Omaha (FOMA) Response Codes 
+
+The following authorization response codes may now be returned for First Data Omaha merchants:
+
+| respproc	| respcode	| respstat	| resptext
+| --- | --- | --- | --- |
+| FOMA	| 11 | B | Invalid batch
+| FOMA	| 12 | C | Unmatched void
+| FOMA	| 13 | C | Invalid tran type
+
+### Improved ProfitStars (PSTR) Error Responses 
+
+ProfitStars authorization response code 99 is used to return error responses. Previously, the `resptext` field truncated these responses at 40 characters. These responses are no longer truncated (up to a maximum of 128 characters), to display the full error message.
+
+## Date Updated: 9/15/2021 
+
+A release of the CardPointe Gateway was deployed to the UAT environment on 9/9/2021 and to the Production environment on 9/15/2021.
+
+This release includes the following updates in addition to internal fixes and enhancements:
+
+### Refund Authorizations 
+
+Refund authorizations are now enabled for the following processors and card brands:
+
+- **First Data North** - Visa only (support for Discover and Mastercard coming in a future update)
+
+- **First Data Rapid Connect** - Visa, Discover, and Mastercard
+
+- **First Data Omaha** - Visa, Discover, and Mastercard
+
+With refund authorizations enabled, refund transactions are subject to the same authorization process as sale transactions, and will no longer be automatically approved by the CardPointe Gateway. 
+
+See the Refund Authorizations support article for detailed information on this change and the expected changes to refund response data.
+
+See Testing With Amount-Driven Response Codes in the [Testing Your Integration guide](?path=docs/documentation/CardPointeGatewayDeveloperGuides.md) for information for testing refund authorizations in the UAT environment.
+
+### 3DS 2.0 Fields in inquire and inquireByOrderid Responses 
+
+For merchants using a 3DS provider to integrate 3DS 2.0 transaction authentication and passing 3DS fields in the authorization request, these fields are now returned in the `inquire` and `inquireByOrderid` responses.
+
+The following fields are will be returned when present in the transaction record:  
+
+- `securedstid`
+
+- `secureexemption`
+
+- `secureflag`
+
+- `securevalue`
+
+See the 3-D Secure 2.0 Support Article for more information on using 3DS.
+
+### UAT Request Rate Limiting Changes 
+
+In a recent update to the CardPointe Gateway, rate limiting was enabled for the `funding`, `inquire`, and `profile` endpoints in the UAT environment.
+
+With this release, rate-limiting is also enabled for the `settlestat` endpoint. Additionally, requests to these endpoints are now limited to **20 transactions per minute** (TPM), by IP address.
+
+Responses from these endpoints in the UAT environment include the following rate-limit header fields:
+
+- `X-Rate-Limit-Retry-After-Seconds:` - Returned for unsuccessful `HTTP 429 Too Many Requests` responses when the limit has been reached. Specifies the seconds remaining before the limit resets.
+
+- `X-Rate-Limit-Remaining:` - Returned for successful `HTTP 200 OK` responses. Specifies the number of requests available before the limit is reached.
+
+## Date Updated: 7/17/2021 
+
+A release of the CardPointe Gateway was deployed to the UAT environment on 7/15/2021 and to the Production environment on 7/17/2021.
+
+This release includes the following updates in addition to internal fixes and enhancements:
+
+### Refund Response Testing in the UAT Environment 
+
+The CardPointe Gateway UAT environment now supports refund decline emulation for First Data North, First Data Rapid Connect, and Chase Paymentech (PMT) merchants. 
+
+See the Refund Authorizations support article for detailed information on upcoming changes to support Refund Authorizations (also referred to as Online Refunds).
+
+Similarly to testing specific authorization response scenarios using amount-driven responses, you can test individual refund response codes, by sending a partial refund request using an amount value that includes the desired response code.
+
+_**Note**: Like Production, transactions in the UAT environment cannot be refunded until they have been settled, unless the MID is enabled to refund unsettled transactions._
+
+To test a refund decline, do the following:
+
+**1.** Run an authorization request including `"capture":"y"` and `"amount":"2000.00"` or greater.
+
+**2.** Run a refund request including the `retref` from the authorization response and `"amount":"1nnn.00"`, where `nnn` is the 2 (including leading 0) or 3-digit decline response code you want to receive.
+
+For example, to return a RPCT 500 "Decline" response, include `"amount":"1500.00"` in the refund request.
+
+See [Processing Host Response Codes](?path=docs/documentation/GatewayResponseCodes.md) for a list of possible response codes by processor.
+
+See Testing With Amount-Driven Response Codes in the [Testing Your Integration guide](?path=docs/documentation/CardPointeGatewayDeveloperGuides.md) for additional information and examples.
+
+### Request Rate Limiting For UAT API Testing 
+
+Requests to the `funding`, `inquire`, and `profile` endpoints in the UAT environment are now rate-limited by to **100 transactions per minute** (TPM), by IP address.
+
+Responses from these endpoints in the UAT environment include the following new header fields:
+
+- `X-Rate-Limit-Retry-After-Seconds:` - Returned for unsuccessful `HTTP 429 Too Many Requests` responses when the limit has been reached. Specifies the seconds remaining before the limit resets.
+
+- `X-Rate-Limit-Remaining:` - Returned for successful `HTTP 200 OK` responses. Specifies the number of requests available before the limit is reached.
+
+### Card Account Updater API Enhancements 
+
+This release includes enhancements to the Card Account Updater API. See the [Card Account Updater Integration Guide](?path=docs/documentation/CardAccountUpdaterIntegrationGuide.md) for detailed information on the API.
+
+## Date Updated: 6/12/2021 
+
+A CardPointe Gateway release was deployed to the UAT environment on 6/10/2021, and to the production environment on 6/12/2021.
+
+This release includes fixes and internal enhancements to the CardPointe Gateway.
+
+## Date Updated: 5/15/2021 
+
+A release of the CardPointe Gateway was deployed to the UAT environment on 5/11/2021 and to the Production environment on 5/15/2021.
+
+This release includes the following update in addition to numerous internal fixes and enhancements:
+
+### cofpermission Field for Profiles 
+
+A new, optional field, `cofpermission`, has been added to allow you to store a record of having obtained the cardholder's permission to create a stored profile using their payment data.
+
+You can include the `cofpermission` field in profile create or update requests, as well as auth requests when `"profile":"y"`. Optionally specify `"cofpermission":"y"` to indicate that you obtained the cardholder's permission. The default value if not specified is `"n"`.
+
+`cofpermission` is returned in the get profile response, and returns `"n"` unless manually set to `"y"` for the profile.
+
+## Date Updated: 4/5/2021 
+
+A CardPointe Gateway maintenance release was deployed on 4/5/2021.
+
+This release includes internal enhancements to the CardPointe Gateway.
+
+## Date Updated: 3/13/2021 
+
+A release of the CardPointe Gateway was deployed to the UAT environment on 3/10/2021 and to the Production environment on 3/13/2021.
+
+This release includes bug fixes and other internal enhancements to the CardPointe Gateway.
+
+## Date Updated: 2/20/2021 
+
+A release of the CardPointe Gateway was deployed to the UAT environment on 2/12/2021 and to the Production environment on 2/20/2021.
+
+This release includes bug fixes and other internal enhancements to the CardPointe Gateway.
+
